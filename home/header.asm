@@ -16,17 +16,17 @@ SECTION "rst00", ROM0[$0000]
 ; Game Boy hardware interrupts
 
 SECTION "vblank", ROM0[$0040]
-	jp Jump_000_02e5
+	jp VBlank
 
 	db $BF, $EE, $FF, $BA, $FF
 
 SECTION "lcd", ROM0[$0048]
-	jp Jump_000_030c
+	jp LCD
 
 	db $FE, $FF, $FB, $EF, $FF
 
 SECTION "timer", ROM0[$0050]
-	jp Jump_000_0315
+	jp Timer
 
 	db $BF, $EE, $FF, $EA, $7F
 

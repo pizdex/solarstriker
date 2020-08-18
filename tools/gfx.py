@@ -6,7 +6,7 @@
 import os
 import argparse
 
-from pokemontools import gfx, lz
+from include import gfx, lz
 
 
 # Graphics with inverted tilemaps that aren't covered by filepath_rules.
