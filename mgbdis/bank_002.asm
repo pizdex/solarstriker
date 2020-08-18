@@ -11046,7 +11046,7 @@ jr_002_6dce:
 	ld c, b
 	scf
 	ld [bc], a
-	call c, RST_00
+	call c, $0000
 	nop
 	nop
 	nop
@@ -14305,7 +14305,7 @@ jr_002_7bcb:
 	nop
 
 jr_002_7be1:
-	ld de, HeaderLogo
+	ld de, $0104
 	ld hl, $0004
 	db $10
 	inc d

@@ -11066,9 +11066,9 @@ jr_001_7168:
 	ld h, b
 	ld bc, $0150
 	ld d, a
-	ld bc, HeaderCartridgeType
+	ld bc, $0147
 	ld e, c
-	ld bc, HeaderRAMSize
+	ld bc, $0149
 	rst $38
 	nop
 	ld bc, $740d
@@ -13303,7 +13303,7 @@ jr_001_7d66:
 	jr nc, jr_001_7d74
 
 jr_001_7d74:
-	ld [HeaderNewLicenseeCode], sp
+	ld [$0144], sp
 	inc b
 	inc b
 	nop

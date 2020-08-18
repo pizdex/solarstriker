@@ -6961,7 +6961,7 @@ jr_003_5db4:
 	nop
 
 jr_003_5e0a:
-	jp nz, RST_00
+	jp nz, $0000
 
 	ld bc, $0004
 	nop
@@ -12926,7 +12926,7 @@ jr_003_7910:
 
 jr_003_7912:
 	xor b
-	jp nz, RST_00
+	jp nz, $0000
 
 	nop
 	ld hl, $0822

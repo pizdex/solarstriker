@@ -6,7 +6,7 @@
 SECTION "ROM Bank $000", ROM0[$0]
 
 RST_00::
-	jp Jump_000_0150
+	jp _Start
 
 
 	ei
@@ -253,9 +253,9 @@ Call_000_00bc:
 	xor $f5
 	xor $ff
 
-Boot::
+Start::
 	nop
-	jp Jump_000_0150
+	jp _Start
 
 
 HeaderLogo::
@@ -296,7 +296,7 @@ HeaderComplementCheck::
 HeaderGlobalChecksum::
 	db $26, $06
 
-Jump_000_0150:
+_Start:
 	ld a, $01
 	ld [$2100], a
 	call Call_000_0866
@@ -7903,7 +7903,7 @@ jr_000_292d:
 	nop
 	ld [c], a
 	nop
-	jp c, RST_00
+	jp c, $0000
 
 	nop
 	ret c
@@ -7922,7 +7922,7 @@ jr_000_292d:
 	nop
 	ld [c], a
 	nop
-	jp c, RST_00
+	jp c, $0000
 
 	nop
 	nop
@@ -8078,7 +8078,7 @@ jr_000_292d:
 	nop
 	or h
 	nop
-	jp z, RST_00
+	jp z, $0000
 
 	nop
 	nop
@@ -8167,7 +8167,7 @@ jr_000_2c94:
 	ret nz
 
 	or h
-	call z, Call_000_00bc
+	call z, $00bc
 	ret nc
 
 	sbc $bc
