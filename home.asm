@@ -9,7 +9,7 @@ _Start:
 	ld [$2100], a
 	call Call_000_0866
 	di
-	call Call_000_084e
+	call WriteOAMDMACodeToHRAM
 	call InitSound
 
 	ld bc, $0010
@@ -108,9 +108,11 @@ jr_000_01f5:
 	ldh [rIF], a
 	ld de, $04f5
 	call Func_000_0a3e
+
 	ld hl, $5ddb
 	xor a
 	call $49aa
+
 	ld [$cf9a], a
 	ld a, $07
 	ldh [rTAC], a
@@ -134,7 +136,7 @@ jr_000_0231:
 	or a
 	jp nz, Jump_000_054a
 
-	call Call_000_081a
+	call UpdateJoypad
 	call Call_000_0455
 	call Call_000_14c4
 	xor a
@@ -159,7 +161,7 @@ Jump_000_0261:
 	ldh [rIE], a
 	ei
 	call Call_000_137a
-	call Call_000_081a
+	call UpdateJoypad
 	call Call_000_0455
 	call Call_000_14c4
 	ld hl, $cf9b
@@ -195,7 +197,7 @@ Jump_000_02a2:
 	ld a, $07
 	ldh [rIE], a
 	ei
-	call Call_000_081a
+	call UpdateJoypad
 	call Call_000_0455
 	ld a, $01
 	ld [$ca18], a
@@ -297,7 +299,7 @@ jr_000_033c:
 	or a
 	jr z, jr_000_033c
 
-	call Call_000_081a
+	call UpdateJoypad
 	xor a
 	ld [$cf86], a
 	ld a, [$cf80]
@@ -327,7 +329,7 @@ jr_000_0366:
 	or a
 	jr z, jr_000_0366
 
-	call Call_000_081a
+	call UpdateJoypad
 	xor a
 	ld [$cf86], a
 	ld a, [$cf80]
@@ -359,7 +361,7 @@ jr_000_0399:
 	xor a
 	ld [$ca18], a
 	call Call_000_048d
-	call Call_000_081a
+	call UpdateJoypad
 	call Call_000_14c4
 	call $4c97
 	call Call_000_0c04
@@ -556,9 +558,7 @@ jr_000_04ac:
 	inc de
 	dec c
 	jr nz, jr_000_04ac
-
 	ret
-
 
 jr_000_04b3:
 	ld a, [$cad0]
@@ -1062,57 +1062,8 @@ Jump_000_0730:
 
 	db $d8, $b8, $d0, $d6, $bc, $bf
 
-Call_000_081a:
-	ld a, $20
-	ldh [rP1], a
-	ldh a, [rP1]
-	ldh a, [rP1]
-	cpl
-	and $0f
-	swap a
-	ld b, a
-	ld a, $10
-	ldh [rP1], a
-	ldh a, [rP1]
-	ldh a, [rP1]
-	ldh a, [rP1]
-	ldh a, [rP1]
-	ldh a, [rP1]
-	ldh a, [rP1]
-	cpl
-	and $0f
-	or b
-	ld c, a
-	ld a, [$cf80]
-	xor c
-	and c
-	ld [$cf81], a
-	ld a, c
-	ld [$cf80], a
-	ld a, $30
-	ldh [rP1], a
-	ret
-
-Call_000_084e:
-	ld c, $80
-	ld b, $0a
-	ld hl, $085c
-jr_000_0855:
-	ld a, [hli]
-	ld [c], a
-	inc c
-	dec b
-	jr nz, jr_000_0855
-	ret
-
-unk_000_085c:
-	ld a, $c0
-	ldh [$ff46], a
-	ld a, 40
-.asm_0862
-	dec a
-	jr nz, .asm_0862
-	ret
+INCLUDE "home/joypad.asm"
+INCLUDE "home/oam_dma.asm"
 
 Call_000_0866:
 .asm_0866
