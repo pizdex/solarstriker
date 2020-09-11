@@ -3082,6 +3082,7 @@ wcbfc:: ds 1 ; cbfc
 wcbfd:: ds 1 ; cbfd
 wcbfe:: ds 1 ; cbfe
 wcbff:: ds 1 ; cbff
+
 wcc00:: ds 1 ; cc00
 wcc01:: ds 1 ; cc01
 wcc02:: ds 1 ; cc02
@@ -3196,10 +3197,11 @@ wcc6e:: ds 1 ; cc6e
 wcc6f:: ds 1 ; cc6f
 wcc70:: ds 1 ; cc70
 wcc71:: ds 1 ; cc71
-wcc72:: ds 1 ; cc72
-wcc73:: ds 1 ; cc73
-wcc74:: ds 1 ; cc74
-wcc75:: ds 1 ; cc75
+
+; Music
+wcc72:: ds 2 ; cc72
+wcc74:: ds 2 ; cc74
+
 wcc76:: ds 1 ; cc76
 wcc77:: ds 1 ; cc77
 wcc78:: ds 1 ; cc78
@@ -3239,10 +3241,10 @@ wcc99:: ds 1 ; cc99
 wcc9a:: ds 1 ; cc9a
 wcc9b:: ds 1 ; cc9b
 wcc9c:: ds 1 ; cc9c
-wcc9d:: ds 1 ; cc9d
-wcc9e:: ds 1 ; cc9e
-wcc9f:: ds 1 ; cc9f
-wcca0:: ds 1 ; cca0
+
+wcc9d:: ds 2 ; cc9d
+wcc9f:: ds 2 ; cc9f
+
 wcca1:: ds 1 ; cca1
 wcca2:: ds 1 ; cca2
 wcca3:: ds 1 ; cca3
@@ -3282,10 +3284,10 @@ wccc4:: ds 1 ; ccc4
 wccc5:: ds 1 ; ccc5
 wccc6:: ds 1 ; ccc6
 wccc7:: ds 1 ; ccc7
-wccc8:: ds 1 ; ccc8
-wccc9:: ds 1 ; ccc9
-wccca:: ds 1 ; ccca
-wcccb:: ds 1 ; cccb
+
+wccc8:: ds 2 ; ccc8
+wccca:: ds 2 ; ccca
+
 wcccc:: ds 1 ; cccc
 wcccd:: ds 1 ; cccd
 wccce:: ds 1 ; ccce
