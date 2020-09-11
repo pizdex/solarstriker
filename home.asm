@@ -514,7 +514,7 @@ Jump_000_045b:
 	ld h, d
 	jp hl
 
-Jump_000_047e:
+Jump_000_047e::
 	pop hl
 	inc hl
 	inc hl
@@ -531,29 +531,28 @@ Call_000_048d:
 	cp 7
 	jr nc, jr_000_04b3
 
-	ld c, $0d
+	ld c, $d
 	ld hl, $9c06
 	ld de, wcf88
 
 Call_000_049c:
-jr_000_049c:
+.asm_049c
 	ld a, [de]
 	or $f0
 	ld [hli], a
 	inc de
 	dec c
-	jr nz, jr_000_049c
+	jr nz, .asm_049c
 
-	ld c, $06
+	ld c, $6
 	ld hl, $9c00
 	ld de, wcae0
-
-jr_000_04ac:
+.asm_04ac
 	ld a, [de]
 	ld [hli], a
 	inc de
 	dec c
-	jr nz, jr_000_04ac
+	jr nz, .asm_04ac
 	ret
 
 jr_000_04b3:
@@ -572,17 +571,16 @@ jr_000_04b3:
 	ld h, [hl]
 	ld l, a
 
-jr_000_04c8:
+.asm_04c8
 	ld a, [hli]
 	ld [de], a
 	inc de
 	dec b
-	jr nz, jr_000_04c8
+	jr nz, .asm_04c8
 
 	ld a, b
 	ld [wcad0], a
 	ret
-
 
 Call_000_04d3:
 	ld hl, $ff42
@@ -688,13 +686,13 @@ Jump_000_054a:
 
 	ld de, wcae0
 	ld hl, $0814
-	ld b, $05
-jr_000_0580:
+	ld b, 5
+.asm_0580
 	ld a, [hli]
 	ld [de], a
 	inc de
 	dec b
-	jr nz, jr_000_0580
+	jr nz, .asm_0580
 
 	ld de, $8807
 	ld hl, $ff4a
@@ -716,25 +714,25 @@ jr_000_0580:
 	ld de, $0d1c
 	call Func_000_0a3e
 
-	ld b, $03
-
-jr_000_05b2:
+	ld b, 3
+.asm_05b2
 	push bc
 	ld de, $1801
 	call Func_000_0a3e
 	pop bc
 	dec b
-	jr nz, jr_000_05b2
+	jr nz, .asm_05b2
 
 	xor a
 	ld [wca23], a
 	ld [wcf86], a
 	ld [wca54], a
-	ld a, $e7
+
+	ld a, %11100111
 	ldh [rLCDC], a
-	ld a, $07
+	ld a, 7
 	ldh [rTAC], a
-	ld a, $02
+	ld a, 2
 	ld [wLives], a
 	ei
 	jp Jump_000_06cd
@@ -782,7 +780,7 @@ Jump_000_05d8:
 	ld [hli], a
 	ld [hl], a
 	ld [wcf9c], a
-	ld [wca20], a
+	ld [wPlayerHP], a
 	ld [wca81], a
 	ld [wcf86], a
 	ld [wcac5], a
@@ -1023,15 +1021,15 @@ Jump_000_0730:
 	ldh [rTAC], a
 	ld a, $05
 	ldh [rIE], a
-	ld a, $c7
+	ld a, %11000111
 	ldh [rLCDC], a
 	ei
 	jp Jump_000_02a2
 
 unkData_000_07f8:
-	dw unkData_000_6210
-	dw unkData_000_6210
-	dw unkData_000_6210
+	dw unkData_001_6210
+	dw unkData_001_6210
+	dw unkData_001_6210
 	dw $6b60
 	dw $651d
 	dw $6fcf
@@ -1089,7 +1087,6 @@ CopyBytes:
 	or c
 	jr nz, .loop
 	ret
-
 
 jr_000_0897:
 	inc de
@@ -1248,7 +1245,7 @@ Call_000_092c:
 	ld d, [hl]
 	ld e, a
 
-Call_000_0939:
+Call_000_0939::
 	ld hl, $000a
 	add hl, bc
 	ld a, e
@@ -1262,7 +1259,7 @@ Call_000_0939:
 	ld [hli], a
 	ret
 
-Call_000_0947:
+Call_000_0947::
 	ld a, [wcab5]
 	ld hl, $0f19
 	call Call_000_0f0f
@@ -1336,14 +1333,13 @@ Call_000_099d:
 	ld de, $1083
 	jp Func_000_0a3e
 
-Call_000_09b8:
+Call_000_09b8::
 	ld hl, $0007
 	add hl, bc
 	inc [hl]
 	ld a, [hli]
 	cp [hl]
-	jr z, jr_000_09cb
-
+	jr z, .asm_09cb
 	ret c
 
 	inc hl
@@ -1357,14 +1353,15 @@ Call_000_09b8:
 	dec a
 	ret
 
-jr_000_09cb:
+.asm_09cb
 	xor a
 	ret
 
-Call_000_09cd:
+Call_000_09cd::
+; Regular enemy collision
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $0006
+	ld de, 6
 	add hl, de
 	ld de, wca30
 	ld a, [hli]
@@ -1373,16 +1370,17 @@ Call_000_09cd:
 	ld a, [hl]
 	ld [de], a
 	ld hl, wc788
-	call Call_000_0ba4
+	call CheckCollision
 	ld a, c
 	or a
 	ret z
 
-	ld a, $01
-	ld [wca20], a
+	ld a, 1
+	ld [wPlayerHP], a
 	ret
 
 Call_000_09ec::
+; Boss collision
 	ld a, [bc]
 	call Call_000_0b4a
 	ld bc, wc786
@@ -1393,18 +1391,18 @@ Call_000_09ec::
 	inc bc
 	ld a, [bc]
 	ld [de], a
-	ld de, $0008
+	ld de, 8
 	add hl, de
-	call Call_000_0ba4
+	call CheckCollision
 	ld a, c
 	or a
 	ret z
 
-	ld a, $01
-	ld [wca20], a
+	ld a, 1
+	ld [wPlayerHP], a
 	ret
 
-Call_000_0a0c:
+Call_000_0a0c::
 	ld a, [bc]
 	call Call_000_0b4a
 	ld de, $000d
@@ -1480,7 +1478,7 @@ Jump_000_0a53::
 Jump_000_0a64::
 	call Call_000_0b10
 
-Jump_000_0a67:
+Jump_000_0a67::
 	ld a, [wca10]
 	rlca
 	ld l, a
@@ -1644,8 +1642,8 @@ jr_000_0b19:
 	jr nz, jr_000_0b19
 	ret
 
-Call_000_0b1e:
-Jump_000_0b1e:
+Call_000_0b1e::
+Jump_000_0b1e::
 	ld hl, wca14
 	ld a, [hli]
 	ld h, [hl]
@@ -1667,8 +1665,8 @@ Call_000_0b31:
 	ld [hli], a
 	ret
 
-Call_000_0b38:
-Jump_000_0b38:
+Call_000_0b38::
+Jump_000_0b38::
 	ld hl, wca14
 	ld a, [hli]
 	ld h, [hl]
@@ -1684,7 +1682,7 @@ Jump_000_0b38:
 	inc bc
 	jp Jump_000_0aed
 
-Call_000_0b4a:
+Call_000_0b4a::
 	swap a
 	ld l, a
 	and $0f
@@ -1724,7 +1722,6 @@ jr_000_0b79:
 	ld [wca16], a
 	ret
 
-
 Call_000_0b7d:
 	bit 7, a
 	jr z, jr_000_0b8e
@@ -1747,7 +1744,6 @@ jr_000_0b95:
 	ld [wca17], a
 	ret
 
-
 Call_000_0b99:
 	add [hl]
 	ld d, a
@@ -1758,9 +1754,9 @@ Call_000_0b99:
 	and $0f
 	ret
 
-
-Call_000_0ba4:
-	ld c, $00
+CheckCollision:
+; c = Collision status (0 = No hit, $ff = hit)
+	ld c, 0
 	ld a, [wca30]
 	cp [hl]
 	ret c
@@ -1783,8 +1779,7 @@ Call_000_0ba4:
 	dec c
 	ret
 
-
-Jump_000_0bbb:
+Jump_000_0bbb::
 	ld a, d
 	call Call_000_0c57
 	ld hl, wca14
@@ -1808,8 +1803,8 @@ Jump_000_0bbb:
 	and $03
 	add a
 	ld l, a
-	ld h, $00
-	ld de, $0c11
+	ld h, 0
+	ld de, unkData_000_0c11
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -1820,7 +1815,6 @@ Jump_000_0bbb:
 jr_000_0bed:
 	ld de, $1019
 	jp Jump_000_0a53
-
 
 Call_000_0bf3:
 	ld a, d
@@ -1833,24 +1827,23 @@ Call_000_0bf3:
 	ld d, a
 	jp Jump_000_0b1e
 
-
 Call_000_0c04:
 	ld a, [wcf9a]
 	dec a
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, wcc04
 	add hl, de
 	ld a, [hl]
 	ret
 
+unkData_000_0c11:
+	dw $732d
+	dw $73d8
+	dw $7400
+	dw $744a
 
-	db $2d, $73
-	db $d8, $73
-	db $00, $74
-	db $4a, $74
-
-
+unk_000_0c19:
 	call Call_000_0c75
 	ld hl, wcfa0
 	ld a, [hl]
@@ -1871,7 +1864,7 @@ jr_000_0c27:
 
 jr_000_0c33:
 	ld hl, wca68
-	ld de, wca20
+	ld de, wPlayerHP
 	ld a, [hl]
 	or a
 	jr nz, jr_000_0c4b
@@ -1900,15 +1893,15 @@ jr_000_0c4b:
 	ld [de], a
 	jp Jump_000_047e
 
-Call_000_0c57:
+Call_000_0c57::
 	ld b, a
 	and $0f
 	ld hl, wcf8f
 	dec hl
-jr_000_0c5e:
+.asm_0c5e
 	dec hl
 	dec a
-	jr nz, jr_000_0c5e
+	jr nz, .asm_0c5e
 
 	swap b
 	ld a, b
@@ -2009,7 +2002,7 @@ Call_000_0cd3:
 	ld [hl], a
 	ret
 
-Call_000_0ce4:
+Call_000_0ce4::
 	ld hl, $000c
 	add hl, bc
 	ld a, [hli]
@@ -2288,7 +2281,7 @@ unkData_000_0ea5:
 	db $c9, $2e, $18, $1b, $78, $1b, $a8, $1b, $a9, $1c, $a6, $1f, $81, $0d, $23, $21
 	db $4f, $21, $7f, $21, $b2, $21, $45, $22, $fd, $40
 
-Call_000_0f0f:
+Call_000_0f0f::
 	ld e, a
 	ld d, 0
 	add hl, de
@@ -2301,7 +2294,7 @@ unkData_000_0f19:
 	db $08, $18, $20, $28, $30, $38, $48, $50, $58, $68, $70, $78, $80, $88, $98
 	db $a0, $48, $50, $58, $60, $48, $58
 
-Call_000_0f2f:
+Call_000_0f2f::
 	add a
 	ld e, a
 	ld d, 0
@@ -3487,7 +3480,7 @@ unk_000_1616:
 	ld a, [wca21]
 	ld l, a
 	ld h, 0
-	ld de, $168c
+	ld de, unkData_000_168c
 	add hl, de
 	ld a, [hl]
 	ld [wca21], a
@@ -3517,11 +3510,10 @@ unk_000_165e:
 	call Call_000_0b1e
 	jp Jump_000_047e
 
-
 Jump_000_1672:
 	xor a
-	ld [wca20], a
-	ld de, $16ce
+	ld [wPlayerHP], a
+	ld de, unk_000_16ce
 	jp Jump_000_0a53
 
 
@@ -3541,6 +3533,7 @@ Jump_000_1672:
 	rst $38
 	rst $38
 
+unkData_000_168c:
 	db $00, $00, $00
 
 	db $01
@@ -3550,8 +3543,10 @@ Jump_000_1672:
 	inc bc
 	inc bc
 
-	db $12, $08, $08, $02, $02, $0e, $0e, $02, $00, $02, $20, $00, $00, $00, $00, $d0
-	db $00, $de, $22, $00, $30, $22, $22, $30, $00, $22, $de, $00, $d0, $de, $de
+	db $12, $08, $08, $02, $02, $0e, $0e, $02, $00, $02, $20, $00, $00, $00, $00
+
+unkData_000_16a3:
+	db $d0, $00, $de, $22, $00, $30, $22, $22, $30, $00, $22, $de, $00, $d0, $de, $de
 
 	ld bc, $1694
 	ld de, $603a
@@ -3568,7 +3563,7 @@ Jump_000_1672:
 	ld de, $293a
 	jp Jump_000_0a53
 
-
+unk_000_16ce:
 	ld a, [bc]
 	call Call_000_0b4a
 	ld a, [wcf80]
@@ -3582,28 +3577,31 @@ Jump_000_1672:
 	swap a
 	and $0f
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $167c
 	add hl, de
 	ld a, [hl]
 	ld [wca25], a
 	pop bc
 	cp $ff
-	jr z, jr_000_1717
+	jr z, Jump_000_1717
 
 	add a
 	ld e, a
-	ld d, $00
-	ld hl, $16a3
+	ld d, 0
+	ld hl, unkData_000_16a3
 	add hl, de
 	ld a, [hli]
 	push hl
 	call Call_000_0b61
+
 	pop hl
 	ld a, [hl]
 	call Call_000_0b7d
+
 	ld hl, wca25
 	call Call_000_1587
+
 	ld hl, wca16
 	ld a, [hli]
 	ld e, [hl]
@@ -3611,11 +3609,10 @@ Jump_000_1672:
 	call Call_000_0b1e
 
 Jump_000_1717:
-jr_000_1717:
-	ld de, $171d
+	ld de, unk_000_171d
 	jp Jump_000_0a53
 
-
+unk_000_171d:
 	ld a, [bc]
 	call Call_000_0b4a
 	ld a, [wcac5]
@@ -3626,7 +3623,7 @@ jr_000_1717:
 	or a
 	jr nz, jr_000_1734
 
-	ld a, [wca20]
+	ld a, [wPlayerHP]
 	or a
 	jp nz, Jump_000_15e8
 
@@ -3902,7 +3899,7 @@ Jump_000_189a:
 	inc hl
 	inc hl
 	push hl
-	call Call_000_0ba4
+	call CheckCollision
 	pop hl
 	ld a, c
 	or a
@@ -4721,7 +4718,6 @@ jr_000_1e08:
 	ld de, $1e6a
 	jp Jump_000_0a53
 
-
 jr_000_1e64:
 	ld de, $1e73
 	jp Jump_000_0a53
@@ -4746,17 +4742,21 @@ jr_000_1e64:
 	inc [hl]
 	ld de, $0ff5
 	call Func_000_0a3e
+
 	ld a, $22
 	call Call_000_0c57
+
 	ld hl, $732d
 	ld a, $01
 	call Call_001_49aa
+
 	ld de, $1f9a
 	call Call_000_0b03
-	ld de, $1ea4
+
+	ld de, unk_000_1ea4
 	jp Jump_000_0a53
 
-
+unk_000_1ea4:
 	ld a, [bc]
 	call Call_000_0b4a
 	ld hl, $000e
@@ -4766,10 +4766,10 @@ jr_000_1e64:
 	ld [hl], a
 	ld de, $1f9a
 	call Call_000_0b03
-	ld de, $1ebb
+	ld de, unk_000_1ebb
 	jp Jump_000_0a53
 
-
+unk_000_1ebb:
 	ld a, [bc]
 	call Call_000_0b4a
 	ld hl, wc786
@@ -4783,16 +4783,15 @@ jr_000_1e64:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $0008
+	ld de, 8
 	add hl, de
-	call Call_000_0ba4
+	call CheckCollision
 	ld a, c
 	or a
 	jr nz, jr_000_1ee1
 
 	ld de, $1ee7
 	jp Jump_000_0a53
-
 
 jr_000_1ee1:
 	ld de, $1f43
@@ -5518,7 +5517,6 @@ jr_000_239e:
 	ld de, $23cc
 	jp Jump_000_0a53
 
-
 jr_000_23c6:
 	ld de, $46ad
 	jp Jump_000_0a53
@@ -5536,7 +5534,6 @@ jr_000_23c6:
 	call Call_000_0b1e
 	ld de, $23fd
 	jp Jump_000_0a53
-
 
 Jump_000_23e4:
 jr_000_23e4:
@@ -5702,8 +5699,8 @@ jr_000_24e4:
 	cp $34
 	jr nc, jr_000_24f1
 
-	ld a, $01
-	ld [wca20], a
+	ld a, 1
+	ld [wPlayerHP], a
 
 jr_000_24f1:
 	ld de, $24b4

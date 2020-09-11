@@ -1922,6 +1922,8 @@ wc77c:: ds 1 ; c77c
 wc77d:: ds 1 ; c77d
 wc77e:: ds 1 ; c77e
 wc77f:: ds 1 ; c77f
+
+; OAM related
 wc780:: ds 1 ; c780
 wc781:: ds 1 ; c781
 wc782:: ds 1 ; c782
@@ -2582,8 +2584,9 @@ wca10:: ds 1 ; ca10
 wca11:: ds 1 ; ca11
 wca12:: ds 1 ; ca12
 wca13:: ds 1 ; ca13
-wca14:: ds 1 ; ca14
-wca15:: ds 1 ; ca15
+
+wca14:: ds 2 ; ca14
+
 wca16:: ds 1 ; ca16
 wca17:: ds 1 ; ca17
 wca18:: ds 1 ; ca18
@@ -2596,7 +2599,10 @@ wca1c:: ds 1 ; ca1c
 wca1d:: ds 1 ; ca1d
 wca1e:: ds 1 ; ca1e
 wca1f:: ds 1 ; ca1f
-wca20:: ds 1 ; ca20
+
+; HP, either 0 (Alive) or 1 (Dead)
+wPlayerHP:: db ; ca20
+
 wca21:: ds 1 ; ca21
 wca22:: ds 1 ; ca22
 wca23:: ds 1 ; ca23
