@@ -2001,7 +2001,7 @@ wc7c9:: ds 1 ; c7c9
 wc7ca:: ds 1 ; c7ca
 wc7cb:: ds 1 ; c7cb
 wc7cc:: ds 1 ; c7cc
-wc7cd:: ds 1 ; c7cd
+wc7cd:: ds 1 ; c7cd (Boss health?)
 wc7ce:: ds 1 ; c7ce
 wc7cf:: ds 1 ; c7cf
 wc7d0:: ds 1 ; c7d0
@@ -2600,12 +2600,11 @@ wca1d:: ds 1 ; ca1d
 wca1e:: ds 1 ; ca1e
 wca1f:: ds 1 ; ca1f
 
-; HP, either 0 (Alive) or 1 (Dead)
-wPlayerHP:: db ; ca20
+wPlayerHP:: db ; ca20 (HP, either 0 (Alive) or 1 (Dead))
+wPowerLevel:: db ; ca21
 
-wca21:: ds 1 ; ca21
 wca22:: ds 1 ; ca22
-wca23:: ds 1 ; ca23
+wca23:: ds 1 ; ca23 (Joypad)
 wca24:: ds 1 ; ca24
 wca25:: ds 1 ; ca25
 wca26:: ds 1 ; ca26
@@ -3083,6 +3082,8 @@ wcbfd:: ds 1 ; cbfd
 wcbfe:: ds 1 ; cbfe
 wcbff:: ds 1 ; cbff
 
+; Sound engine variables
+
 wcc00:: ds 1 ; cc00
 wcc01:: ds 1 ; cc01
 wcc02:: ds 1 ; cc02
@@ -3139,12 +3140,15 @@ wcc34:: ds 1 ; cc34
 wcc35:: ds 1 ; cc35
 wcc36:: ds 1 ; cc36
 wcc37:: ds 1 ; cc37
+
 wcc38:: ds 1 ; cc38
-wcc39:: ds 1 ; cc39
+wcc39:: ds 1 ; cc39 (Tempo?)
 wcc3a:: ds 1 ; cc3a
+
 wcc3b:: ds 1 ; cc3b
-wcc3c:: ds 1 ; cc3c
+wcc3c:: ds 1 ; cc3c (Backup)
 wcc3d:: ds 1 ; cc3d
+
 wcc3e:: ds 1 ; cc3e
 wcc3f:: ds 1 ; cc3f
 wcc40:: ds 1 ; cc40
@@ -3327,10 +3331,12 @@ wccef:: ds 1 ; ccef
 wccf0:: ds 1 ; ccf0
 wccf1:: ds 1 ; ccf1
 wccf2:: ds 1 ; ccf2
+
 wccf3:: ds 1 ; ccf3
 wccf4:: ds 1 ; ccf4
 wccf5:: ds 1 ; ccf5
 wccf6:: ds 1 ; ccf6
+
 wccf7:: ds 1 ; ccf7
 wccf8:: ds 1 ; ccf8
 wccf9:: ds 1 ; ccf9
@@ -3370,10 +3376,11 @@ wcd1a:: ds 1 ; cd1a
 wcd1b:: ds 1 ; cd1b
 wcd1c:: ds 1 ; cd1c
 wcd1d:: ds 1 ; cd1d
-wcd1e:: ds 1 ; cd1e
-wcd1f:: ds 1 ; cd1f
-wcd20:: ds 1 ; cd20
-wcd21:: ds 1 ; cd21
+
+; SFX?
+wcd1e:: ds 2 ; cd1e
+wcd20:: ds 2 ; cd20
+
 wcd22:: ds 1 ; cd22
 wcd23:: ds 1 ; cd23
 wcd24:: ds 1 ; cd24
@@ -3413,10 +3420,12 @@ wcd45:: ds 1 ; cd45
 wcd46:: ds 1 ; cd46
 wcd47:: ds 1 ; cd47
 wcd48:: ds 1 ; cd48
+
 wcd49:: ds 1 ; cd49
 wcd4a:: ds 1 ; cd4a
 wcd4b:: ds 1 ; cd4b
 wcd4c:: ds 1 ; cd4c
+
 wcd4d:: ds 1 ; cd4d
 wcd4e:: ds 1 ; cd4e
 wcd4f:: ds 1 ; cd4f
@@ -3456,10 +3465,12 @@ wcd70:: ds 1 ; cd70
 wcd71:: ds 1 ; cd71
 wcd72:: ds 1 ; cd72
 wcd73:: ds 1 ; cd73
+
 wcd74:: ds 1 ; cd74
 wcd75:: ds 1 ; cd75
 wcd76:: ds 1 ; cd76
 wcd77:: ds 1 ; cd77
+
 wcd78:: ds 1 ; cd78
 wcd79:: ds 1 ; cd79
 wcd7a:: ds 1 ; cd7a
@@ -3467,13 +3478,18 @@ wcd7b:: ds 1 ; cd7b
 wcd7c:: ds 1 ; cd7c
 wcd7d:: ds 1 ; cd7d
 wcd7e:: ds 1 ; cd7e
+
 wcd7f:: ds 1 ; cd7f
 wcd80:: ds 1 ; cd80
 wcd81:: ds 1 ; cd81
 wcd82:: ds 1 ; cd82
+
 wcd83:: ds 1 ; cd83
 wcd84:: ds 1 ; cd84
 wcd85:: ds 1 ; cd85
+
+; Sound engine end
+
 wcd86:: ds 1 ; cd86
 wcd87:: ds 1 ; cd87
 wcd88:: ds 1 ; cd88
@@ -3499,10 +3515,12 @@ wcd9b:: ds 1 ; cd9b
 wcd9c:: ds 1 ; cd9c
 wcd9d:: ds 1 ; cd9d
 wcd9e:: ds 1 ; cd9e
+
 wcd9f:: ds 1 ; cd9f
 wcda0:: ds 1 ; cda0
 wcda1:: ds 1 ; cda1
 wcda2:: ds 1 ; cda2
+
 wcda3:: ds 1 ; cda3
 wcda4:: ds 1 ; cda4
 wcda5:: ds 1 ; cda5
@@ -4011,7 +4029,9 @@ wcf99:: ds 1 ; cf99
 wcf9a:: ds 1 ; cf9a
 wcf9b:: ds 1 ; cf9b
 wcf9c:: ds 1 ; cf9c
-wcf9d:: ds 1 ; cf9d
+
+wPaused:: db ; cf9d
+
 wcf9e:: ds 1 ; cf9e
 wcf9f:: ds 1 ; cf9f
 wcfa0:: ds 1 ; cfa0

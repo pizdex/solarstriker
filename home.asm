@@ -346,7 +346,7 @@ Jump_000_0381:
 	call Call_001_49aa
 	ld [wcf9a], a
 	xor a
-	ld [wcf9d], a
+	ld [wPaused], a
 	call Call_000_0437
 
 jr_000_0399:
@@ -368,7 +368,7 @@ jr_000_0399:
 	or a
 	jp nz, Jump_000_02ce
 
-	ld hl, wcf9d
+	ld hl, wPaused
 	ld a, [hli]
 	or a
 	jr z, jr_000_03d5
@@ -422,7 +422,7 @@ jr_000_03f6:
 	jr jr_000_0399
 
 jr_000_03fc:
-	ld hl, wcf9d
+	ld hl, wPaused
 	ld [hli], a
 	ld [hli], a
 	ld [hl], a
@@ -515,6 +515,7 @@ Jump_000_045b:
 	jp hl
 
 Jump_000_047e::
+; Called once per frame
 	pop hl
 	inc hl
 	inc hl
@@ -531,28 +532,30 @@ Call_000_048d:
 	cp 7
 	jr nc, jr_000_04b3
 
-	ld c, $d
-	ld hl, $9c06
+; Copy player's score, and lives into BgMap
+	ld c, 13
+	ld hl, _SCRN1 + 6 ; Display after "SCORE"
 	ld de, wcf88
 
-Call_000_049c:
-.asm_049c
+PrintNum:
+.copy_digit
 	ld a, [de]
-	or $f0
+	or $f0 ; Convert digit into tile
 	ld [hli], a
 	inc de
 	dec c
-	jr nz, .asm_049c
+	jr nz, .copy_digit
 
-	ld c, $6
-	ld hl, $9c00
+; Copy "SCORE" into BgMap
+	ld c, 6
+	ld hl, _SCRN1
 	ld de, wcae0
-.asm_04ac
+.copy_char
 	ld a, [de]
 	ld [hli], a
 	inc de
 	dec c
-	jr nz, .asm_04ac
+	jr nz, .copy_char
 	ret
 
 jr_000_04b3:
@@ -980,15 +983,15 @@ Jump_000_0730:
 	call Call_000_08a1
 	call Call_000_2c79
 
-	ld c, $07
+	ld c, 7
 	ld hl, $9a30
 	ld de, wcff1
-	call Call_000_049c
+	call PrintNum
 
-	ld c, $07
+	ld c, 7
 	ld hl, $9a90
 	ld de, wcf88
-	call Call_000_049c
+	call PrintNum
 
 	ld hl, $9c00
 	xor a
@@ -1261,7 +1264,7 @@ Call_000_0939::
 
 Call_000_0947::
 	ld a, [wcab5]
-	ld hl, $0f19
+	ld hl, unkData_000_0f19
 	call Call_000_0f0f
 	xor a
 	ld [wcaa4], a
@@ -1279,15 +1282,15 @@ Call_000_0947::
 	pop hl
 	ld de, $0010
 	add hl, de
-	ld b, $04
+	ld b, 4
 	ld de, wcab6
 
-jr_000_0972:
+.asm_0972
 	ld a, [de]
 	ld [hli], a
 	inc de
 	dec b
-	jr nz, jr_000_0972
+	jr nz, .asm_0972
 
 	ld a, b
 	dec a
@@ -1575,7 +1578,6 @@ jr_000_0ac7:
 	scf
 	ret
 
-
 jr_000_0ad9:
 	ld a, c
 	ld [wca11], a
@@ -1636,10 +1638,10 @@ Call_000_0b10:
 	ld l, a
 	ld b, $10
 	xor a
-jr_000_0b19:
+.asm_0b19
 	ld [hli], a
 	dec b
-	jr nz, jr_000_0b19
+	jr nz, .asm_0b19
 	ret
 
 Call_000_0b1e::
@@ -3477,13 +3479,13 @@ unk_000_1616:
 	ld de, $169b
 	call Call_000_0b03
 
-	ld a, [wca21]
+	ld a, [wPowerLevel]
 	ld l, a
 	ld h, 0
 	ld de, unkData_000_168c
 	add hl, de
 	ld a, [hl]
-	ld [wca21], a
+	ld [wPowerLevel], a
 	ld [wca2c], a
 
 	ld a, [wLives]
@@ -3631,7 +3633,7 @@ jr_000_1734:
 	ld bc, wca23
 	ld a, [bc]
 	and $08
-	ld [wcf9d], a
+	ld [wPaused], a
 	ld hl, wca24
 	ld a, [bc]
 	and $03
@@ -3655,7 +3657,7 @@ jr_000_174b:
 	ld [hl], a
 	jr nz, jr_000_1768
 
-	ld a, [wcf9d]
+	ld a, [wPaused]
 	or a
 	jr nz, jr_000_1768
 
@@ -3764,7 +3766,7 @@ jr_000_17c0:
 jr_000_17f6:
 	inc a
 	ld [bc], a
-	ld a, [wca21]
+	ld a, [wPowerLevel]
 	ld de, $18f9
 	jp Jump_000_0a53
 
@@ -3783,12 +3785,11 @@ jr_000_17f6:
 	ld l, a
 	ld a, [wca11]
 	ld [hl], a
-	ld de, $1930
+	ld de, unk_000_1930
 	jp Jump_000_0a53
 
-
 Call_000_1824:
-	ld a, [wca21]
+	ld a, [wPowerLevel]
 	or a
 	jr z, jr_000_1835
 
@@ -3949,7 +3950,7 @@ jr_000_18c0:
 	jr jr_000_1918
 
 jr_000_190c:
-	ld a, [wca21]
+	ld a, [wPowerLevel]
 	inc a
 	ld [bc], a
 	ld a, [wcfa0]
@@ -3960,23 +3961,21 @@ jr_000_1918:
 	ld de, $17e3
 	jp Jump_000_0a53
 
-
 Call_000_191e:
-	ld hl, $72d1
-	ld a, [wca21]
-	cp $05
-	jr nz, jr_000_192b
+	ld hl, unkData_001_72d1
+	ld a, [wPowerLevel]
+	cp 5
+	jr nz, .asm_192b
 
-	ld hl, $72ef
-
-jr_000_192b:
+	ld hl, unkData_001_72ef
+.asm_192b:
 	ld a, $01
 	jp Call_001_49aa
 
-
+unk_000_1930:
 	ld a, [bc]
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, wca50
 	add hl, de
 	ld a, [hl]
@@ -3993,7 +3992,7 @@ jr_000_192b:
 	ld c, l
 	ld hl, wc781
 	call Call_000_1824
-	ld a, [wca21]
+	ld a, [wPowerLevel]
 	add a
 	ld l, a
 	ld h, $00
@@ -4033,14 +4032,14 @@ jr_000_1984:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld a, [wca21]
+	ld a, [wPowerLevel]
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $18d9
 	add hl, de
 	ld a, [hl]
 	ld [wca33], a
-	ld a, [wca21]
+	ld a, [wPowerLevel]
 	or a
 	jr z, jr_000_19af
 
@@ -4082,7 +4081,7 @@ jr_000_19bb:
 	inc hl
 	xor a
 	ld [hl], a
-	ld de, $1930
+	ld de, unk_000_1930
 	jp Jump_000_0a53
 
 
@@ -4872,7 +4871,7 @@ jr_000_1f3d:
 	call Call_000_0b4a
 	ld hl, $0013
 	add hl, bc
-	ld bc, wca21
+	ld bc, wPowerLevel
 	ld a, [bc]
 	cp $05
 	jr z, jr_000_1f71
@@ -6620,7 +6619,7 @@ jr_000_292d:
 
 	ld a, [wcf9a]
 	call unk_001_4bd1
-	ld a, [wca21]
+	ld a, [wPowerLevel]
 	ld [wca2c], a
 	ld de, $2b22
 	jp Jump_000_0a53
