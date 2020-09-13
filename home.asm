@@ -20,12 +20,12 @@ _Start:
 
 Jump_000_016d:
 	bankswitch $02
-	ld hl, $4000
-	ld de, $8000
+	ld hl, unkImage_002_4000
+	ld de, _VRAM
 	ld bc, $1000
 	call CopyBytes
 
-	ld hl, $6730
+	ld hl, unkImage_002_6730
 	ld de, $9000
 	ld bc, $0630
 	call CopyBytes
@@ -146,10 +146,10 @@ jr_000_0231:
 	jr jr_000_0231
 
 Jump_000_0261:
-.asm_0261
+.loop
 	ld a, [wcf86]
 	or a
-	jr z, .asm_0261
+	jr z, .loop
 
 	xor a
 	ld [wca18], a
@@ -182,7 +182,7 @@ Jump_000_0261:
 	call nz, Call_000_04d3
 	xor a
 	ld [wcf86], a
-	jr .asm_0261
+	jr .loop
 
 Jump_000_02a2:
 .asm_02a2
@@ -429,24 +429,25 @@ jr_000_03fc:
 	ld [wcf86], a
 	ld [wcfa2], a
 	call Call_000_0446
-	ld a, [wcfa1]
+
+	ld a, [wBossMusicPlaying]
 	or a
-	jr z, jr_000_041f
+	jr z, .asm_041f
 
 	ld hl, $5eb0
-	ld a, [wcfa1]
+	ld a, [wBossMusicPlaying]
 	dec a
 	jr z, jr_000_042d
 
 	ld hl, $5f23
 	jr jr_000_042d
 
-jr_000_041f:
+.asm_041f:
 	ld a, [wCurrentStage]
 	add a
 	ld l, a
 	ld h, 0
-	ld de, unkData_000_07f8
+	ld de, MusicTable
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -459,9 +460,9 @@ jr_000_042d:
 	jp Jump_000_0261
 
 Call_000_0437:
-	ld de, $080e
+	ld de, PauseText
 	ld hl, wcae0
-	ld b, $04
+	ld b, 4
 asm_043f:
 	ld a, [de]
 	ld [hli], a
@@ -472,8 +473,8 @@ asm_043f:
 
 Call_000_0446:
 	ld hl, wcae0
-	ld de, $0814
-	ld b, $06
+	ld de, ScoreText
+	ld b, 6
 	ld a, [de]
 	ld [hli], a
 	inc de
@@ -757,7 +758,7 @@ Jump_000_05d8:
 
 	bankswitch $02
 	ld hl, unkImage_002_7950
-	ld de, $8000
+	ld de, _VRAM
 	ld bc, $800
 	call CopyBytes
 
@@ -788,7 +789,7 @@ Jump_000_05d8:
 	ld [wcf86], a
 	ld [wcac5], a
 	ld [wca80], a
-	ld [wcfa1], a
+	ld [wBossMusicPlaying], a
 	ld [wcad8], a
 	ld [wcad0], a
 	ld [wca1d], a
@@ -822,8 +823,8 @@ jr_000_067b:
 	ldh [rSCX], a
 	ld a, $60
 	ldh [rSCY], a
-	ld d, $88
 
+	ld d, $88
 	ld a, [wCurrentStage]
 	cp 7
 	jr z, .cutscene_1
@@ -832,7 +833,7 @@ jr_000_067b:
 	ld d, $68
 
 .cutscene_1:
-	ld hl, $ff4a
+	ld hl, rWY
 	ld a, d
 	ld [hli], a
 	ld a, $07
@@ -863,10 +864,11 @@ jr_000_067b:
 	call Func_000_0a3e
 
 jr_000_06c2:
-	ld a, $07
+	ld a, 7
 	ldh [rTAC], a
 	ld [wca81], a
-	ld a, $e7
+
+	ld a, %11100111
 	ldh [rLCDC], a
 
 Jump_000_06cd:
@@ -877,14 +879,15 @@ jr_000_06cd:
 	ld a, [wCurrentStage]
 	cp 7
 	jp z, Jump_000_0261
-	jr c, jr_000_06db
 
+	jr c, jr_000_06db
 	inc b
+
 jr_000_06db:
 	add a
 	ld l, a
 	ld h, 0
-	ld de, unkData_000_07f8
+	ld de, MusicTable
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -1029,22 +1032,25 @@ Jump_000_0730:
 	ei
 	jp Jump_000_02a2
 
-unkData_000_07f8:
-	dw unkData_001_6210
-	dw unkData_001_6210
-	dw unkData_001_6210
-	dw $6b60
-	dw $651d
-	dw $6fcf
-	dw $70f8
+MusicTable:
+	dw unkData_001_6210 ; level 0
+	dw unkData_001_6210 ; level 1
+	dw unkData_001_6210 ; level 2
+	dw unkData_001_6b60 ; level 3
+	dw unkData_001_651d ; level 4
+	dw unkData_001_6fcf ; level 5
+	dw unkData_001_70f8 ; level 6
 
-	dw $5603
-	dw $5603
-	dw $5541
-	dw $5eb0
+	dw unkData_001_5603
+	dw unkData_001_5603
+	dw unkData_001_5541
+	dw unkData_001_5eb0
 
-	db $d2, $b4, $dc, $d8, $bc, $bf, $d8, $b8, $d0, $d6
-	db $bc, $bf
+PauseText:
+	db "PAUSE", $bf
+
+ScoreText:
+	db "SCORE", $bf
 
 INCLUDE "home/joypad.asm"
 INCLUDE "home/oam_dma.asm"
@@ -1966,7 +1972,7 @@ jr_000_0ca7:
 	xor a
 	ld [wcf96], a
 	inc a
-	ld hl, $5d41
+	ld hl, unkData_001_5d41
 	call Call_001_49aa
 	ld [wcfa0], a
 	ret
@@ -2175,7 +2181,7 @@ jr_000_0d60:
 	jp Jump_000_0a67
 
 
-	ld hl, wcfa1
+	ld hl, wBossMusicPlaying
 	inc [hl]
 	ld hl, $5f23
 	xor a
@@ -2189,7 +2195,7 @@ jr_000_0d60:
 	call Call_001_49aa
 	ld [wcf9a], a
 	ld a, $01
-	ld [wcfa1], a
+	ld [wBossMusicPlaying], a
 	jp Jump_000_0a67
 
 
@@ -3685,7 +3691,7 @@ jr_000_1774:
 	cp $06
 	jr z, jr_000_1792
 
-	ld hl, $600e
+	ld hl, unkData_001_600e
 	ld a, $01
 	call Call_001_49aa
 	ld [wcf9a], a
@@ -5517,7 +5523,7 @@ jr_000_239e:
 	jp Jump_000_0a53
 
 jr_000_23c6:
-	ld de, $46ad
+	ld de, unk_001_46ad
 	jp Jump_000_0a53
 
 

@@ -3202,7 +3202,7 @@ wcc6f:: ds 1 ; cc6f
 wcc70:: ds 1 ; cc70
 wcc71:: ds 1 ; cc71
 
-; Music
+; Music channel
 wcc72:: ds 2 ; cc72
 wcc74:: ds 2 ; cc74
 
@@ -3487,10 +3487,10 @@ wcd82:: ds 1 ; cd82
 wcd83:: ds 1 ; cd83
 wcd84:: ds 1 ; cd84
 wcd85:: ds 1 ; cd85
+wcd86:: ds 1 ; cd86
 
 ; Sound engine end
 
-wcd86:: ds 1 ; cd86
 wcd87:: ds 1 ; cd87
 wcd88:: ds 1 ; cd88
 wcd89:: ds 1 ; cd89
@@ -4020,9 +4020,10 @@ wcf91:: ds 1 ; cf91
 wcf92:: ds 1 ; cf92
 wcf93:: ds 1 ; cf93
 wcf94:: ds 1 ; cf94
-wLives:: db ; cf95
 
-wcf96:: ds 1 ; cf96
+wLives:: db ; cf95
+wcf96:: ds 1 ; cf96 (Gain lives?)
+
 wcf97:: ds 1 ; cf97
 wcf98:: ds 1 ; cf98
 wcf99:: ds 1 ; cf99
@@ -4035,7 +4036,9 @@ wPaused:: db ; cf9d
 wcf9e:: ds 1 ; cf9e
 wcf9f:: ds 1 ; cf9f
 wcfa0:: ds 1 ; cfa0
-wcfa1:: ds 1 ; cfa1
+
+wBossMusicPlaying:: db ; cfa1
+
 wcfa2:: ds 1 ; cfa2
 wcfa3:: ds 1 ; cfa3
 wcfa4:: ds 1 ; cfa4

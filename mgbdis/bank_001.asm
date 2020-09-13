@@ -592,8 +592,8 @@ jr_001_43d7:
 	ld a, [hl]
 	add a
 	ld l, a
-	ld h, $00
-	ld de, $44ce
+	ld h, 0
+	ld de, unkData_001_44ce
 	add hl, de
 	ld a, [hli]
 	ld d, [hl]
@@ -697,7 +697,7 @@ jr_001_44a6:
 	ld d, $33
 	jp Jump_000_0bbb
 
-
+unkData_001_44ce:
 	rra
 	dec sp
 	ld h, a
@@ -1033,7 +1033,7 @@ jr_001_46a2:
 	inc [hl]
 	ret
 
-
+unk_001_46ad::
 	ld a, [bc]
 	call Call_000_0b4a
 	ld a, [wcac1]
@@ -1053,7 +1053,7 @@ jr_001_46a2:
 
 
 	call Call_000_09ec
-	ld de, $46ad
+	ld de, unk_001_46ad
 	jp Jump_000_0a53
 
 
@@ -1158,6 +1158,7 @@ unk_001_49a0:
 	ret
 
 Call_001_49aa::
+; Play music
 	or a
 	jr nz, .asm_49ae
 	dec a
@@ -1172,7 +1173,6 @@ Call_001_49aa::
 	di
 	call Call_001_49cf
 	jr c, .asm_49cb
-
 	call Call_001_4b5d
 	jr c, .asm_49cb
 
@@ -3372,9 +3372,6 @@ Func_001_5536:
 	ret
 
 INCLUDE "data/music.asm"
-
-unkData_001_6fcf:
-	dr $6fcf, $72d1
 
 unkData_001_72d1::
 ; Bullet fire noise?
