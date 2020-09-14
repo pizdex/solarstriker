@@ -1,6 +1,6 @@
 ; rst vectors (called through the rst instruction)
 
-SECTION "rst00", ROM0[$0000]
+SECTION "rst0", ROM0[$0000]
 	jp _Start
 
 	db $FB, $FB, $EE, $AB, $EF
