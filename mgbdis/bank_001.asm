@@ -1,4 +1,4 @@
-; mgbdis v1.4 - Game Boy ROM disassembler by Matt Currie and contributors.
+; Created with mgbdis v1.4 - Game Boy ROM disassembler by Matt Currie and contributors.
 ; https://github.com/mattcurrie/mgbdis
 
 unk_001_4000:
@@ -1094,7 +1094,67 @@ unkData_001_4863:
 	db $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
 
 unkData_001_487b:
-	dr $487b, $495c
+	db $00, $ff, $00, $00, $01, $00, $00, $ff, $00, $01, $00, $80
+
+unkData_001_4887:
+	db $01, $ff, $01, $ff, $01, $ff, $01, $ff, $01, $ff, $80
+
+unkData_001_4892:
+	dr $4892, $489c
+
+unkData_001_489c:
+	dr $489c, $48a2
+
+unkData_001_48a2:
+	dr $48a2, $48a9
+
+unkData_001_48a9:
+	dr $48a9, $48b3
+
+unkData_001_48b3:
+	dr $48b3, $48bd
+
+unkData_001_48bd:
+	dr $48bd, $48c7
+
+unkData_001_48c7:
+	dr $48c7, $48d1
+
+unkData_001_48d1:
+	dr $48d1, $48db
+
+unkData_001_48db:
+	dr $48db, $48e5
+
+unkData_001_48e5:
+	dr $48e5, $48ef
+
+unkData_001_48ef:
+	dr $48ef, $48f9
+
+unkData_001_48f9:
+	dr $48f9, $490b
+
+unkData_001_490b:
+	db $00, $80
+	dw unkData_001_487b
+	dw unkData_001_4887
+	dw unkData_001_4892
+	dw unkData_001_489c
+	dw unkData_001_48a2
+	dw unkData_001_48a9
+	dw unkData_001_48b3
+	dw unkData_001_48bd
+	dw unkData_001_48c7
+	dw unkData_001_48d1
+	dw unkData_001_48db
+	dw unkData_001_48e5
+	dw unkData_001_48ef
+	dw unkData_001_48f9
+	db $03
+
+unkData_001_492a:
+	db $49, $6d, $15, $04, $19, $00, $12, $37, $70, $65, $8a, $8f, $d0, $d4, $60, $64, $70, $73, $19, $5a, $45, $65, $67, $69, $6b, $6d, $6e, $60, $63, $d4, $d8, $df, $65, $6a, $02, $04, $07, $55, $0a, $4f, $80, $87, $8a, $8f, $d0, $d4, $d8, $df, $3a, $6d
 
 InitSound::
 	call ClearSound
@@ -1110,7 +1170,7 @@ InitSound::
 ; fill wcc00 to wcd86 with zeroes
 	ld hl, wcc00
 	ld de, wcc01
-	ld bc, $0186
+	ld bc, $186
 	ld [hl], 0
 	call CopyBytesAF
 	ei
@@ -1972,19 +2032,18 @@ unk_001_4e05:
 	and $ff
 	jr z, unk_001_4dee
 
-	ld hl, $492a
+	ld hl, unkData_001_492a
 	add l
 	ld l, a
-	ld a, $00
+	ld a, 0
 	adc h
 	ld h, a
 	ld a, [hl]
 	cp $e0
-	jr c, jr_001_4e19
-
+	jr c, .asm_4e19
 	xor a
 
-jr_001_4e19:
+.asm_4e19
 	ld hl, $0029
 	add hl, bc
 	ld [hl], a
@@ -2002,14 +2061,13 @@ jr_001_4e2c:
 	ld h, [hl]
 	ld a, [wcd85]
 	sub h
-	jr z, jr_001_4e39
+	jr z, .asm_4e39
+	jr nc, .asm_4e3b
 
-	jr nc, jr_001_4e3b
-
-jr_001_4e39:
+.asm_4e39
 	ld a, $01
 
-jr_001_4e3b:
+.asm_4e3b
 	ld hl, $000a
 	add hl, bc
 	ld [hl], a
@@ -2037,10 +2095,10 @@ jr_001_4e3b:
 	add hl, bc
 	ld a, [hl]
 	add a
-	ld hl, $490b
+	ld hl, unkData_001_490b
 	add l
 	ld l, a
-	ld a, $00
+	ld a, 0
 	adc h
 	ld h, a
 	ld a, [hli]
@@ -2790,10 +2848,10 @@ jr_001_521a:
 	add hl, de
 	ld a, [hl]
 	add a
-	ld hl, $490b
+	ld hl, unkData_001_490b
 	add l
 	ld l, a
-	ld a, $00
+	ld a, 0
 	adc h
 	ld h, a
 	ld c, [hl]
@@ -3224,121 +3282,7 @@ unkData_001_5459:
 	dw rNR34
 	dw rNR44
 
-unkData_001_5469:
-	dw $002c
-	dw $009d
-	dw $0107
-	dw $016b
-	dw $01c9
-	dw $0223
-	dw $0277
-	dw $02c7
-	dw $0312
-	dw $0358
-	dw $039b
-	dw $03da
-
-unkData_001_5481:
-	dw $0416
-	dw $044e
-	dw $0483
-	dw $04b5
-	dw $04e5
-	dw $0511
-	dw $053b
-	dw $0563
-	dw $0589
-	dw $05ac
-	dw $05ce
-	dw $05ed
-
-unkData_001_5499:
-	dw $060b
-	dw $0627
-	dw $0642
-	dw $065b
-	dw $0672
-	dw $0689
-	dw $069e
-	dw $06b2
-	dw $06c4
-	dw $06d6
-	dw $06e7
-	dw $06f7
-
-unkData_001_54b1:
-	dw $0706
-	dw $0714
-	dw $0721
-	dw $072d
-	dw $0739
-	dw $0744
-	dw $074f
-	dw $0759
-	dw $0762
-	dw $076b
-	dw $0773
-	dw $077b
-
-unkData_001_54c9:
-	dw $0783
-	dw $078a
-	dw $0790
-	dw $0797
-	dw $079d
-	dw $07a2
-	dw $07a7
-	dw $07ac
-	dw $07b1
-	dw $07b6
-	dw $07ba
-	dw $07be
-
-unkData_001_54e1:
-	dw $07c1
-	dw $07c5
-	dw $07c8
-	dw $07cb
-	dw $07ce
-	dw $07d1
-	dw $07d4
-	dw $07d6
-	dw $07d9
-	dw $07db
-	dw $07dd
-	dw $07df
-
-unkData_001_54f9:
-	dw $07e1
-	dw $07e2
-	dw $07e4
-	dw $07e6
-	dw $07e7
-	dw $07e9
-	dw $07ea
-	dw $07eb
-	dw $07ec
-	dw $07ed
-	dw $07ee
-	dw $07ef
-
-unkData_001_5511:
-	dw $07f0
-	dw $07f1
-	dw $07f2
-	dw $07f3
-	dw $07f4
-
-unkData_001_551b:
-	dw unkData_001_5469
-	dw unkData_001_5481
-	dw unkData_001_5499
-	dw unkData_001_54b1
-
-	dw unkData_001_54c9
-	dw unkData_001_54e1
-	dw unkData_001_54f9
-	dw unkData_001_5511
+INCLUDE "data/notes.asm"
 
 CopyBytesAF:
 ; copy bc bytes from hl to de, preserving af

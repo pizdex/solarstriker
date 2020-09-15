@@ -1,4 +1,4 @@
-; mgbdis v1.4 - Game Boy ROM disassembler by Matt Currie and contributors.
+; Created with mgbdis v1.4 - Game Boy ROM disassembler by Matt Currie and contributors.
 ; https://github.com/mattcurrie/mgbdis
 
 unkData_003_4000:

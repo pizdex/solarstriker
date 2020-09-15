@@ -1,11 +1,8 @@
 INCLUDE "constants.asm"
 
-SECTION "NULL", ROM0
-NULL::
+SECTION "Home", ROM0
 
 INCLUDE "home/header.asm"
-
-SECTION "Home", ROM0
 
 _Start:
 	bankswitch $01
