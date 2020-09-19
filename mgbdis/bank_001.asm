@@ -23,7 +23,7 @@ unk_001_4000:
 unk_001_401f:
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $373d
+	ld de, unkData_000_373d
 	call Call_000_0939
 	ld de, $40dd
 	call Call_000_0b03
@@ -149,7 +149,8 @@ unk_001_411d:
 	ld a, [bc]
 	ld [wcf99], a
 	call Call_000_0b4a
-	ld de, $37bf
+
+	ld de, unkData_000_37bf
 	call Call_000_0939
 	ld de, $41c0
 	call Call_000_0b03
@@ -685,7 +686,7 @@ jr_001_44a6:
 	inc de
 	ld a, [hl]
 	ld [de], a
-	ld de, $0ff5
+	ld de, unk_000_0ff5
 	call Func_000_0a3e
 	ld hl, $734c
 	ld a, $01
@@ -995,7 +996,7 @@ Call_001_465d:
 	ld a, [bc]
 	add [hl]
 	ld [de], a
-	ld de, $0ff5
+	ld de, unk_000_0ff5
 	call Func_000_0a3e
 	ld hl, $734c
 	ld a, $01
@@ -1167,7 +1168,7 @@ InitSound::
 	ld a, %11111111
 	ldh [rNR51], a
 
-; fill wcc00 to wcd86 with zeroes
+; fill wcc00 to wcd86 with zero
 	ld hl, wcc00
 	ld de, wcc01
 	ld bc, $186

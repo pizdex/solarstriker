@@ -11,7 +11,7 @@ _Start:
 	call WriteOAMDMACodeToHRAM
 	call InitSound
 
-	ld bc, $0010
+	ld bc, $10
 	ld hl, wcff0
 	call ZeroFill
 
@@ -44,7 +44,7 @@ Jump_000_016d:
 	bankswitch $01
 	call ClearBGMap1
 
-	ld bc, $0ff0
+	ld bc, $ff0
 	ld hl, wc000
 	call ZeroFill
 
@@ -968,7 +968,7 @@ Jump_000_0730:
 	call ClearBGMap1
 
 	ld hl, wc000
-	ld bc, $0c00
+	ld bc, $c00
 	call ZeroFill
 
 	ld hl, wca88
@@ -1171,7 +1171,7 @@ jr_000_08d5:
 	ret
 
 Call_000_08e2:
-	ld hl, wc781
+	ld hl, wc780 + 1
 	ld a, [hli]
 	ld c, [hl]
 	ld b, a
@@ -1339,7 +1339,7 @@ Call_000_099d:
 
 	ld bc, $0804
 	call Call_000_0a2e
-	ld de, $1083
+	ld de, unk_000_1083
 	jp Func_000_0a3e
 
 Call_000_09b8::
@@ -1378,7 +1378,7 @@ Call_000_09cd::
 	inc de
 	ld a, [hl]
 	ld [de], a
-	ld hl, wc788
+	ld hl, wc780 + 8
 	call CheckCollision
 	ld a, c
 	or a
@@ -1392,7 +1392,7 @@ Call_000_09ec::
 ; Boss collision
 	ld a, [bc]
 	call Call_000_0b4a
-	ld bc, wc786
+	ld bc, wc780 + 6
 	ld de, wca30
 	ld a, [bc]
 	ld [de], a
@@ -2108,7 +2108,7 @@ jr_000_0d0b:
 	push bc
 	add a
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $0eb7
 	add hl, de
 	ld a, [hli]
@@ -2331,7 +2331,7 @@ Call_000_0faa:
 	add a
 	ld l, a
 	ld h, 0
-	ld de, $0fd5
+	ld de, unkData_000_0fd5
 	add hl, de
 	pop de
 	ld a, [hli]
@@ -2354,23 +2354,13 @@ Call_000_0faa:
 	ld [de], a
 	ret
 
+unkData_000_0fd5:
+	db $e0, $f0
+	db $1c, $40, $1c, $38, $18, $38, $18, $30, $16, $30, $16, $2c, $14, $2c
+	db $14, $28, $12, $28, $10, $24, $0c, $24, $0a, $20, $08, $1c, $04, $18, $04, $10
 
-	db $e0, $f0, $1c, $40, $1c, $38, $18, $38, $18, $30, $16, $30, $16, $2c, $14, $2c
-	db $14, $28, $12, $28
-
-	db $10
-	inc h
-
-	db $0c, $24, $0a, $20
-
-	ld [$041c], sp
-	jr jr_000_0ff8
-
-	db $10
-
-	ld bc, $1072
-
-jr_000_0ff8:
+unk_000_0ff5::
+	ld bc, unkData_000_1072
 	ld hl, wca34
 	ld a, [hli]
 	ld e, [hl]
@@ -2419,8 +2409,8 @@ jr_000_0ff8:
 	ld a, [bc]
 	add a
 	ld e, a
-	ld d, $00
-	ld hl, $106a
+	ld d, 0
+	ld hl, unkData_000_106a
 	add hl, de
 	ld a, [hli]
 	ld d, [hl]
@@ -2433,18 +2423,25 @@ jr_000_0ff8:
 	jp z, Jump_000_0a64
 
 jr_000_105e:
-	ld de, $1064
+	ld de, unk_000_1064
 	jp Jump_000_0a53
 
-
+unk_000_1064:
 	ld de, $1026
 	jp Jump_000_0a53
 
+unkData_000_106a:
+	db $77, $10
+	db $7b, $10
+	db $7f, $10
+	db $77, $10
 
-	db $77, $10, $7b, $10, $7f, $10, $77, $10, $12, $00, $00, $00, $00, $22, $00, $24
+unkData_000_1072:
+	db $12, $00, $00, $00, $00, $22, $00, $24
 	db $00, $26, $00, $28, $00, $2a, $00, $2c, $00
 
-	ld bc, $1244
+unk_000_1083:
+	ld bc, unkData_000_1244
 	ld hl, wca60
 	ld a, [hli]
 	ld e, [hl]
@@ -2486,14 +2483,14 @@ jr_000_105e:
 
 	ld a, [wca2c]
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $1256
 	add hl, de
 	ld a, [hl]
 	add a
 	ld l, a
-	ld h, $00
-	ld de, $125e
+	ld h, 0
+	ld de, unkData_000_125e
 	add hl, de
 	ld a, [hli]
 	ld d, [hl]
@@ -2506,7 +2503,7 @@ jr_000_10de:
 	ld a, [hl]
 	add a
 	ld l, a
-	ld h, $00
+	ld h, 0
 	add hl, de
 	ld a, [hli]
 	ld e, [hl]
@@ -2645,7 +2642,7 @@ Jump_000_1138:
 	jp Jump_000_0a67
 
 
-	ld bc, $1244
+	ld bc, unkData_000_1244
 	ld hl, wca63
 	ld a, [hli]
 	ld e, [hl]
@@ -2697,14 +2694,14 @@ Jump_000_1138:
 	call Call_000_0b4a
 	ld a, [wca2c]
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $1256
 	add hl, de
 	ld a, [hl]
 	add a
 	ld l, a
-	ld h, $00
-	ld de, $125e
+	ld h, 0
+	ld de, unkData_000_125e
 	add hl, de
 	ld a, [hli]
 	ld d, [hl]
@@ -2720,240 +2717,24 @@ Jump_000_1138:
 	ld de, $134e
 	jp Jump_000_10de
 
-
+unkData_000_1244:
 	db $11, $08, $04, $06, $02, $0a, $06, $0a, $00, $11, $08, $04, $00, $00, $10, $08
 	db $10, $00, $00, $01, $01, $02, $02, $03
+	db $03, $03
 
-	inc bc
-	inc bc
+unkData_000_125e:
+	db $de, $12
+	db $ee, $12
+	db $fe, $12
+	db $0e, $13
 
-	db $de, $12, $ee, $12, $fe, $12, $0e, $13
+	db $1e, $13
+	db $1e, $13
+	db $1e, $13
+	db $1e, $13
 
-	ld e, $13
-	ld e, $13
-	ld e, $13
-	ld e, $13
-	ld bc, $0202
-
-	db $03
-
-	inc bc
-	inc b
-
-	db $05
-
-	dec b
-	dec b
-	dec b
-	dec b
-	dec b
-	dec b
-	dec b
-	dec b
-	dec b
-	inc b
-	inc b
-	inc b
-	inc b
-	inc b
-	inc b
-	inc b
-	inc b
-	ld [bc], a
-	ld b, $02
-	ld b, $02
-	ld b, $02
-	ld b, $00
-	inc b
-	nop
-	inc b
-	nop
-	inc b
-	nop
-	inc b
-
-	db $03, $04, $05
-
-	inc bc
-	inc b
-	dec b
-	dec b
-	rlca
-	ld bc, $0503
-	rlca
-	ld bc, $0503
-	rlca
-	nop
-	ld [bc], a
-	inc b
-	ld b, $00
-	ld [bc], a
-	inc b
-	db $06
-
-	db $02, $03, $04, $05, $06
-
-	inc b
-	inc b
-	inc b
-	ld b, $07
-	nop
-	ld bc, $0302
-	inc b
-	dec b
-	nop
-	ld bc, $0905
-	ld a, [bc]
-	inc b
-	inc b
-	inc b
-	ld [bc], a
-	inc b
-	dec b
-	ld b, $08
-	inc b
-	inc b
-	inc b
-	ld bc, $0503
-	rlca
-	add hl, bc
-	inc b
-	inc b
-	inc b
-	inc bc
-	inc b
-	dec b
-	ld b, $07
-	inc b
-	inc b
-	inc b
-	call c, $e700
-	add hl, de
-	nop
-	inc h
-
-	db $19, $19, $24, $00, $19, $e7
-
-	nop
-	call c, $e7e7
-	ret c
-
-	nop
-	db $e4
-	inc e
-
-	db $00, $28, $1c, $1c, $28, $00, $1c, $e4, $00, $d8
-
-	db $e4
-	db $e4
-	ret nc
-
-	nop
-	sbc $22
-
-	db $00, $30, $22, $22, $30, $00, $22, $de, $00, $d0
-
-	sbc $de
-	ret z
-
-	nop
-	ret c
-
-	db $28
-
-	db $00, $38, $28, $28, $38, $00, $28, $d8, $00, $c8, $d8, $d8
-
-	ret nz
-
-	nop
-	db $d3
-	dec l
-	nop
-	ld b, b
-	dec l
-	dec l
-	ld b, b
-	nop
-	dec l
-	db $d3
-	nop
-	ret nz
-
-	db $d3
-	db $d3
-	or b
-	nop
-	rst $00
-	add hl, sp
-	nop
-	ld d, b
-	add hl, sp
-	add hl, sp
-	ld d, b
-	nop
-	add hl, sp
-	rst $00
-	nop
-	or b
-	rst $00
-	rst $00
-	and b
-	nop
-	cp h
-	ld b, h
-	nop
-	ld h, b
-	ld b, h
-	ld b, h
-	ld h, b
-	nop
-	ld b, h
-	cp h
-	nop
-	and b
-	cp h
-	cp h
-	nop
-	ld b, b
-	dec l
-	dec l
-	dec sp
-	jr @+$40
-
-	inc c
-	ccf
-	ld b, $40
-	nop
-	ccf
-	ld a, [$f43e]
-	dec sp
-	add sp, $2d
-	db $d3
-	nop
-	ret nz
-
-	nop
-	ld h, b
-	ld b, h
-	ld b, h
-	ld e, c
-	dec h
-	ld e, l
-	inc de
-	ld e, a
-	add hl, bc
-	ld h, b
-	nop
-	ld e, a
-	rst $30
-	ld e, l
-	db $ed
-	ld e, c
-	db $db
-	ld b, h
-	cp h
-	nop
-	and b
+unkData_000_126e:
+	dr $126e, $137a
 
 Call_000_137a:
 	ld hl, wca80
@@ -3402,7 +3183,7 @@ jr_000_15b1:
 	jp Jump_000_1490
 
 Call_000_15be:
-	ld hl, wc781
+	ld hl, wc780 + 1
 	ld a, [hli]
 	cp $15
 	jr nc, jr_000_15ca
@@ -3459,7 +3240,7 @@ unk_000_15fa:
 	ld [hl], b
 	inc hl
 	ld [hl], c
-	ld de, $0ff5
+	ld de, unk_000_0ff5
 	call Func_000_0a3e
 	ld de, unk_000_1616
 	jp Jump_000_0a53
@@ -3524,22 +3305,22 @@ Jump_000_1672:
 	ld de, unk_000_16ce
 	jp Jump_000_0a53
 
-
+unkData_000_167c:
 	db $ff, $02, $06
 
-	rst $38
+	db $ff
 
 	db $00, $01, $07
 
-	rst $38
+	db $ff
 
 	db $04, $03, $05
 
-	rst $38
-	rst $38
-	rst $38
-	rst $38
-	rst $38
+	db $ff
+	db $ff
+	db $ff
+	db $ff
+	db $ff
 
 unkData_000_168c:
 	db $00, $00, $00
@@ -3777,7 +3558,7 @@ jr_000_17f6:
 	jp Jump_000_0a53
 
 
-	ld bc, $18cb
+	ld bc, unkData_000_18cb
 	ld de, $0000
 	ld a, [wca54]
 	inc a
@@ -3804,7 +3585,7 @@ Call_000_1824:
 	ld e, [hl]
 	ld a, $12
 	ld [bc], a
-	ld bc, $18d2
+	ld bc, unkData_000_18d2
 	jr jr_000_183e
 
 jr_000_1835:
@@ -3813,7 +3594,7 @@ jr_000_1835:
 	ld a, [hl]
 	add $06
 	ld e, a
-	ld bc, $18cb
+	ld bc, unkData_000_18cb
 
 jr_000_183e:
 	jp Jump_000_0b38
@@ -3929,14 +3710,17 @@ jr_000_18c0:
 	add hl, de
 	dec b
 	jp nz, Jump_000_189a
-
 	ld a, b
 	ret
 
+unkData_000_18cb:
+	db $11, $08, $04, $00, $01, $10, $07
 
-	db $11, $08, $04, $00, $01, $10, $07, $12, $08, $08, $00, $fe, $10, $12, $01, $02
-	db $02, $03, $03, $04, $eb, $18, $ed, $18, $ed, $18, $f1, $18, $f1, $18, $f5, $18
-	db $0c, $00, $0c, $00, $0c, $20, $0e, $00, $0e, $20, $1c, $00, $1e, $00
+unkData_000_18d2:
+	db $12, $08, $08, $00, $fe, $10, $12
+
+	db $01, $02, $02, $03, $03, $04, $eb, $18, $ed, $18, $ed, $18, $f1, $18, $f1, $18
+	db $f5, $18, $0c, $00, $0c, $00, $0c, $20, $0e, $00, $0e, $20, $1c, $00, $1e, $00
 
 	ld bc, wca51
 	ld a, [bc]
@@ -3996,12 +3780,12 @@ unk_000_1930:
 	call Call_000_0b4a
 	ld b, h
 	ld c, l
-	ld hl, wc781
+	ld hl, wc780 + 1
 	call Call_000_1824
 	ld a, [wPowerLevel]
 	add a
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $18df
 	add hl, de
 	ld a, [hli]
@@ -4075,7 +3859,7 @@ jr_000_19bb:
 
 	ld a, [bc]
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, wca50
 	add hl, de
 	xor a
@@ -4314,7 +4098,7 @@ jr_000_1aa4:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld hl, wc782
+	ld hl, wc780 + 2
 	ld e, [hl]
 	ld d, $00
 	ld bc, $1c12
@@ -4577,9 +4361,9 @@ jr_000_1d5b:
 	call Call_000_0b61
 	ld a, [wca16]
 	ld d, a
-	ld e, $00
+	ld e, 0
 	call Call_000_0b1e
-	ld de, wc781
+	ld de, wc780 + 1
 	ld hl, wca14
 	ld a, [hli]
 	ld h, [hl]
@@ -4745,7 +4529,7 @@ jr_000_1e64:
 	ld de, $0003
 	add hl, de
 	inc [hl]
-	ld de, $0ff5
+	ld de, unk_000_0ff5
 	call Func_000_0a3e
 
 	ld a, $22
@@ -4777,7 +4561,7 @@ unk_000_1ea4:
 unk_000_1ebb:
 	ld a, [bc]
 	call Call_000_0b4a
-	ld hl, wc786
+	ld hl, wc780 + 6
 	ld de, wca30
 	ld a, [hli]
 	ld [de], a
@@ -5050,7 +4834,7 @@ unk_000_207c:
 
 	ld bc, $0804
 	call Call_000_0a2e
-	ld de, $1083
+	ld de, unk_000_1083
 	call Func_000_0a3e
 
 jr_000_2099:
@@ -5699,7 +5483,7 @@ jr_000_245d:
 	ld [wca1d], a
 
 jr_000_24e4:
-	ld hl, wc781
+	ld hl, wc780 + 1
 	ld a, [hl]
 	cp $34
 	jr nc, jr_000_24f1
@@ -5874,7 +5658,7 @@ jr_000_25f0:
 	ld a, [hl]
 	add $10
 	ld b, a
-	ld de, wc782
+	ld de, wc780 + 2
 	ld a, [de]
 	add $10
 	cp b
@@ -5958,8 +5742,8 @@ jr_000_262a:
 	ld c, l
 	add a
 	ld l, a
-	ld h, $00
-	ld de, $26ec
+	ld h, 0
+	ld de, unkData_000_26ec
 	add hl, de
 	ld a, [hli]
 	ld [bc], a
@@ -6021,10 +5805,11 @@ jr_000_262a:
 	ld de, $26b1
 	jp Jump_000_0a53
 
-
+unkData_000_26ec:
 	db $fc, $fc, $04, $fc, $04, $04, $fc, $04, $12, $08, $08, $00, $00, $10, $10, $01
 	db $7a, $00, $7a, $20
 
+unk_000_2700:
 	ld a, [wcaca]
 	or a
 	jp z, Jump_000_047e
@@ -6079,7 +5864,7 @@ jr_000_272e:
 
 jr_000_274d:
 	call Call_000_2769
-	ld de, $1083
+	ld de, unk_000_1083
 	call Func_000_0a3e
 
 jr_000_2756:
@@ -6101,7 +5886,7 @@ Call_000_2769:
 	and $1f
 	inc [hl]
 	ld l, a
-	ld h, $00
+	ld h, 0
 	add hl, de
 	ld a, [hl]
 	and $0f
@@ -6186,7 +5971,7 @@ jr_000_27d3:
 	inc [hl]
 	ld de, $2818
 	ld l, a
-	ld h, $00
+	ld h, 0
 	add hl, de
 	ld a, [hl]
 	and $03
@@ -6252,7 +6037,7 @@ jr_000_2843:
 	ld de, $2872
 	ld bc, $0fa2
 	call Call_000_2769
-	ld de, $1083
+	ld de, unk_000_1083
 	call Func_000_0a3e
 
 jr_000_285f:
@@ -6512,7 +6297,7 @@ jr_000_292d:
 	dec a
 	add a
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $2a3c
 	add hl, de
 	ld a, [hli]
@@ -6546,67 +6331,10 @@ jr_000_292d:
 	db $e4, $00, $00, $00, $d8, $00, $da, $00, $b4, $00, $c0, $00, $bc, $00, $00, $00
 	db $a8, $00, $00, $00, $d6, $00, $bc, $00, $b4, $00, $ba, $00, $e4, $00, $00, $00
 
-	ret c
+unkData_000_2ab8:
+	dr $2ab8, $2af4
 
-	nop
-	jp c, $b400
-
-	nop
-	ret nz
-
-	nop
-	cp h
-	nop
-	nop
-	nop
-	xor d
-	nop
-	nop
-	nop
-	sub $00
-	cp h
-	nop
-	or h
-	nop
-	cp d
-	nop
-	db $e4
-	nop
-	nop
-	nop
-	ret c
-
-	nop
-	jp c, $b400
-
-	nop
-	ret nz
-
-	nop
-	cp h
-	nop
-	nop
-	nop
-	xor h
-	nop
-	nop
-	nop
-	sub $00
-	cp h
-	nop
-	or h
-	nop
-	cp d
-	nop
-	db $e4
-	nop
-	nop
-	nop
-	ld [bc], a
-	nop
-	inc b
-	nop
-
+unk_000_2af4:
 	ld hl, wca12
 	ld a, [hli]
 	ld h, [hl]
@@ -6670,191 +6398,12 @@ jr_000_292d:
 	call Func_000_0a3e
 	jp Jump_000_0a64
 
-
+unkData_000_2b6d:
 	db $25, $08, $08, $00, $00, $10, $10, $01, $ce, $00, $bc, $00, $e2, $00, $da, $00
 	db $00, $00, $d8, $00, $da, $00, $b4, $00, $c0, $00, $bc, $00
 
-	adc $00
-	cp h
-	nop
-	ld [c], a
-	nop
-	jp c, $0000
-
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	ret c
-
-	nop
-	jp c, $b400
-
-	nop
-	ret nz
-
-	nop
-	cp h
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	call z, $b400
-	nop
-	cp d
-	nop
-	nop
-	nop
-	ret c
-
-	nop
-	cp h
-	nop
-	or h
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	ret nz
-
-	nop
-	call c, $ce00
-	nop
-	cp b
-	nop
-	call nz, $da00
-	nop
-	db $e4
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	cp d
-	nop
-	or h
-	nop
-	sub $00
-	ret z
-
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	cp b
-	nop
-	or h
-	nop
-	sbc $00
-	cp h
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	cp [hl]
-	nop
-	ret nc
-
-	nop
-	sub $00
-	jp c, $d600
-
-	nop
-	cp h
-	nop
-	ret c
-
-	nop
-	ret c
-
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	cp [hl]
-	nop
-	call nz, $ce00
-	nop
-	or h
-	nop
-	jp z, $0000
-
-	nop
-	nop
-	nop
-	nop
-	nop
-	call z, $c400
-	nop
-	ret c
-
-	nop
-	ret c
-
-	nop
-	call nz, $d000
-	nop
-	adc $00
-	nop
-	nop
+unkData_000_2b89:
+	dr $2b89, $2c49
 
 unk_000_2c49:
 	ld a, [wLives]
@@ -6911,41 +6460,10 @@ jr_000_2c8c:
 	jr nz, .loop
 	ret
 
+unkData_000_2c9b:
+	dr $2c9b, $2cbe
 
-	sbc c
-	rst $08
-	add hl, bc
-	ret nz
-
-	or h
-	call z, $00bc
-	ret nc
-
-	sbc $bc
-	sub $00
-	sbc d
-	rrca
-	add hl, bc
-	jp c, $d2d0
-
-	nop
-	ret c
-
-	cp b
-	ret nc
-
-	sub $bc
-	nop
-	sbc d
-	ld [hl], c
-	dec b
-	ret c
-
-	cp b
-	ret nc
-
-	sub $bc
-	nop
+unk_000_2cbe:
 	ld hl, wca12
 	ld a, [hli]
 	ld h, [hl]
@@ -7522,7 +7040,7 @@ jr_000_30c9:
 	and $01
 	add a
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $31dd
 	add hl, de
 	ld a, [hli]
@@ -7558,7 +7076,7 @@ jr_000_312c:
 
 	add a
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $31e1
 	add hl, de
 	ld a, [hli]
@@ -7617,7 +7135,7 @@ jr_000_317f:
 	ld [hl], a
 	add a
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $31e7
 	add hl, de
 	ld a, [hli]
@@ -7851,1106 +7369,13 @@ unkData_000_3315:
 	dw $3518
 
 unkData_000_334d:
-	jp nc, $d0d6
+	dr $334d, $373d
 
-	cp d
-	call c, $bcb8
-	sub $bf
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	ret nz
+unkData_000_373d::
+	dr $373d, $37bf
 
-	add sp, -$1c
-	ret nc
-
-	ret z
-
-	ret nc
-
-	call nz, $bfbf
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp d
-	call nz, $bcd6
-	cp b
-	jp c, $d6d0
-
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	ret c
-
-	add sp, -$30
-	ret z
-
-	or h
-	cp d
-	or h
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	ret z
-
-	add sp, -$26
-	cp h
-	sub $b4
-	ret c
-
-	or h
-	ret z
-
-	call nz, $bfbf
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	jp nc, $d0d6
-
-	ret nz
-
-	sub $b4
-	call z, $bccc
-	sub $bf
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	ret z
-
-	add sp, -$28
-	call c, $c4c0
-	call z, $dad0
-	ret nc
-
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	call z, $d8dc
-	call nz, $bfb8
-	ret c
-
-	ret nc
-
-	call c, $bace
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	jp c, $d0e8
-
-	ret c
-
-	or h
-	cp d
-	or h
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp d
-	cp h
-	ret c
-
-	call nz, $cec0
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	or h
-	add sp, -$3e
-	call nz, $b4c0
-	ret c
-
-	jp nz, $e4c4
-
-	or h
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	ret z
-
-	add sp, -$1c
-	or h
-	call z, $c0b4
-	or h
-	call z, $bfc4
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	ret z
-
-	add sp, -$38
-	or h
-	jp c, $dcd8
-
-	db $e4
-	or h
-	call z, $bfb4
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	ret z
-
-	add sp, -$3e
-	or h
-	db $e4
-	or h
-	ret c
-
-	jp nz, $bfc4
-
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	ret c
-
-	jp nc, $b8bc
-
-	call nz, $cab4
-	ei
-	jp c, $b4c2
-
-	adc $c8
-	ret c
-
-	ei
-	jp c, $c2d0
-
-	add sp, -$3e
-	call nz, $b4d6
-	db $e4
-	or h
-	call z, $bfb4
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	db $e4
-	add sp, -$42
-	call c, wc4c6
-	call nz, $bfbf
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	ret z
-
-	add sp, -$26
-	or h
-	ret z
-
-	cp h
-	call c, wc2b8
-	call nz, $bfbf
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	jp nz, $b4e8
-
-	db $e4
-	sub $da
-	ret nc
-
-	adc $e8
-	ldh [$b4], a
-	cp d
-	or h
-	cp a
-	cp a
-	cp a
-	cp a
-	db $e4
-	add sp, -$38
-	or h
-	ldh [$b4], a
-	ret z
-
-	or h
-	call z, $bfc4
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	call z, $cee8
-	or h
-	ret z
-
-	or h
-	jp c, $ceb4
-
-	call nz, $bfbf
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	jp nz, $cee8
-
-	or h
-	ret z
-
-	or h
-	and $b4
-	ldh [$b4], a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	db $e4
-	add sp, -$4c
-	sub $b4
-	ret c
-
-	jp nz, $b6c4
-
-	or h
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	ret c
-
-	ret nc
-
-	jp z, $d6b4
-
-	ret c
-
-	jp c, $c4d6
-
-	ret z
-
-	cp h
-	sub $bf
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	cp a
-	db $fc
-	and d
-	or d
-	or b
-	or d
-	cp a
-	ld [$eceb], a
-	db $ed
-	xor $ef
-	cp a
-	cp a
-	cp a
-	cp a
-
-	db $43, $3e, $4e, $3e, $45, $3d, $a1, $3c, $6f, $3e, $7a, $3e, $3d, $3d, $91, $3c
-	db $43, $3e, $4e, $3e
-
-	ld b, l
-	dec a
-	and c
-	inc a
-	ld l, a
-	ld a, $7a
-	ld a, $3d
-	dec a
-	dec b
-	nop
-	sub c
-	inc a
-	ld b, e
-	ld a, $4e
-	db $3e
-
-	db $b1, $3c, $01, $3e, $0c, $3e, $91, $3c, $91, $3c, $91, $3c
-
-	sub c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-
-	db $b1, $3c, $a9, $3d, $b4, $3d, $a1, $3c, $a1, $3c, $a1, $3c
-
-	and c
-	inc a
-	and c
-	inc a
-	and c
-	inc a
-
-	db $a9, $3d, $65, $3d, $f6, $3d, $01, $3e, $5d, $3d
-
-	sbc [hl]
-	dec a
-
-	db $01, $3e, $5d, $3d, $9e, $3d, $a9, $3d, $65, $3d
-
-	or $3d
-
-	db $b1, $3c, $b1, $3c
-
-	pop af
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	ld bc, $b13d
-	inc a
-	or c
-	inc a
-
-	db $4d, $3d, $89, $3c, $3d, $3d, $4d, $3d, $89, $3c, $3d, $3d, $4d, $3d, $89, $3c
-
-	dec a
-	dec a
-	ld c, l
-	dec a
-	adc c
-	inc a
-	dec a
-	dec a
-	ld c, l
-	dec a
-	adc c
-	inc a
-	dec a
-	dec a
-	ld c, l
-	dec a
-	adc c
-	inc a
-	dec a
-	dec a
-
-	db $b1, $3c, $89, $3c, $a1, $3c
-
-	or c
-	inc a
-	adc c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	adc c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	adc c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	adc c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	adc c
-	inc a
-	and c
-	inc a
-
-	db $d1, $3c, $e1, $3c, $d1, $3c, $e1, $3c
-
-	pop de
-	inc a
-	pop hl
-	inc a
-	pop hl
-	inc a
-	pop de
-	inc a
-	pop hl
-	inc a
-	pop de
-	inc a
-	pop hl
-	inc a
-	ld c, l
-	dec a
-	ld c, l
-	dec a
-	dec a
-	dec a
-	dec a
-	dec a
-	dec a
-	dec a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	ld c, l
-	dec a
-	ld c, l
-	dec a
-	ld b, l
-	dec a
-	ld b, l
-	dec a
-	ld b, l
-	dec a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	ld c, l
-	dec a
-	ld e, l
-	dec a
-	ld l, l
-	dec a
-	ld e, l
-	dec a
-	ld l, l
-	dec a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	ld c, l
-	dec a
-	ld h, l
-	dec a
-	ld [hl], l
-	dec a
-	ld h, l
-	dec a
-	ld [hl], l
-	dec a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	or c
-	inc a
-	ld c, l
-	dec a
-	ld a, d
-	ld a, $85
-	ld a, $90
-	ld a, $6f
-	ld a, $b1
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	ld c, l
-	dec a
-	ld c, [hl]
-	ld a, $59
-	ld a, $64
-	ld a, $43
-	ld a, $b1
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-
-	db $b1, $3c, $b1, $3c, $b1, $3c
-
-	or c
-	inc a
-	or c
-	inc a
-	ld c, [hl]
-	ld a, $43
-	ld a, $64
-	ld a, $59
-	ld a, $b1
-	inc a
-	ld c, [hl]
-	ld a, $43
-	ld a, $64
-	ld a, $59
-	ld a, $b1
-	inc a
-	ld c, [hl]
-	ld a, $43
-	ld a, $64
-	ld a, $59
-	ld a, $b1
-	inc a
-	ld bc, $0c3e
-	ld a, $eb
-	dec a
-	or $3d
-	ld bc, $0c3e
-	ld a, $eb
-	dec a
-	or $3d
-	ld bc, $0c3e
-	ld a, $eb
-	dec a
-	or $3d
-	xor c
-	dec a
-	or h
-	dec a
-	sub e
-	dec a
-	sbc [hl]
-	dec a
-	xor c
-	dec a
-	or h
-	dec a
-	sub e
-	dec a
-	sbc [hl]
-	dec a
-	xor c
-	dec a
-	or h
-	dec a
-	sub e
-	dec a
-	sbc [hl]
-	dec a
-
-	db $4d, $3d, $89, $3c, $4d, $3d, $89, $3c, $4d, $3d, $89, $3c, $4d, $3d, $89, $3c
-	db $4d, $3d, $89, $3c, $4d, $3d, $89, $3c, $b1, $3c, $3d, $3d, $93, $3d, $9e, $3d
-	db $b1, $3c
-
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-
-	db $b1, $3c, $45, $3d, $eb, $3d, $f6, $3d, $b1, $3c
-
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	sub c
-	inc a
-	or c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	sub c
-	inc a
-	or c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	sub c
-	inc a
-	or c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	sub c
-	inc a
-	or c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	sub c
-	inc a
-	or c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	sub c
-	inc a
-
-	db $4d, $3d, $45, $3d, $6f, $3e, $7a, $3e, $91, $3c, $43, $3e, $4e, $3e, $a1, $3c
-	db $59, $3e, $64, $3e, $91, $3c, $85, $3e, $90, $3e, $a1, $3c, $6f, $3e
-
-	ld a, d
-	ld a, $91
-	inc a
-	ld b, e
-	ld a, $4e
-	ld a, $a1
-	inc a
-	ld e, c
-	ld a, $64
-	ld a, $91
-	inc a
-	add l
-	ld a, $90
-	ld a, $a1
-	inc a
-	ld l, a
-	ld a, $7a
-	ld a, $91
-	inc a
-	ld b, e
-	ld a, $4e
-	ld a, $a1
-	inc a
-	ld e, c
-	ld a, $64
-	ld a, $91
-	inc a
-	add l
-	ld a, $90
-	ld a, $a1
-	inc a
-	ld l, a
-	ld a, $7a
-	ld a, $91
-	inc a
-	ld b, e
-	ld a, $4e
-	ld a, $a1
-	inc a
-	ld e, c
-	ld a, $64
-	ld a, $91
-	inc a
-	add l
-	ld a, $90
-	ld a, $a1
-	inc a
-	ld l, a
-	ld a, $7a
-	ld a, $91
-	inc a
-	ld b, e
-	ld a, $4e
-	ld a, $a1
-	inc a
-	ld e, c
-	ld a, $64
-	ld a, $91
-	inc a
-	add l
-	ld a, $90
-	ld a, $45
-	dec a
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-
-	db $4d, $3d, $b1, $3c, $b1, $3c, $c1, $3c, $c1, $3c, $a1, $3c, $91, $3c, $91, $3c
-	db $a1, $3c, $b1, $3c, $b1, $3c, $c1, $3c, $c1, $3c, $a1, $3c, $91, $3c, $91, $3c
-	db $a1, $3c, $b1, $3c, $b1, $3c, $c1, $3c, $c1, $3c, $a1, $3c
-
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	pop bc
-	inc a
-	pop bc
-	inc a
-	and c
-	inc a
-	sub c
-	inc a
-	sub c
-	inc a
-	and c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
-	or c
-	inc a
+unkData_000_37bf::
+	dr $37bf, $38c9
 
 unkData_000_38c9:
 	db $4d, $3d, $89, $3c, $a1, $3c, $89, $3c, $91, $3c, $91, $3c, $89, $3c, $a1, $3c
@@ -8973,162 +7398,7 @@ unkData_000_3cf1:
 	dr $3cf1, $3d3d
 
 unkData_000_3d3d:
-	db $10, $10, $10, $10, $10, $10, $10, $18, $20, $20, $20, $20, $20, $20, $20, $28
-	db $40, $40, $40, $40, $40, $40, $40, $48
-
-	add b
-	add b
-	add b
-	add b
-	add b
-	add b
-	add b
-	adc b
-
-	db $50, $50, $50, $50, $50, $50, $50, $58, $60, $60, $60, $60, $60, $60, $60, $68
-
-	sub b
-	sub b
-
-jr_000_3d6f:
-	sub b
-	sub b
-	sub b
-	sub b
-	sub b
-	sbc b
-	and b
-	and b
-	and b
-	and b
-	and b
-	and b
-	and b
-	xor b
-	nop
-	nop
-	nop
-	nop
-	nop
-	ld [$0040], sp
-	ld b, b
-	nop
-	ld b, b
-	nop
-	ld b, b
-	nop
-	ld b, b
-	nop
-	ld b, b
-	nop
-	ld b, b
-	nop
-	ld b, b
-	db $08
-
-	db $10, $10, $10, $50, $10, $10, $50, $10, $50, $50, $58, $50, $50, $50, $40, $50
-	db $40, $40, $50, $40, $40, $48, $40, $40, $40, $60, $40, $40, $60, $40, $60, $60
-	db $68, $60, $60, $60, $20, $60, $20, $20, $60, $20, $20, $28
-
-	jr nz, jr_000_3de1
-
-	jr nz, @-$5e
-
-	jr nz, jr_000_3de5
-
-	and b
-	jr nz, @-$5e
-
-	and b
-	xor b
-	and b
-	and b
-	and b
-	jr nz, jr_000_3d6f
-
-	add b
-	add b
-	and b
-	add b
-	add b
-	adc b
-	add b
-	add b
-	add b
-	sub b
-	add b
-	add b
-	sub b
-	add b
-
-jr_000_3ddd:
-	sub b
-	sub b
-	sbc b
-	sub b
-
-jr_000_3de1:
-	sub b
-	sub b
-	db $10
-	sub b
-
-jr_000_3de5:
-	db $10
-	db $10
-	sub b
-	db $10
-	db $10
-	db $18
-
-	db $20, $20, $20, $60, $20, $20, $60, $20, $60, $60, $68, $60, $60, $60, $40, $60
-	db $40, $40, $60, $40, $40, $48, $40, $40, $40, $50, $40, $40, $50, $40, $50, $50
-	db $58, $50, $50, $50, $10, $50, $10, $10, $50, $10, $10, $18
-
-	db $10
-	db $10
-	db $10
-	sub b
-	db $10
-	db $10
-	sub b
-	db $10
-	sub b
-	sub b
-	sbc b
-	sub b
-	sub b
-	sub b
-	add b
-	sub b
-	add b
-	add b
-	sub b
-	add b
-	add b
-	adc b
-	add b
-	add b
-	add b
-	and b
-	add b
-	add b
-	and b
-	add b
-	and b
-	and b
-	xor b
-	and b
-	and b
-	and b
-	jr nz, jr_000_3ddd
-
-	jr nz, @+$22
-
-	and b
-	jr nz, @+$22
-
-	db $28
+	dr $3d3d, $3e43
 
 unkData_000_3e43:
 	db $10, $10, $50, $10, $50, $50, $50, $40, $50, $40, $48, $40, $40, $60, $40, $60
@@ -9147,23 +7417,4 @@ unkData_000_3ec7:
 	db $fc, $a2, $b2, $b0, $b2, $ff, $ea, $eb, $ec, $ed, $ee, $ef, $00
 
 unkData_000_3ef4:
-	db $9c, $00, $13, $d8, $b8, $d0, $d6, $bc, $00, $f0, $f0, $f0, $f0, $f0, $f0, $f0
-	db $f0, $00, $00, $fa, $f0, $f3, $00
-
-unkData_000_3f0b:
-	db $f0, $f0, $f0, $f0, $f0, $f0, $f0, $00, $00, $fa, $f0, $f3, $00, $00, $00, $54
-	db $01, $00, $00, $00, $10, $10, $00, $10, $04, $00, $00, $20, $00, $00, $00, $42
-	db $00, $00, $00, $00, $00, $00, $00, $00, $00, $82, $40, $00, $00, $00, $00, $00
-	db $00, $04, $10, $01, $00, $00, $00, $08, $10, $00, $00, $00, $00, $48, $00, $02
-	db $00, $00, $00, $00, $10, $40, $00, $00, $00, $00, $00, $20, $00, $00, $40, $00
-	db $01, $00, $00, $00, $00, $00, $00, $00, $00, $80, $00, $01, $00, $42, $00, $10
-	db $00, $28, $00, $00, $00, $41, $00, $00, $00, $30, $11, $10, $10, $00, $04, $00
-	db $04, $41, $00, $00, $00, $82, $00, $00, $00, $02, $00, $00, $00, $00, $00, $10
-	db $00, $20, $00, $01, $00, $40, $00, $04, $04, $23, $00, $00, $00, $00, $04, $00
-	db $00, $10, $14, $22, $00, $00, $00, $02, $00, $00, $00, $00, $00, $44, $00, $04
-	db $00, $04, $00, $00, $00, $00, $04, $02, $00, $09, $01, $08, $00, $00, $00, $21
-	db $01, $44, $00, $00, $10, $00, $00, $00, $00, $00, $04, $06, $00, $00, $00, $00
-	db $04, $00, $01, $04, $00, $00, $00, $00, $00, $00, $00, $00, $00, $80, $00, $00
-	db $00, $00, $00, $00, $00, $01, $01, $80, $00, $10, $00, $00, $00, $00, $10, $00
-	db $00, $20, $00, $10, $00, $40, $00, $00, $00, $10, $05, $a0, $00, $00, $00, $44
-	db $04, $20, $00, $00, $00
+	dr $3ef4, $4000
