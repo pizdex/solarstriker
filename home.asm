@@ -6739,11 +6739,11 @@ jr_000_292d:
 	ret nz
 
 	nop
-	call c, wce00
+	call c, $ce00
 	nop
 	cp b
 	nop
-	call nz, wda00
+	call nz, $da00
 	nop
 	db $e4
 	nop
@@ -6802,7 +6802,7 @@ jr_000_292d:
 
 	nop
 	sub $00
-	jp c, wd600
+	jp c, $d600
 
 	nop
 	cp h
@@ -6831,7 +6831,7 @@ jr_000_292d:
 	nop
 	cp [hl]
 	nop
-	call nz, wce00
+	call nz, $ce00
 	nop
 	or h
 	nop
@@ -6842,7 +6842,7 @@ jr_000_292d:
 	nop
 	nop
 	nop
-	call z, wc400
+	call z, $c400
 	nop
 	ret c
 
@@ -6850,7 +6850,7 @@ jr_000_292d:
 	ret c
 
 	nop
-	call nz, wd000
+	call nz, $d000
 	nop
 	adc $00
 	nop
@@ -6926,7 +6926,7 @@ jr_000_2c8c:
 	sbc d
 	rrca
 	add hl, bc
-	jp c, wd2d0
+	jp c, $d2d0
 
 	nop
 	ret c
@@ -7885,7 +7885,7 @@ unkData_000_334d:
 	cp d
 	call nz, $bcd6
 	cp b
-	jp c, wd6d0
+	jp c, $d6d0
 
 	cp a
 	cp a
@@ -7946,8 +7946,8 @@ unkData_000_334d:
 	ret z
 
 	add sp, -$28
-	call c, wc4c0
-	call z, wdad0
+	call c, $c4c0
+	call z, $dad0
 	ret nc
 
 	cp a
@@ -7974,7 +7974,7 @@ unkData_000_334d:
 	cp a
 	cp a
 	cp a
-	call z, wd8dc
+	call z, $d8dc
 	call nz, $bfb8
 	ret c
 
@@ -8008,7 +8008,7 @@ unkData_000_334d:
 	cp h
 	ret c
 
-	call nz, wcec0
+	call nz, $cec0
 	cp a
 	cp a
 	cp a
@@ -8038,7 +8038,7 @@ unkData_000_334d:
 
 	add sp, -$1c
 	or h
-	call z, wc0b4
+	call z, $c0b4
 	or h
 	call z, $bfc4
 	cp a
@@ -8051,7 +8051,7 @@ unkData_000_334d:
 
 	add sp, -$38
 	or h
-	jp c, wdcd8
+	jp c, $dcd8
 
 	db $e4
 	or h
@@ -8082,7 +8082,7 @@ unkData_000_334d:
 
 	jp nc, $b8bc
 
-	call nz, wcab4
+	call nz, $cab4
 	ei
 	jp c, $b4c2
 
@@ -8090,7 +8090,7 @@ unkData_000_334d:
 	ret c
 
 	ei
-	jp c, wc2d0
+	jp c, $c2d0
 
 	add sp, -$3e
 	call nz, $b4d6
@@ -8157,12 +8157,12 @@ unkData_000_334d:
 	cp a
 	cp a
 	cp a
-	call z, wcee8
+	call z, $cee8
 	or h
 	ret z
 
 	or h
-	jp c, wceb4
+	jp c, $ceb4
 
 	call nz, $bfbf
 	cp a
@@ -8170,7 +8170,7 @@ unkData_000_334d:
 	cp a
 	cp a
 	cp a
-	jp nz, wcee8
+	jp nz, $cee8
 
 	or h
 	ret z
@@ -8205,11 +8205,11 @@ unkData_000_334d:
 
 	ret nc
 
-	jp z, wd6b4
+	jp z, $d6b4
 
 	ret c
 
-	jp c, wc4d6
+	jp c, $c4d6
 
 	ret z
 
