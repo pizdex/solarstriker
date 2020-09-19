@@ -36,6 +36,9 @@
 	charmap "Y",	$e4
 	charmap "Z",	$e6
 
+	charmap " ",	$fb
+	charmap "@",	$bf
+
 	charmap ".",	$e8
 	charmap "-",	$e9
 
@@ -49,3 +52,5 @@
 	charmap "7",	$f7
 	charmap "8",	$f8
 	charmap "9",	$f9
+
+	charmap "©",	$fc

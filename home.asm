@@ -7301,75 +7301,10 @@ Call_000_32ab:
 	ld [wcad8], a
 	ret
 
-unkData_000_32dd:
-; BG map addresses for credits?
-	dw $9c02
-	dw $9c22
+INCLUDE "data/credits.asm"
 
-	dw $9c02
-	dw $9c22
-	dw $9c42
-
-	dw $9c02
-	dw $9c22
-	dw $9c42
-
-	dw $9c02
-	dw $9c22
-
-	dw $9c02
-	dw $9c22
-	dw $9c42
-	dw $9c22
-	dw $9c42
-
-	dw $9c02
-	dw $9c22
-	dw $9c42
-	dw $9c22
-	dw $9c42
-	dw $9c22
-	dw $9c42
-	dw $9c22
-	dw $9c42
-
-	dw $9c02
-	dw $9c22
-	dw $9c42
-	dw $9c62
-
-unkData_000_3315:
-	dw $334d
-	dw $335e
-	dw $336f
-	dw $3380
-	dw $3391
-	dw $33a2
-	dw $33b3
-	dw $33c4
-	dw $33d5
-	dw $33e6
-	dw $33f7
-	dw $3408
-	dw $3419
-	dw $342a
-	dw $343b
-	dw $344c
-	dw $345d
-	dw $346e
-	dw $347f
-	dw $3490
-	dw $34a1
-	dw $34b2
-	dw $34c3
-	dw $34d4
-	dw $34e5
-	dw $34f6
-	dw $3507
-	dw $3518
-
-unkData_000_334d:
-	dr $334d, $373d
+unkData_000_3529:
+	dr $3529, $373d
 
 unkData_000_373d::
 	dr $373d, $37bf
