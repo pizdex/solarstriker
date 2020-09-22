@@ -27,18 +27,18 @@ Jump_000_016d:
 
 	ld hl, unkImage_002_6730
 	ld de, $9000
-	ld bc, $0630
+	ld bc, $630
 	call CopyBytes
 
 	bankswitch $03
-	ld hl, $58b0
+	ld hl, unkData_003_58b0
 	ld de, wd000
-	ld bc, $0080
+	ld bc, $80
 	call CopyBytes
 
-	ld hl, $5930
+	ld hl, unkData_003_5930
 	ld de, wd200
-	ld bc, $0090
+	ld bc, $90
 	call CopyBytes
 
 	bankswitch $01
@@ -766,8 +766,10 @@ Jump_000_05d8:
 	call ClearBGMap1
 	ld de, $0e81
 	call Call_000_0dfb
+
 	ld de, $0e5d
 	call Call_000_0e16
+
 	call ClearBGMap1
 	ld hl, wca88
 	ld de, $9b82
@@ -955,13 +957,14 @@ Jump_000_0730:
 	call CopyBytes
 
 	bankswitch $03
-	ld hl, $59c0
+	ld hl, unkData_003_59c0
 	ld de, wd000
-	ld bc, $0200
+	ld bc, $200
 	call CopyBytes
-	ld hl, $5a20
+
+	ld hl, unkData_003_5a20
 	ld de, wd200
-	ld bc, $0090
+	ld bc, $90
 	call CopyBytes
 
 	bankswitch $01
@@ -2274,8 +2277,24 @@ Call_000_0e16:
 	ret
 
 unkData_000_0e5d:
-	db $00, $40, $b0, $41, $00, $40, $a0, $42, $00, $40, $90, $43, $80, $44, $30, $45
-	db $80, $44, $20, $46, $70, $4b, $50, $4d, $70, $4b, $a0, $52, $d0, $5a, $50, $5b
+	dw $4000
+	dw $41b0
+
+	dw $4000
+	dw $42a0
+
+	dw $4000
+	dw $4390
+
+	dw $4480
+	dw $4530
+	dw $4480
+	dw $4620
+	dw $4b70
+	dw $4d50
+	dw $4b70
+
+	db $a0, $52, $d0, $5a, $50, $5b
 	db $f0, $57, $20, $58, $50, $03, $00, $50, $50, $03, $00, $50, $50, $03, $00, $50
 	db $40, $06, $00, $54, $40, $06, $00, $54, $b0, $06, $40, $5a, $b0, $06, $40, $5a
 	db $10, $05, $70, $6d, $a0, $01, $90, $65
