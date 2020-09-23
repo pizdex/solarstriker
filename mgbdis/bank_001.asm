@@ -899,46 +899,7 @@ jr_001_45f9:
 	jp Jump_000_0a53
 
 unkData_001_45ff:
-	ld [hli], a
-	db $10
-	ld [$0000], sp
-	jr nz, jr_001_4616
-
-	inc a
-	ld a, h
-	nop
-	ld a, [hl]
-	nop
-	ld a, h
-	ld b, b
-	ld a, [hl]
-	ld b, b
-	ld a, [hl]
-	jr nz, @+$7e
-
-	jr nz, @+$80
-
-	ld h, b
-	ld a, h
-
-jr_001_4616:
-	ld h, b
-	ld a, h
-	db $10
-	ld a, [hl]
-	db $10
-	ld a, h
-	ld d, b
-	ld a, [hl]
-	ld d, b
-	ld a, [hl]
-	jr nc, jr_001_469e
-
-	jr nc, jr_001_46a2
-
-	ld [hl], b
-	ld a, h
-	ld [hl], b
+	dr $45ff, $4627
 
 Call_001_4627:
 	ld a, [bc]
@@ -1207,7 +1168,7 @@ Call_001_4af6:
 	push hl
 	pop de
 	dec hl
-	call Func_001_5536
+	call CopyBytesAF_Decrement
 	ld a, [wcd84]
 	ld [de], a
 	ret
@@ -1376,18 +1337,19 @@ Call_001_4be5:
 	or a
 	ret z
 
-	cp $05
+	cp 5
 	ret nc
 
 	ld c, a
-	ld b, $00
+	ld b, 0
 	ld hl, wcc03
 	add hl, bc
-	ld [hl], $00
+	ld [hl], 0
 	ld hl, wcc07
 	add hl, bc
-	ld [hl], $00
-	ld b, $06
+	ld [hl], 0
+
+	ld b, 6
 	ld hl, wcc0f
 	ld de, wcc15
 
@@ -1399,7 +1361,7 @@ jr_001_4c01:
 	xor a
 	ld [hl], a
 	ld [de], a
-	ld a, $07
+	ld a, 7
 	sub b
 	push hl
 	push de
@@ -1921,7 +1883,7 @@ Call_001_4ea3:
 
 Jump_001_4ec4:
 	and $0f
-	jp z, Jump_001_4ed9
+	jp z, jr_001_4ed9
 
 	ld e, a
 	ld hl, $001c
@@ -1929,24 +1891,20 @@ Jump_001_4ec4:
 	ld a, [hl]
 	or a
 	jr z, jr_001_4ed8
-
 	dec [hl]
 	jr nz, jr_001_4ed9
 
 	jp Jump_001_4d49
 
-
 jr_001_4ed8:
 	ld [hl], e
 
-Jump_001_4ed9:
 jr_001_4ed9:
 	ld a, [wcd85]
 	ld l, a
 	ld h, $00
 	cp $80
 	jr c, jr_001_4ee4
-
 	dec h
 
 jr_001_4ee4:
@@ -2056,7 +2014,6 @@ jr_001_4f64:
 	ld h, $00
 	cp $80
 	jr c, jr_001_4f6f
-
 	dec h
 
 jr_001_4f6f:
@@ -2083,7 +2040,6 @@ jr_001_4f6f:
 	ld [hl], e
 	jp Jump_001_4d49
 
-
 jr_001_4f8d:
 	ld a, c
 	add a
@@ -2098,7 +2054,7 @@ jr_001_4f8d:
 	jp Jump_001_4d49
 
 Jump_001_4f9f:
-	ld hl, $4d49
+	ld hl, Jump_001_4d49
 	push hl
 	cp $ed
 	ret c
@@ -2107,7 +2063,7 @@ Jump_001_4f9f:
 	add hl, bc
 	ld a, [hl]
 	add a
-	ld hl, unkData_001_4fcb - 2
+	ld hl, unkHeader_001_4fcb - 2
 	add l
 	ld l, a
 	ld a, 0
@@ -2134,106 +2090,107 @@ Jump_001_4f9f:
 	ld d, a
 	jp hl
 
-unkData_001_4fcb:
-	dw $4fd3
-	dw $4ff9
-	dw $501f
-	dw $5045
-	dw $506b
-	dw $5088
-	dw $5090
-	dw $5098
-	dw $50b4
-	dw $50bc
-	dw $50c2
-	dw $50d9
-	dw $50df
-	dw $50ef
-	dw $50f5
-	dw $50fb
-	dw $0000
-	dw $0000
+unkHeader_001_4fcb:
+	dw unkData_001_4fd3
+	dw unkData_001_4ff9
+	dw unkData_001_501f
+	dw unkData_001_5045
 
-	dw $5123
-	dw $5126
-	dw $50e7
-	dw $512e
-	dw $5134
-	dw $506b
-	dw $5088
-	dw $5090
-	dw $5098
-	dw $50b4
-	dw $50bc
-	dw $50c2
-	dw $50d9
-	dw $50df
-	dw $50ef
-	dw $0000
+unkData_001_4fd3:
+	dw unk_001_506b
+	dw unk_001_5088
+	dw unk_001_5090
+	dw Call_001_5098
+	dw unk_001_50b4
+	dw unk_001_50bc
+	dw unk_001_50c2
+	dw unk_001_50d9
+	dw unk_001_50df
+	dw unk_001_50ef
+	dw unk_001_50f5
+	dw unk_001_50fb
+	dw NULL
+	dw NULL
+	dw unk_001_5123
+	dw unk_001_5126
+	dw unk_001_50e7
+	dw unk_001_512e
+	dw unk_001_5134
 
-	dw $50fb
-	dw $0000
-	dw $0000
+unkData_001_4ff9:
+	dw unk_001_506b
+	dw unk_001_5088
+	dw unk_001_5090
+	dw Call_001_5098
+	dw unk_001_50b4
+	dw unk_001_50bc
+	dw unk_001_50c2
+	dw unk_001_50d9
+	dw unk_001_50df
+	dw unk_001_50ef
+	dw NULL
+	dw unk_001_50fb
+	dw NULL
+	dw NULL
+	dw unk_001_5123
+	dw unk_001_5126
+	dw unk_001_50e7
+	dw unk_001_512e
+	dw unk_001_5134
 
-	dw $5123
-	dw $5126
-	dw $50e7
-	dw $512e
-	dw $5134
-	dw $506b
-	dw $5088
-	dw $5090
-	dw $5098
-	dw $0000
+unkData_001_501f:
+	dw unk_001_506b
+	dw unk_001_5088
+	dw unk_001_5090
+	dw Call_001_5098
+	dw NULL
+	dw unk_001_50bc
+	dw unk_001_50c2
+	dw unk_001_50d9
+	dw unk_001_50df
+	dw unk_001_50ef
+	dw NULL
+	dw NULL
+	dw NULL
+	dw Call_001_5108
+	dw unk_001_5123
+	dw unk_001_5126
+	dw unk_001_50e7
+	dw unk_001_512e
+	dw unk_001_5134
 
-	dw $50bc
-	dw $50c2
-	dw $50d9
-	dw $50df
-	dw $50ef
-	dw $0000
-	dw $0000
-	dw $0000
-
-	dw $5108
-	dw $5123
-	dw $5126
-	dw $50e7
-	dw $512e
-	dw $5134
-	dw $506b
-	dw $5088
-	dw $5090
-	dw $5098
-	dw $50b4
-	dw $50bc
-	dw $50c2
-	dw $50d9
-	dw $0000
-	dw $0000
-	dw $0000
-	dw $0000
-	dw $0000
-	dw $0000
-
-	dw $5123
-	dw $5126
-	dw $0000
-
-	dw $512e
-	dw $0000
+unkData_001_5045:
+	dw unk_001_506b
+	dw unk_001_5088
+	dw unk_001_5090
+	dw Call_001_5098
+	dw unk_001_50b4
+	dw unk_001_50bc
+	dw unk_001_50c2
+	dw unk_001_50d9
+	dw NULL
+	dw NULL
+	dw NULL
+	dw NULL
+	dw NULL
+	dw NULL
+	dw unk_001_5123
+	dw unk_001_5126
+	dw NULL
+	dw unk_001_512e
+	dw NULL
 
 unk_001_506b:
 	pop hl
 	ld a, [wcc0c]
 	ld e, a
-	ld d, $00
+	ld d, 0
 	ld hl, wcc14
 	add hl, de
-	ld [hl], $00
+	ld [hl], 0
 	ld hl, wcc20
 	add hl, de
-	ld [hl], $00
+	ld [hl], 0
 	call Call_001_5431
 	xor a
 	ld hl, $0007
@@ -2241,14 +2198,14 @@ unk_001_506b:
 	ld [hl], a
 	ret
 
-
+unk_001_5088:
 	and $0f
 	ld hl, $0007
 	add hl, bc
 	ld [hl], a
 	ret
 
-
+unk_001_5090:
 	and $0f
 	ld hl, $0008
 	add hl, bc
@@ -2278,20 +2235,20 @@ Call_001_5098:
 	ld [hl], d
 	ret
 
-
+unk_001_50b4:
 	and $0f
 	ld hl, $0013
 	add hl, bc
 	ld [hl], a
 	ret
 
-
+unk_001_50bc:
 	ld hl, $000d
 	add hl, bc
 	ld [hl], a
 	ret
 
-
+unk_001_50c2:
 	ld hl, $0004
 	add hl, bc
 	ld a, [hl]
@@ -2311,39 +2268,39 @@ jr_001_50d7:
 	ld [hl], a
 	ret
 
-
+unk_001_50d9:
 	ld hl, $0009
 	add hl, bc
 	ld [hl], a
 	ret
 
-
+unk_001_50df:
 	and $0f
 	ld hl, $0014
 	add hl, bc
 	ld [hl], a
 	ret
 
-
+unk_001_50e7:
 	and $0f
 	ld hl, $0017
 	add hl, bc
 	ld [hl], a
 	ret
 
-
+unk_001_50ef:
 	ld hl, $0015
 	add hl, bc
 	ld [hl], a
 	ret
 
-
+unk_001_50f5:
 	ld hl, $0026
 	add hl, bc
 	ld [hl], a
 	ret
 
-
+unk_001_50fb:
 	and $c0
 	ld d, a
 	ld hl, $0027
@@ -2368,8 +2325,8 @@ Call_001_510f:
 	ld a, 0
 	adc h
 	ld h, a
-	ld de, $ff30
-	ld bc, $0010
+	ld de, _AUD3WAVERAM
+	ld bc, $10
 	jp CopyBytesAF
 
 unk_001_5123:
@@ -2842,13 +2799,11 @@ Call_001_5354:
 	or a
 	ret
 
-
 jr_001_5356:
 	ld a, [wcc01]
 	call Call_001_4be5
 	scf
 	ret
-
 
 Call_001_535e:
 	ld a, [wcc01]
@@ -3035,32 +2990,7 @@ unkData_001_5459:
 
 INCLUDE "data/notes.asm"
 
-CopyBytesAF:
-; copy bc bytes from hl to de, preserving af
-	push af
-.loop
-	ld a, [hli]
-	ld [de], a
-	inc de
-	dec bc
-	ld a, b
-	or c
-	jr nz, .loop
-	pop af
-	ret
-
-Func_001_5536:
-	push af
-.asm_5537
-	ld a, [hld]
-	ld [de], a
-	dec de
-	dec bc
-	ld a, b
-	or c
-	jr nz, .asm_5537
-	pop af
-	ret
+INCLUDE "engine/copy.asm"
 
 INCLUDE "data/music.asm"
 

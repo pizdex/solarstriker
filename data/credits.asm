@@ -1,43 +1,49 @@
 unkData_000_32dd:
-; BG map addresses for credits?
+; Credits_Producer
 	dw $9c02
-	dw $9c22
+	dw $9c02 + $20
 
+; Credits_Director
 	dw $9c02
-	dw $9c22
-	dw $9c42
+	dw $9c02 + $20
+	dw $9c02 + $40
 
+; Credits_Programmer
 	dw $9c02
-	dw $9c22
-	dw $9c42
+	dw $9c02 + $20
+	dw $9c02 + $40
 
+; Credits_MusicSound
 	dw $9c02
-	dw $9c22
+	dw $9c02 + $20
 
+; Credits_Design
 	dw $9c02
-	dw $9c22
-	dw $9c42
+	dw $9c02 + $20
+	dw $9c02 + $40
 
-	dw $9c22
-	dw $9c42
+	dw $9c02 + $20
+	dw $9c02 + $40
 
+; Credits_SpecialThanks
 	dw $9c02
-	dw $9c22
-	dw $9c42
+	dw $9c02 + $20
+	dw $9c02 + $40
 
-	dw $9c22
-	dw $9c42
+	dw $9c02 + $20
+	dw $9c02 + $40
 
-	dw $9c22
-	dw $9c42
+	dw $9c02 + $20
+	dw $9c02 + $40
 
-	dw $9c22
-	dw $9c42
+	dw $9c02 + $20
+	dw $9c02 + $40
 
+; Credits_Solarstriker
 	dw $9c02
-	dw $9c22
-	dw $9c42
-	dw $9c62
+	dw $9c02 + $20
+	dw $9c02 + $40
+	dw $9c02 + $60
 
 unkData_000_3315:
 	dw Credits_Producer
@@ -70,16 +76,16 @@ unkData_000_3315:
 	dw Credits_Copyright
 
 Credits_Producer:		db "PRODUCER@@@@@@@@@"
-Credits_GunpeiYokoi:	db "G.YOKOI@@@@@@@@@@"
+Credits_GunpeiYokoi:		db "G.YOKOI@@@@@@@@@@"
 
 
-Credits_Director:			db "DIRECTOR@@@@@@@@@"
+Credits_Director:		db "DIRECTOR@@@@@@@@@"
 Credits_SatoruOkada:		db "S.OKADA@@@@@@@@@@"
 Credits_KeisukeTerasaki:	db "K.TERASAKI@@@@@@@"
 
 
 Credits_Programmer:		db "PROGRAMMER@@@@@@@"
-Credits_KenSugimoto:	db "K.SUGIMOTO@@@@@@@"
+Credits_KenSugimoto:		db "K.SUGIMOTO@@@@@@@"
 Credits_Blank1:			db "@@@@@@@@@@@@@@@@@"
 
 
@@ -88,19 +94,19 @@ Credits_TohruOsada:		db "T.OSADA@@@@@@@@@@"
 
 
 Credits_Design:			db "DESIGN@@@@@@@@@@@"
-Credits_AkiHigashiya:	db "A.HIGASHIYA@@@@@@"
+Credits_AkiHigashiya:		db "A.HIGASHIYA@@@@@@"
 Credits_KYamagami:		db "K.YAMAGAMI@@@@@@@"
 
 Credits_KKatsuyama:		db "K.KATSUYAMA@@@@@@"
 Credits_KHayashi:		db "K.HAYASHI@@@@@@@@"
 
 
-Credits_SpecialThanks:	db "SPECIAL THANKS TO"
+Credits_SpecialThanks:		db "SPECIAL THANKS TO"
 Credits_HHirayama:		db "H.HIRAYAMA@@@@@@@"
 Credits_YFujii:			db "Y.FUJII@@@@@@@@@@"
 
 Credits_KTakeuchi:		db "K.TAKEUCHI@@@@@@@"
-Credits_HiroshiWada:	db "H.AYRTON.WADA@@@@"
+Credits_HiroshiWada:		db "H.AYRTON.WADA@@@@"
 
 Credits_YKawakami:		db "Y.KAWAKAMI@@@@@@@"
 Credits_MNakatani:		db "M.NAKATANI@@@@@@@"
@@ -109,7 +115,7 @@ Credits_HNakazawa:		db "H.NAKAZAWA@@@@@@@"
 Credits_YArashiba:		db "Y.ARASHIBA@@@@@@@"
 
 
-Credits_Solarstriker:	db "@SOLARSTRIKER@@@@"
+Credits_Solarstriker:		db "@SOLARSTRIKER@@@@"
 Credits_Blank2:			db "@@@@@@@@@@@@@@@@@"
 Credits_Blank3:			db "@@@@@@@@@@@@@@@@@"
 Credits_Copyright:

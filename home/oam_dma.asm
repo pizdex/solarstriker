@@ -1,5 +1,5 @@
 WriteOAMDMACodeToHRAM:
-	ld c, $80
+	ld c, LOW(_HRAM) ; $ff80
 	ld b, OAMDMACodeEnd - OAMDMACode
 	ld hl, OAMDMACode
 .copy

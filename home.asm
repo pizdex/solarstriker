@@ -233,11 +233,11 @@ VBlank:
 	push de
 	push hl
 	di
-	ld a, $03
+	ld a, 3
 	ldh [rIE], a
 	ld a, [wca18]
 	and a
-	call nz, $ff80
+	call nz, _HRAM
 	ld a, $01
 	ld [wcf86], a
 	ldh a, [rLCDC]
@@ -587,7 +587,7 @@ jr_000_04b3:
 	ret
 
 Call_000_04d3:
-	ld hl, $ff42
+	ld hl, rSCY
 	ld de, wca1e
 	ld a, [de]
 	or a
@@ -699,13 +699,13 @@ Jump_000_054a:
 	jr nz, .asm_0580
 
 	ld de, $8807
-	ld hl, $ff4a
+	ld hl, rWY
 	ld a, d
 	ld [hli], a
 	ld [hl], e
 
 	ld de, $6030
-	ld hl, $ff42
+	ld hl, rSCY
 	ld a, d
 	ld [hli], a
 	ld [hl], e
@@ -806,7 +806,7 @@ Jump_000_05d8:
 	ld a, $60
 	ldh [rSCY], a
 	ld de, $8807
-	ld hl, $ff4a
+	ld hl, rWY
 	ld a, d
 	ld [hli], a
 	ld [hl], e
@@ -2152,7 +2152,7 @@ jr_000_0d60:
 	or a
 	jp nz, Jump_000_0a67
 
-	ld hl, $ff42
+	ld hl, rSCY
 	dec [hl]
 	jp Jump_000_047e
 
@@ -2646,7 +2646,7 @@ Jump_000_1138:
 	call Func_000_0a3e
 	ld a, [wca65]
 	ld e, a
-	ld d, $00
+	ld d, 0
 	ld hl, $126e
 	add hl, de
 	ld b, [hl]
@@ -2696,7 +2696,7 @@ Jump_000_1138:
 	inc bc
 	ld a, [bc]
 	ld e, a
-	ld d, $00
+	ld d, 0
 	add hl, de
 	pop de
 	ld a, [hl]
@@ -2779,7 +2779,7 @@ jr_000_138d:
 	or a
 	ret nz
 
-	ld hl, $ff42
+	ld hl, rSCY
 	dec [hl]
 	ld de, wca84
 	ld a, [de]
@@ -4029,7 +4029,7 @@ jr_000_1aa4:
 	and $03
 	add a
 	ld e, a
-	ld d, $00
+	ld d, 0
 	ld hl, $1af8
 	add hl, de
 	ld a, [hli]
@@ -4119,7 +4119,7 @@ jr_000_1aa4:
 	call Call_000_0b4a
 	ld hl, wc780 + 2
 	ld e, [hl]
-	ld d, $00
+	ld d, 0
 	ld bc, $1c12
 	call Call_000_0b38
 	ld de, $1c1a
@@ -4437,7 +4437,7 @@ jr_000_1dc0:
 	call Call_000_0b7d
 	ld a, [wca17]
 	ld e, a
-	ld d, $00
+	ld d, 0
 	call Call_000_0b1e
 	ld de, $1dd3
 	jp Jump_000_0a53
@@ -6281,7 +6281,7 @@ jr_000_292d:
 	call Call_000_0b7d
 	ld a, [wca17]
 	ld e, a
-	ld d, $00
+	ld d, 0
 	call Call_000_0b1e
 	ld hl, wca14
 	ld a, [hli]
@@ -6799,7 +6799,7 @@ jr_000_2de7:
 	or a
 	jp nz, Jump_000_047e
 
-	ld hl, $ff43
+	ld hl, rSCX
 	dec [hl]
 	ld a, [hl]
 	cp $11
@@ -7012,7 +7012,7 @@ jr_000_30c9:
 	call Call_000_0b7d
 	ld a, [wca17]
 	ld e, a
-	ld d, $00
+	ld d, 0
 	call Call_000_0b1e
 	jp Jump_000_047e
 
@@ -7137,7 +7137,7 @@ jr_000_317f:
 	call Call_000_0b7d
 	ld a, [wca17]
 	ld e, a
-	ld d, $00
+	ld d, 0
 	call Call_000_0b1e
 	inc bc
 	ld a, [bc]
@@ -7155,7 +7155,7 @@ jr_000_317f:
 	add a
 	ld l, a
 	ld h, 0
-	ld de, $31e7
+	ld de, unkData_000_31e7
 	add hl, de
 	ld a, [hli]
 	ld d, [hl]
@@ -7176,7 +7176,10 @@ unkData_000_31ba:
 unkData_000_31bc:
 	db $06, $00, $08, $00, $0a, $00, $0c, $00, $0e, $00, $10, $00, $12, $00
 	db $14, $00, $16, $00, $18, $00, $1a, $00, $1c, $00, $1e, $00, $20, $00, $22, $00
-	db $24, $00, $12, $eb, $31, $ef, $31, $f3, $31, $f7, $31, $fb, $31, $ff, $31, $03
+	db $24, $00, $12, $eb, $31, $ef, $31, $f3, $31, $f7, $31, $fb, $31
+
+unkData_000_31e7:
+	db $ff, $31, $03
 	db $32, $00, $00, $26, $00, $00, $00, $28, $00, $00, $00, $2a, $00, $00, $00, $2c
 	db $00, $2e, $00, $30, $00
 
@@ -7256,7 +7259,7 @@ unk_000_326a:
 	and $03
 	jp nz, Jump_000_047e
 
-	ld hl, $ff4b
+	ld hl, rWX
 	dec [hl]
 	ld a, [hl]
 	cp $08

@@ -49,8 +49,8 @@ unkData_001_5d41::
 	db $03, $02
 	dwb unkData_001_5d4e, $04
 	dwb unkData_001_5d6d, $05
-	dwb $0000, $00
-	dw $0000
+	dwb NULL, $00
+	dw NULL
 
 unkData_001_5d4e:
 	db $fe, $0f, $f5
@@ -70,8 +70,8 @@ unkData_001_5d8a:
 	db $02, $02
 	dwb unkData_001_5d97, $00
 	dwb unkData_001_5dba, $01
-	dwb $0000, $02
-	dw $0000
+	dwb NULL, $02
+	dw NULL
 
 unkData_001_5d97:
 	db $fe, $0f, $f5, $08, $f4, $80, $fc, $0c, $fa, $06
@@ -131,10 +131,10 @@ unkData_001_5e95:
 unkData_001_5eb0::
 ; Boss music
 	db $03, $00
-	dwb $0000, $02
+	dwb NULL, $02
 	dwb unkData_001_5ebd, $00
 	dwb unkData_001_5f02, $01
-	dw $0000
+	dw NULL
 
 unkData_001_5ebd:
 	db $fe, $0c, $f8, $01, $fc, $01, $fa, $03, $f4, $40, $fd, $02, $f0, $03
@@ -213,7 +213,7 @@ unkData_001_60d3:
 unkData_001_6210::
 ; Level 1 and 2 track
 	db $02, $00
-	dwb $0000, $03
+	dwb NULL, $03
 	dwb unkData_001_621e, $00
 	dwb unkData_001_6295, $01
 	dwb unkData_001_636c, $02
@@ -298,7 +298,7 @@ unkData_001_636c:
 
 unkData_001_651d::
 	db $04, $00
-	dwb $0000, $03
+	dwb NULL, $03
 	dwb unkData_001_652b, $00
 	dwb unkData_001_65c0, $01
 	dwb unkData_001_6703, $02
@@ -319,7 +319,7 @@ unkData_001_6997:
 
 unkData_001_6b60::
 	db $03, $00
-	dwb $0000, $03
+	dwb NULL, $03
 	dwb unkData_001_6b6e, $00
 	dwb unkData_001_6bdd, $01
 	dwb unkData_001_6cee, $02

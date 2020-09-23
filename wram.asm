@@ -1069,7 +1069,7 @@ wcc17:: ds 1 ; cc17
 wcc18:: ds 1 ; cc18
 wcc19:: ds 1 ; cc19
 wcc1a:: ds 1 ; cc1a
-wcc1b:: ds 1 ; cc1b
+wcc1b:: ds 1 ; cc1b (Stereo channels?)
 wcc1c:: ds 1 ; cc1c
 wcc1d:: ds 1 ; cc1d
 wcc1e:: ds 1 ; cc1e
