@@ -741,6 +741,7 @@ jr_001_4d3d:
 	ld [hl], $ff
 
 Jump_001_4d49:
+; Get music byte
 	ld a, [wcc0d]
 	ld c, a
 	ld a, [wcc0e]

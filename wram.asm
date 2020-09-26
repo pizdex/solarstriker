@@ -1442,6 +1442,8 @@ wcd7e:: ds 1 ; cd7e
 
 wcd7f:: ds 1 ; cd7f
 wcd80:: ds 1 ; cd80
+
+; Music header
 wcd81:: ds 1 ; cd81
 wcd82:: ds 1 ; cd82
 

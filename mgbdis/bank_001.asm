@@ -355,15 +355,14 @@ unkData_001_42b5:
 
 jr_001_42bd:
 	push bc
-	ld de, $42cb
+	ld de, unk_001_42cb
 	call Func_000_0a3e
 	pop bc
 	dec b
 	jr nz, jr_001_42bd
-
 	jp Jump_000_0a67
 
-
+unk_001_42cb:
 	ld bc, $43b7
 	call Call_000_0947
 	or a
@@ -380,10 +379,10 @@ jr_001_42bd:
 	ld [hl], a
 	inc a
 	ld [de], a
-	ld de, $42ec
+	ld de, unk_001_42ec
 	jp Jump_000_0a53
 
-
+unk_001_42ec:
 	ld a, [bc]
 	push bc
 	call Call_000_0b4a
@@ -392,7 +391,7 @@ jr_001_42bd:
 	ld a, [hl]
 	add a
 	ld l, a
-	ld h, $00
+	ld h, 0
 	ld de, $43ad
 	add hl, de
 	ld a, [hli]
@@ -417,10 +416,10 @@ jr_001_42bd:
 
 jr_001_4321:
 	call Call_000_0b03
-	ld de, $432a
+	ld de, unk_001_432a
 	jp Jump_000_0a53
 
-
+unk_001_432a:
 	call Call_001_4627
 	cp [hl]
 	jr c, jr_001_433d
@@ -1279,31 +1278,30 @@ Call_001_4ea3:
 
 Jump_001_4ec4:
 	and $0f
-	jp z, jr_001_4ed9
+	jp z, .asm_4ed9
 
 	ld e, a
 	ld hl, $001c
 	add hl, bc
 	ld a, [hl]
 	or a
-	jr z, jr_001_4ed8
+	jr z, .asm_4ed8
 	dec [hl]
-	jr nz, jr_001_4ed9
-
+	jr nz, .asm_4ed9
 	jp Jump_001_4d49
 
-jr_001_4ed8:
+.asm_4ed8:
 	ld [hl], e
 
-jr_001_4ed9:
+.asm_4ed9:
 	ld a, [wcd85]
 	ld l, a
-	ld h, $00
+	ld h, 0
 	cp $80
-	jr c, jr_001_4ee4
+	jr c, .asm_4ee4
 	dec h
 
-jr_001_4ee4:
+.asm_4ee4:
 	add hl, hl
 	ld e, l
 	ld d, h
@@ -1407,7 +1405,7 @@ Jump_001_4f64:
 jr_001_4f64:
 	ld a, [wcd85]
 	ld l, a
-	ld h, $00
+	ld h, 0
 	cp $80
 	jr c, jr_001_4f6f
 	dec h
@@ -1452,9 +1450,11 @@ jr_001_4f8d:
 Jump_001_4f9f:
 	ld hl, Jump_001_4d49
 	push hl
+
 	cp $ed
 	ret c
 
+; Get index from table
 	ld hl, $0004
 	add hl, bc
 	ld a, [hl]
@@ -1465,6 +1465,7 @@ Jump_001_4f9f:
 	ld a, 0
 	adc h
 	ld h, a
+
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a

@@ -2686,7 +2686,7 @@ Jump_000_1138:
 	push hl
 	ld bc, wca65
 	ld a, [bc]
-	ld h, $00
+	ld h, 0
 	ld l, a
 	add hl, hl
 	add hl, hl
@@ -2898,7 +2898,7 @@ Call_000_141e:
 	ld [hli], a
 	ld [hl], d
 	ld a, [bc]
-	ld h, $00
+	ld h, 0
 	ld l, a
 	ld de, wd000
 	add hl, hl
