@@ -1160,12 +1160,13 @@ wcc6f:: ds 1 ; cc6f
 wcc70:: ds 1 ; cc70
 wcc71:: ds 1 ; cc71
 
-; Music channel
-wcc72:: ds 2 ; cc72
-wcc74:: ds 2 ; cc74
+; Channel 2
+wChannel2_InitialMusicAddress:: ds 2 ; cc72
+wChannel2_MusicAddress:: ds 2 ; cc74
 
 wcc76:: ds 1 ; cc76
 wcc77:: ds 1 ; cc77
+
 wcc78:: ds 1 ; cc78
 wcc79:: ds 1 ; cc79
 wcc7a:: ds 1 ; cc7a
@@ -1201,11 +1202,12 @@ wcc97:: ds 1 ; cc97
 wcc98:: ds 1 ; cc98
 wcc99:: ds 1 ; cc99
 wcc9a:: ds 1 ; cc9a
-wcc9b:: ds 1 ; cc9b
-wcc9c:: ds 1 ; cc9c
 
-wcc9d:: ds 2 ; cc9d
-wcc9f:: ds 2 ; cc9f
+wNoteFrequency:: ds 2 ; cc9b
+
+; Channel 3
+wChannel3_InitialMusicAddress:: ds 2 ; cc9d
+wChannel3_MusicAddress:: ds 2 ; cc9f
 
 wcca1:: ds 1 ; cca1
 wcca2:: ds 1 ; cca2
@@ -1247,8 +1249,9 @@ wccc5:: ds 1 ; ccc5
 wccc6:: ds 1 ; ccc6
 wccc7:: ds 1 ; ccc7
 
-wccc8:: ds 2 ; ccc8
-wccca:: ds 2 ; ccca
+; Channel 4
+wChannel4_InitialMusicAddress:: ds 2 ; ccc8
+wChannel4_MusicAddress:: ds 2 ; ccca
 
 wcccc:: ds 1 ; cccc
 wcccd:: ds 1 ; cccd

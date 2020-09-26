@@ -1,5 +1,4 @@
-unkData_001_5469:
-; Frequency table
+FrequencyTable_Octave2:
 	dw $02c ; C2
 	dw $09d ; C#2
 	dw $107 ; D2
@@ -13,7 +12,7 @@ unkData_001_5469:
 	dw $39b ; A#2
 	dw $3da ; B2
 
-unkData_001_5481:
+FrequencyTable_Octave3:
 	dw $416 ; C3
 	dw $44e ; C#3
 	dw $483 ; etc.
@@ -27,7 +26,7 @@ unkData_001_5481:
 	dw $5ce
 	dw $5ed
 
-unkData_001_5499:
+FrequencyTable_Octave4:
 	dw $60b
 	dw $627
 	dw $642
@@ -41,7 +40,7 @@ unkData_001_5499:
 	dw $6e7
 	dw $6f7
 
-unkData_001_54b1:
+FrequencyTable_Octave5:
 	dw $706
 	dw $714
 	dw $721
@@ -55,7 +54,7 @@ unkData_001_54b1:
 	dw $773
 	dw $77b
 
-unkData_001_54c9:
+FrequencyTable_Octave6:
 	dw $783
 	dw $78a
 	dw $790
@@ -69,7 +68,7 @@ unkData_001_54c9:
 	dw $7ba
 	dw $7be
 
-unkData_001_54e1:
+FrequencyTable_Octave7:
 	dw $7c1
 	dw $7c5
 	dw $7c8
@@ -83,7 +82,7 @@ unkData_001_54e1:
 	dw $7dd
 	dw $7df
 
-unkData_001_54f9:
+FrequencyTable_Octave8:
 	dw $7e1
 	dw $7e2
 	dw $7e4
@@ -97,21 +96,19 @@ unkData_001_54f9:
 	dw $7ee
 	dw $7ef
 
-unkData_001_5511:
+FrequencyTable_Octave9:
 	dw $7f0
 	dw $7f1
 	dw $7f2
 	dw $7f3
 	dw $7f4
 
-unkData_001_551b:
-; Octaves
-	dw unkData_001_5469
-	dw unkData_001_5481
-	dw unkData_001_5499
-	dw unkData_001_54b1
-
-	dw unkData_001_54c9
-	dw unkData_001_54e1
-	dw unkData_001_54f9
-	dw unkData_001_5511
+OctaveTable:
+	dw FrequencyTable_Octave2
+	dw FrequencyTable_Octave3
+	dw FrequencyTable_Octave4
+	dw FrequencyTable_Octave5
+	dw FrequencyTable_Octave6
+	dw FrequencyTable_Octave7
+	dw FrequencyTable_Octave8
+	dw FrequencyTable_Octave9
