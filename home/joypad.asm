@@ -36,12 +36,13 @@ endr
 ; Keep in c for now.
 	ld c, a
 
-	ld a, [wcf80]
+	ld a, [wJoypadDown]
 	xor c
 	and c
 	ld [wcf81], a
+
 	ld a, c
-	ld [wcf80], a
+	ld [wJoypadDown], a
 
 ; Reset the joypad register since we're done with it.
 	ld a, $30

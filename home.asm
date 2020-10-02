@@ -114,7 +114,7 @@ jr_000_01f5:
 	ldh [rTAC], a
 	ld a, $07
 	ldh [rIE], a
-	ld a, $87
+	ld a, %10000111
 	ldh [rLCDC], a
 	ei
 
@@ -265,42 +265,41 @@ Timer:
 	ld a, $03
 	ldh [rIE], a
 	ei
-	call $4c97
+	call unk_001_4c97
 	ld a, $07
 	ldh [rIE], a
 	pop af
 	reti
 
-
 Call_000_0325:
 	ld a, [wcab9]
 	or a
-	jr nz, jr_000_0357
+	jr nz, .asm_0357
 
-	ld a, [wcf80]
-	and $0f
-	cp $0f
-	jr z, jr_000_0336
+	ld a, [wJoypadDown]
+	and A_BUTTON | B_BUTTON | SELECT | START
+	cp A_BUTTON | B_BUTTON | SELECT | START
+	jr z, .asm_0336
 
 	xor a
 	ret
 
-
-jr_000_0336:
+.asm_0336:
+; reset?
 	ld a, [wcf9a]
 	call unk_001_4bd1
 
-jr_000_033c:
+.asm_033c:
 	ld a, [wcf86]
 	or a
-	jr z, jr_000_033c
+	jr z, .asm_033c
 
 	call UpdateJoypad
 	xor a
 	ld [wcf86], a
-	ld a, [wcf80]
+	ld a, [wJoypadDown]
 	and $0f
-	jr nz, jr_000_033c
+	jr nz, .asm_033c
 
 	xor a
 	ldh [rTAC], a
@@ -308,29 +307,28 @@ jr_000_033c:
 	inc a
 	ret
 
-
-jr_000_0357:
-	ld a, [wcf80]
+.asm_0357:
+	ld a, [wJoypadDown]
 	and $08
-	jr nz, jr_000_0360
+	jr nz, .asm_0360
 	xor a
 	ret
 
-jr_000_0360:
+.asm_0360:
 	ld a, [wcf9a]
 	call unk_001_4bd1
 
-jr_000_0366:
+.asm_0366:
 	ld a, [wcf86]
 	or a
-	jr z, jr_000_0366
+	jr z, .asm_0366
 
 	call UpdateJoypad
 	xor a
 	ld [wcf86], a
-	ld a, [wcf80]
+	ld a, [wJoypadDown]
 	and $08
-	jr nz, jr_000_0366
+	jr nz, .asm_0366
 
 	xor a
 	ldh [rTAC], a
@@ -359,7 +357,7 @@ jr_000_0399:
 	call Call_000_048d
 	call UpdateJoypad
 	call Call_000_14c4
-	call $4c97
+	call unk_001_4c97
 	call Call_000_0c04
 	or a
 	jp nz, Jump_000_03f6
@@ -381,14 +379,14 @@ jr_000_0399:
 	or a
 	jr z, jr_000_03ec
 
-	ld a, [wcf80]
+	ld a, [wJoypadDown]
 	and $08
 	jr z, jr_000_03fc
 
 	jr jr_000_03f6
 
 jr_000_03d5:
-	ld a, [wcf80]
+	ld a, [wJoypadDown]
 	and $08
 	jr nz, jr_000_03f6
 
@@ -398,7 +396,7 @@ jr_000_03d5:
 	jr jr_000_03f6
 
 jr_000_03e1:
-	ld a, [wcf80]
+	ld a, [wJoypadDown]
 	and $08
 	jr z, jr_000_03f6
 
@@ -407,7 +405,7 @@ jr_000_03e1:
 	jr jr_000_03f6
 
 jr_000_03ec:
-	ld a, [wcf80]
+	ld a, [wJoypadDown]
 	and $08
 	jr nz, jr_000_03f6
 
@@ -495,6 +493,7 @@ Jump_000_045b:
 	jp z, Jump_000_047e
 
 	ld a, [bc]
+	; Multiply 'a' by $20
 	rlca
 	swap a
 	ld b, a
@@ -503,14 +502,17 @@ Jump_000_045b:
 	ld a, b
 	and $f0
 	ld l, a
+
 	ld bc, wc100
 	add hl, bc
 	ld c, l
 	ld b, h
+	; Store result
 	ld hl, wca12
 	ld a, c
 	ld [hli], a
 	ld [hl], b
+
 	ld l, e
 	ld h, d
 	jp hl
@@ -620,7 +622,7 @@ jr_000_04e9:
 
 ; Load first level
 unk_000_04f5:
-	ld a, [wcf80]
+	ld a, [wJoypadDown]
 	ld b, a
 	and $08
 	jr z, jr_000_0516
@@ -689,14 +691,14 @@ Jump_000_054a:
 	call Call_000_08a1
 
 	ld de, wcae0
-	ld hl, $0814
+	ld hl, ScoreText
 	ld b, 5
-.asm_0580
+.copyText
 	ld a, [hli]
 	ld [de], a
 	inc de
 	dec b
-	jr nz, .asm_0580
+	jr nz, .copyText
 
 	ld de, $8807
 	ld hl, rWY
@@ -709,13 +711,13 @@ Jump_000_054a:
 	ld a, d
 	ld [hli], a
 	ld [hl], e
-	ld de, $16b3
+	ld de, unk_000_16b3
 	call Func_000_0a3e
-	ld de, $17e3
+	ld de, unk_000_17e3
 	call Func_000_0a3e
-	ld de, $0c19
+	ld de, unk_000_0c19
 	call Func_000_0a3e
-	ld de, $0d1c
+	ld de, unk_000_0d1c
 	call Func_000_0a3e
 
 	ld b, 3
@@ -812,7 +814,7 @@ Jump_000_05d8:
 	ld [hl], e
 	ld a, $e4
 	ldh [rBGP], a
-	ld de, $0d1c
+	ld de, unk_000_0d1c
 	call Func_000_0a3e
 	ld a, $07
 	ldh [rTAC], a
@@ -842,7 +844,7 @@ jr_000_067b:
 	ld [hl], a
 	ld a, $e4
 	ldh [rBGP], a
-	ld de, $0d1c
+	ld de, unk_000_0d1c
 	call Func_000_0a3e
 
 	ld a, [wCurrentStage]
@@ -1275,6 +1277,7 @@ Call_000_0947::
 	ld a, [wcab5]
 	ld hl, unkData_000_0f19
 	call Call_000_0f0f
+
 	xor a
 	ld [wcaa4], a
 	call Call_000_0aa7
@@ -2054,7 +2057,6 @@ jr_000_0d04:
 	ld [hl], c
 	ret
 
-
 jr_000_0d0b:
 	dec hl
 	dec hl
@@ -2074,16 +2076,16 @@ jr_000_0d0b:
 	ld [hli], a
 	ret
 
-
+unk_000_0d1c:
 	xor a
 	ld hl, wcab2
 	ld [hli], a
 	ld a, $d8
 	ld [hl], a
-	ld de, $0d2a
+	ld de, unk_000_0d2a
 	jp Jump_000_0a53
 
-
+unk_000_0d2a:
 	ld hl, wcab2
 	ld a, [hli]
 	ld b, [hl]
@@ -2103,9 +2105,9 @@ jr_000_0d0b:
 	ld a, [bc]
 	or a
 	jp z, Jump_000_0a67
-
+	; debug feature?
 	dec a
-	jp z, NextLevel
+	jp z, NextStage
 
 	inc a
 	push bc
@@ -2206,7 +2208,7 @@ jr_000_0d60:
 	call unk_001_4bd1
 	jp Jump_000_0a67
 
-NextLevel:
+NextStage:
 	ld a, $01
 	ld [wcf9b], a
 	ld hl, wCurrentStage
@@ -2318,8 +2320,8 @@ Call_000_0f0f::
 	ret
 
 unkData_000_0f19:
-	db $08, $18, $20, $28, $30, $38, $48, $50, $58, $68, $70, $78, $80, $88, $98
-	db $a0, $48, $50, $58, $60, $48, $58
+	db $08, $18, $20, $28, $30, $38, $48, $50, $58, $68, $70
+	db $78, $80, $88, $98, $a0, $48, $50, $58, $60, $48, $58
 
 Call_000_0f2f::
 	add a
@@ -3356,6 +3358,7 @@ unkData_000_168c:
 unkData_000_16a3:
 	db $d0, $00, $de, $22, $00, $30, $22, $22, $30, $00, $22, $de, $00, $d0, $de, $de
 
+unk_000_16b3:
 	ld bc, $1694
 	ld de, $603a
 	xor a
@@ -3374,7 +3377,7 @@ unkData_000_16a3:
 unk_000_16ce:
 	ld a, [bc]
 	call Call_000_0b4a
-	ld a, [wcf80]
+	ld a, [wJoypadDown]
 	ld [wca23], a
 	and $f0
 	jp z, Jump_000_1717
@@ -3554,7 +3557,7 @@ jr_000_17c0:
 	ld de, $28f0
 	jp Jump_000_0a53
 
-
+unk_000_17e3:
 	ld bc, wca24
 	ld a, [bc]
 	or a
@@ -3573,7 +3576,7 @@ jr_000_17f6:
 	inc a
 	ld [bc], a
 	ld a, [wPowerLevel]
-	ld de, $18f9
+	ld de, unk_000_18f9
 	jp Jump_000_0a53
 
 
@@ -3701,7 +3704,7 @@ Jump_000_189a:
 	add hl, de
 	ld a, [hli]
 	or a
-	jr nz, jr_000_18c0
+	jr nz, Jump_000_18c0
 
 	inc hl
 	inc hl
@@ -3710,7 +3713,7 @@ Jump_000_189a:
 	pop hl
 	ld a, c
 	or a
-	jr z, jr_000_18c0
+	jr z, Jump_000_18c0
 
 	ld de, $0005
 	add hl, de
@@ -3721,9 +3724,7 @@ Jump_000_189a:
 	ld a, $01
 	ret
 
-
 Jump_000_18c0:
-jr_000_18c0:
 	pop hl
 	ld de, $0010
 	add hl, de
@@ -3741,24 +3742,24 @@ unkData_000_18d2:
 	db $01, $02, $02, $03, $03, $04, $eb, $18, $ed, $18, $ed, $18, $f1, $18, $f1, $18
 	db $f5, $18, $0c, $00, $0c, $00, $0c, $20, $0e, $00, $0e, $20, $1c, $00, $1e, $00
 
+unk_000_18f9:
 	ld bc, wca51
 	ld a, [bc]
 	or a
-	jr z, jr_000_190c
+	jr z, .asm_190c
 
 	inc bc
 	ld a, [bc]
 	or a
-	jr z, jr_000_190c
+	jr z, .asm_190c
 
 	inc bc
 	ld a, [bc]
 	or a
-	jr z, jr_000_190c
+	jr z, .asm_190c
+	jr .asm_1918
 
-	jr jr_000_1918
-
-jr_000_190c:
+.asm_190c
 	ld a, [wPowerLevel]
 	inc a
 	ld [bc], a
@@ -3766,8 +3767,8 @@ jr_000_190c:
 	or a
 	call z, Call_000_191e
 
-jr_000_1918:
-	ld de, $17e3
+.asm_1918
+	ld de, unk_000_17e3
 	jp Jump_000_0a53
 
 Call_000_191e:
@@ -6183,9 +6184,8 @@ jr_000_28ff:
 	jr z, jr_000_292d
 
 jr_000_2927:
-	ld de, $293a
+	ld de, unk_000_293a
 	jp Jump_000_0a53
-
 
 jr_000_292d:
 	ld a, [wca22]
@@ -6195,7 +6195,7 @@ jr_000_292d:
 	ld de, $2983
 	jp Jump_000_0a53
 
-
+unk_000_293a:
 	ld a, [wcac9]
 	or a
 	jp z, Jump_000_047e
@@ -6298,7 +6298,7 @@ jr_000_292d:
 	jp Jump_000_0a64
 
 
-	ld bc, $2a34
+	ld bc, unkData_000_2a34
 	call Call_000_0947
 	or a
 	jp z, Jump_000_0a67
@@ -6309,7 +6309,7 @@ jr_000_292d:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld bc, $2a34
+	ld bc, unkData_000_2a34
 	ld de, $3040
 	call Call_000_0b38
 	ld a, [wCurrentStage]
@@ -6334,7 +6334,7 @@ jr_000_292d:
 	ld [wcac9], a
 	jp Jump_000_0a64
 
-
+unkData_000_2a34:
 	db $27, $08, $08, $00, $00, $10, $10, $01, $48, $2a, $64, $2a, $80, $2a, $9c, $2a
 
 	cp b
@@ -6353,7 +6353,7 @@ jr_000_292d:
 unkData_000_2ab8:
 	dr $2ab8, $2af4
 
-unk_000_2af4:
+unk_000_2af4::
 	ld hl, wca12
 	ld a, [hli]
 	ld h, [hl]
@@ -6413,7 +6413,7 @@ unk_000_2af4:
 	ld c, a
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, NextLevel
+	ld de, NextStage
 	call Func_000_0a3e
 	jp Jump_000_0a64
 
@@ -6441,7 +6441,7 @@ jr_000_2c59:
 	jp Jump_000_0a53
 
 unk_000_2c63:
-	ld a, [wcf80]
+	ld a, [wJoypadDown]
 	and $08
 	jp z, Jump_000_047e
 
@@ -6482,7 +6482,7 @@ jr_000_2c8c:
 unkData_000_2c9b:
 	dr $2c9b, $2cbe
 
-unk_000_2cbe:
+unk_000_2cbe::
 	ld hl, wca12
 	ld a, [hli]
 	ld h, [hl]
@@ -6520,7 +6520,7 @@ unk_000_2cbe:
 	ld c, a
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, NextLevel
+	ld de, NextStage
 	call Func_000_0a3e
 	jp Jump_000_0a67
 
@@ -6719,7 +6719,7 @@ jr_000_2de7:
 	or a
 	jp nz, Jump_000_047e
 
-	ld de, NextLevel
+	ld de, NextStage
 	jp Jump_000_0a53
 
 
@@ -6780,7 +6780,7 @@ jr_000_2de7:
 	or a
 	jp nz, Jump_000_047e
 
-	ld de, NextLevel
+	ld de, NextStage
 	jp Jump_000_0a53
 
 

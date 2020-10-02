@@ -1028,14 +1028,14 @@ unk_001_46ad::
 Jump_001_46ea:
 	ld a, [wCurrentStage]
 	cp 6
-	jr nz, .not_final_level
+	jr nz, .not_final_stage
 
-	ld de, $2cbe
+	ld de, unk_000_2cbe
 	call Func_000_0a3e
 	jp Jump_000_0a64
 
-.not_final_level
-	ld de, $2af4
+.not_final_stage
+	ld de, unk_000_2af4
 	call Func_000_0a3e
 	jp Jump_000_0a64
 

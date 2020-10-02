@@ -604,11 +604,11 @@ Call_001_4c85:
 	pop bc
 	ret
 
-unk_001_4c97:
+unk_001_4c97::
 	push af
 	ld a, [wcc00]
 	or a
-	jr nz, jr_001_4caf
+	jr nz, .asm_4caf
 
 	dec a
 	ld [wcc00], a
@@ -622,7 +622,7 @@ unk_001_4c97:
 	xor a
 	ld [wcc00], a
 
-jr_001_4caf:
+.asm_4caf
 	pop af
 	reti
 
