@@ -14,7 +14,7 @@ UpdateJoypad:
 ; The Joypad register output is in the lo nybble (inversed).
 ; We make the hi nybble of our new container d-pad input.
 	cpl
-	and $f
+	and $0f
 	swap a
 
 ; We'll keep this in b for now.
@@ -30,7 +30,7 @@ rept 6
 endr
 ; Buttons take the lo nybble.
 	cpl
-	and $f
+	and $0f
 	or b
 
 ; Keep in c for now.

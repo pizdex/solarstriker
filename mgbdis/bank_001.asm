@@ -140,7 +140,7 @@ unk_001_40fd:
 	or a
 	jp z, Jump_000_0a67
 
-	ld de, $25d9
+	ld de, unk_000_25d9
 	call Func_000_0a3e
 	ld de, unk_001_411d
 	jp Jump_000_0a53
@@ -277,7 +277,6 @@ unk_001_41fd:
 	ld [wca2c], a
 	ld de, $422e
 	jp Jump_000_0a53
-
 
 Jump_001_4225:
 	ld de, $4295
@@ -687,7 +686,7 @@ jr_001_44a6:
 	ld [de], a
 	ld de, unk_000_0ff5
 	call Func_000_0a3e
-	ld hl, $734c
+	ld hl, unkData_001_734c
 	ld a, $01
 	call Call_001_49aa
 	ld d, $33
@@ -934,7 +933,7 @@ unk_001_463d:
 	call Call_001_465d
 	jp Jump_000_047e
 
-Call_001_465d:
+Call_001_465d::
 	add a
 	ld c, a
 	ld b, 0
@@ -958,7 +957,7 @@ Call_001_465d:
 	ld [de], a
 	ld de, unk_000_0ff5
 	call Func_000_0a3e
-	ld hl, $734c
+	ld hl, unkData_001_734c
 	ld a, $01
 	call Call_001_49aa
 	ret
@@ -981,7 +980,7 @@ jr_001_469e:
 	ld [de], a
 	ret
 
-jr_001_46a2:
+unk_001_46a2::
 	ld a, [bc]
 	call Call_000_0b4a
 	ld hl, $001c
@@ -1025,7 +1024,7 @@ unk_001_46ad::
 	ldh [rLCDC], a
 	jp Jump_000_0a67
 
-Jump_001_46ea:
+Jump_001_46ea::
 	ld a, [wCurrentStage]
 	cp 6
 	jr nz, .not_final_stage
@@ -1381,7 +1380,7 @@ jr_001_4f3a:
 	ld [hl], b
 	dec hl
 	ld [hl], a
-	ld b, $00
+	ld b, 0
 	ld hl, $0023
 	add hl, de
 	add hl, bc
@@ -1390,7 +1389,7 @@ jr_001_4f3a:
 	jr jr_001_4f64
 
 jr_001_4f52:
-	ld b, $00
+	ld b, 0
 	ld a, [wcc0d]
 	ld e, a
 	ld a, [wcc0e]
@@ -1840,7 +1839,7 @@ jr_001_519d:
 	and $0f
 	add c
 	sub $0f
-	ld b, $00
+	ld b, 0
 	jr c, jr_001_51b4
 
 	ld hl, $fff6
@@ -1868,7 +1867,7 @@ jr_001_51b4:
 	set 7, [hl]
 	ld a, [wcd74]
 	ld c, a
-	ld b, $00
+	ld b, 0
 	ld hl, wcc21
 	add hl, bc
 	ld [hl], $ff
@@ -1971,7 +1970,7 @@ jr_001_523a:
 
 	ld hl, $0010
 	add hl, de
-	ld b, $00
+	ld b, 0
 	cp $80
 	jr c, jr_001_5247
 
@@ -2122,7 +2121,7 @@ jr_001_52e4:
 	ld d, [hl]
 	inc hl
 	ld c, [hl]
-	ld b, $00
+	ld b, 0
 	pop hl
 	ld a, c
 	cp $04
@@ -2414,7 +2413,7 @@ unkData_001_72fc:
 	db $f0, $03, $fe, $08, $f5, $2f, $fc, $0f, $fd, $08, $fa, $01, $f4, $80, $f8, $00, $57, $04, $00, $02
 	db $ff
 
-unkData_001_7311:
+unkData_001_7311::
 	db $03, $00
 	dw unkData_001_731e
 	db $04, $00, $00, $00, $00, $00, $01, $00, $00
@@ -2423,8 +2422,12 @@ unkData_001_731e:
 	db $f0, $03, $f5, $08, $f4, $00, $fb, $02, $fe, $07, $fd, $01, $60, $04
 	db $ff
 
+unkData_001_732d::
 	db $03, $00, $00, $00, $00, $00, $00, $01, $00, $00, $02, $3b, $73, $05, $f0, $03
-	db $fe, $0c, $f1, $77, $fd, $05, $fb, $01, $f9, $04, $10, $02, $00, $02, $ff, $02
+	db $fe, $0c, $f1, $77, $fd, $05, $fb, $01, $f9, $04, $10, $02, $00, $02, $ff
+
+unkData_001_734c:
+	db $02
 	db $02, $00, $00, $00, $00, $00, $01, $00, $00, $02, $5a, $73, $05, $fe, $0b, $fd
 	db $02, $f0, $03, $10, $02, $fe, $09, $f0, $01, $10, $02, $fe, $06, $f0, $02, $10
 	db $02, $fe, $09, $fd, $04, $f0, $03, $10, $04, $fe, $09, $f0, $01, $10, $06, $fe
@@ -2438,7 +2441,7 @@ unkData_001_731e:
 	inc b
 	rst $38
 
-unkData_001_739b:
+unkData_001_739b::
 	db $03, $03, $00, $00, $00, $00, $00, $01, $00, $00, $02, $a9, $73, $05, $fe, $0f
 	db $fd, $02, $f0, $03, $fb, $07, $f9, $04, $0f, $0f, $fe, $0d, $f0, $01, $0f, $06
 	db $fe, $08, $f0, $02, $0f, $04, $f0, $01, $0f, $02, $f0, $02, $0f, $01, $f0, $01

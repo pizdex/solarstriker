@@ -56,5 +56,5 @@ $(foreach obj, $(OBJS), $(eval $(call DEP,$(obj),$(obj:.o=.asm))))
 endif
 
 $(ROM): $(OBJS)
-	$(LINK) -n $(SYM) -m $(MAP) -p 0xFF -o $@ $(OBJS)
+	$(LINK) -n $(SYM) -m $(MAP) -d -p 0xFF -o $@ $(OBJS)
 	$(FIX) -v -t $(ROM_TITLE) -l 0x01 -m 0x01 -p 0 $@

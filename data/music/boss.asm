@@ -1,4 +1,4 @@
-unkData_001_5eb0::
+unkHeader_001_5eb0::
 ; Boss music
 	db $03, $00
 	dwb NULL, $02

@@ -1,5 +1,8 @@
 INCLUDE "constants.asm"
 
+INCLUDE "vram.asm"
+
+
 SECTION "WRAM", WRAM0
 
 SECTION "OAM Buffer", WRAM0[$c000]
@@ -9,17 +12,7 @@ wc000:: ds $100 ; c000
 wc100:: ds $600 ; c100
 
 ; TODO: Replace with struct
-wc700:: ds 2 ; c700
-wc702:: ds 2 ; c702
-wc704:: ds 2 ; c704
-wc706:: ds 2 ; c706
-wc708:: ds 2 ; c708
-wc70a:: ds 2 ; c70a
-wc70c:: ds 2 ; c70c
-wc70e:: ds 2 ; c70e
-wc710:: ds 2 ; c710
-wc712:: ds 44 ; c712
-wc73e:: ds 2 ; c73e
+wc700:: ds $20 * 2 ; c700
 
 wc740:: ds $40 ; c740
 
@@ -80,8 +73,8 @@ wCurrentStage:: db ; ca19
 wca1a:: ds 1 ; ca1a
 wca1b:: ds 1 ; ca1b
 wca1c:: ds 1 ; ca1c
-wca1d:: ds 1 ; ca1d
-wca1e:: ds 1 ; ca1e
+wShakeCounter:: ds 1 ; ca1d
+wShakeAmount:: ds 1 ; ca1e
 wca1f:: ds 1 ; ca1f
 
 wPlayerHP:: db ; ca20 (HP, either 0 (Alive) or 1 (Dead))
@@ -90,7 +83,7 @@ wPowerLevel:: db ; ca21
 wca22:: ds 1 ; ca22
 wca23:: ds 1 ; ca23 (Joypad)
 wca24:: ds 1 ; ca24
-wca25:: ds 1 ; ca25
+wca25:: ds 1 ; ca25 (Direction?)
 wca26:: ds 1 ; ca26
 wca27:: ds 1 ; ca27
 wca28:: ds 1 ; ca28
@@ -240,7 +233,9 @@ wcab5:: ds 1 ; cab5
 wcab6:: ds 1 ; cab6
 wcab7:: ds 1 ; cab7
 wcab8:: ds 1 ; cab8
-wcab9:: ds 1 ; cab9
+
+wEndScreen:: db ; cab9
+
 wcaba:: ds 1 ; caba
 wcabb:: ds 1 ; cabb
 wcabc:: ds 1 ; cabc
@@ -813,7 +808,7 @@ wcf94:: ds 1 ; cf94
 wLives:: db ; cf95
 wcf96:: ds 1 ; cf96 (Gain lives?)
 
-wcf97:: ds 1 ; cf97
+wFadeoutCounter:: ds 1 ; cf97
 wcf98:: ds 1 ; cf98
 wcf99:: ds 1 ; cf99
 wcf9a:: ds 1 ; cf9a

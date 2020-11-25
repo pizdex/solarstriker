@@ -111,7 +111,7 @@ Call_001_49cf:
 	inc e
 	push hl
 	ld hl, wcc0f
-	ld b, $00
+	ld b, 0
 	add hl, bc
 	ld a, [hl]
 	pop hl
@@ -157,7 +157,7 @@ Call_001_4a05:
 
 	push hl
 	ld hl, wcc0f
-	ld b, $00
+	ld b, 0
 	add hl, bc
 	ld c, [hl]
 	ld hl, wcc07
@@ -446,19 +446,19 @@ Call_001_4bc0:
 
 unk_001_4bd1::
 	or a
-	jr nz, unk_001_4bdf
+	jr nz, .asm_4bdf
 
-jr_001_4bd4:
+.asm_4bd4
 	inc a
 	cp $05
 	ret nc
 
 	push af
-	call unk_001_4bdf
+	call .asm_4bdf
 	pop af
-	jr jr_001_4bd4
+	jr .asm_4bd4
 
-unk_001_4bdf:
+.asm_4bdf
 	di
 	call Call_001_4be5
 	ei
@@ -511,25 +511,25 @@ jr_001_4c14:
 
 Call_001_4c1a:
 	ld hl, wcd75
-	ld [hl], $01
+	ld [hl], 1
 	ld hl, wcc27
 	call Call_001_4c63
 	jr nc, .asm_4c5f
 
 	ld hl, wcd75
-	ld [hl], $02
+	ld [hl], 2
 	ld hl, wcc2b
 	call Call_001_4c63
 	jr nc, .asm_4c5f
 
 	ld hl, wcd75
-	ld [hl], $04
+	ld [hl], 4
 	ld hl, wcc33
 	call Call_001_4c63
 	jr nc, .asm_4c5f
 
 	ld hl, wcd75
-	ld [hl], $03
+	ld [hl], 3
 	ld hl, wcc2f
 	call Call_001_4c63
 	ret c
@@ -672,14 +672,14 @@ Call_001_4cdb:
 	ld hl, wcc0f
 	ld de, wcc15
 
-jr_001_4cf4:
+.asm_4cf4:
 	ld a, [hl]
 	cp c
-	jr nz, jr_001_4d18
+	jr nz, .asm_4d18
 
 	ld a, [de]
 	or a
-	jr z, jr_001_4d18
+	jr z, .asm_4d18
 
 	push hl
 	push de
@@ -699,11 +699,11 @@ jr_001_4cf4:
 	pop de
 	pop hl
 
-jr_001_4d18:
+.asm_4d18:
 	inc hl
 	inc de
 	dec b
-	jr nz, jr_001_4cf4
+	jr nz, .asm_4cf4
 	ret
 
 Call_001_4d1e:
@@ -839,7 +839,7 @@ GetFrequency:
 	; keep hi nybble
 	ld a, d
 	swap a
-	and $f
+	and $0f
 	; multiply (a - 1) by 12
 	dec a
 	add a
@@ -851,7 +851,7 @@ GetFrequency:
 
 	; keep lo nybble
 	ld a, d
-	and $f
+	and $0f
 	add e
 	ld e, a
 	ld hl, 5
