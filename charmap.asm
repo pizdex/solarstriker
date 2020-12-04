@@ -42,15 +42,15 @@
 	charmap ".",	$e8
 	charmap "-",	$e9
 
-	charmap "0",	$f0
-	charmap "1",	$f1
-	charmap "2",	$f2
-	charmap "3",	$f3
-	charmap "4",	$f4
-	charmap "5",	$f5
-	charmap "6",	$f6
-	charmap "7",	$f7
-	charmap "8",	$f8
-	charmap "9",	$f9
+	charmap "０",	$f0
+	charmap "１",	$f1
+	charmap "２",	$f2
+	charmap "３",	$f3
+	charmap "４",	$f4
+	charmap "５",	$f5
+	charmap "６",	$f6
+	charmap "７",	$f7
+	charmap "８",	$f8
+	charmap "９",	$f9
 
 	charmap "©",	$fc

@@ -541,7 +541,7 @@ Call_001_4c1a:
 	push af
 	call Call_001_4b3f
 
-	ld de, $0006
+	ld de, 6
 	add hl, de
 	ld a, [hl]
 	call Call_001_510f

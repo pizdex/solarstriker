@@ -70,11 +70,25 @@ unkData_003_5bc0::
 unkData_003_6000::
 	dr $e000, $e020
 
-unkData_003_6020::
-	dr $e020, $e420
+INCLUDE "data/data_003_6020.asm"
 
 unkData_003_6420::
-	dr $e420, $f020
+	dr $e420, $e820
+
+unkData_003_6820::
+	dr $e820, $ec20
+
+unkData_003_6c20::
+	dr $ec20, $f020
 
 unkData_003_7020::
-	dr $f020, $10000
+	dr $f020, $f420
+
+unkData_003_7420::
+	dr $f420, $f820
+
+unkData_003_7820::
+	dr $f820, $f840
+
+unkData_003_7840::
+	dr $f840, $10000

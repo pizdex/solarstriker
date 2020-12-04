@@ -791,13 +791,8 @@ wcf84:: ds 1 ; cf84
 wcf85:: ds 1 ; cf85
 wcf86:: ds 1 ; cf86
 wcf87:: ds 1 ; cf87
-wcf88:: ds 1 ; cf88
-wcf89:: ds 1 ; cf89
-wcf8a:: ds 1 ; cf8a
-wcf8b:: ds 1 ; cf8b
-wcf8c:: ds 1 ; cf8c
-wcf8d:: ds 1 ; cf8d
-wcf8e:: ds 1 ; cf8e
+
+wScore:: ds 7 ; cf88
 
 wcf8f:: ds 1 ; cf8f
 wcf90:: ds 1 ; cf90
@@ -831,13 +826,9 @@ wcfa4:: ds 1 ; cfa4
 wcfa5:: ds $4b ; cfa5
 
 wcff0:: ds 1 ; cff0
-wcff1:: ds 1 ; cff1
-wcff2:: ds 1 ; cff2
-wcff3:: ds 1 ; cff3
-wcff4:: ds 1 ; cff4
-wcff5:: ds 1 ; cff5
-wcff6:: ds 1 ; cff6
-wcff7:: ds 1 ; cff7
+
+wTopScore:: ds 7 ; cff1
+
 wcff8:: ds 1 ; cff8
 wcff9:: ds 1 ; cff9
 wcffa:: ds 1 ; cffa

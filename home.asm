@@ -15,11 +15,11 @@ _Start:
 	ld hl, wcff0
 	call ZeroFill
 
-	ld a, $02
-	ld [wcff3], a
+	ld a, 2
+	ld [wTopScore + 2], a
 
 Jump_000_016d:
-	bankswitch $02
+	bankswitch BANK(unkImage_002_4000)
 	ld hl, unkImage_002_4000
 	ld de, vTiles0
 	ld bc, $1000
@@ -30,7 +30,7 @@ Jump_000_016d:
 	ld bc, $630
 	call CopyBytes
 
-	bankswitch $03
+	bankswitch BANK(unkData_003_58b0)
 	ld hl, unkData_003_58b0
 	ld de, wd000
 	ld bc, $80
@@ -42,7 +42,7 @@ Jump_000_016d:
 	call CopyBytes
 
 	bankswitch $01
-	call ClearBGMap1
+	call ClearBGMap0
 
 	ld bc, $ff0
 	ld hl, wc000
@@ -67,28 +67,27 @@ Jump_000_016d:
 	ldh [rSCY], a
 	ld a, [wcffc]
 	or a
-	jr nz, jr_000_01e7
+	jr nz, .asm_01e7
 
 	ld de, unkData_000_3e9b
 	call Call_000_08a1
-	jr jr_000_01ed
+	jr .asm_01ed
 
-jr_000_01e7:
+.asm_01e7
 	ld de, unkData_000_3ec7
 	call Call_000_08a1
 
-jr_000_01ed:
+.asm_01ed:
 	ld hl, $9a4c
-	ld de, wcff1
-	ld b, $07
-
-jr_000_01f5:
+	ld de, wTopScore
+	ld b, 7
+.copy_digit
 	ld a, [de]
-	or $f0
+	or "０"
 	ld [hli], a
 	inc de
 	dec b
-	jr nz, jr_000_01f5
+	jr nz, .copy_digit
 
 	ld a, %11100100
 	ldh [rBGP], a
@@ -111,9 +110,9 @@ jr_000_01f5:
 	call Call_001_49aa
 
 	ld [wcf9a], a
-	ld a, $07
+	ld a, TACF_START + TACF_16KHZ
 	ldh [rTAC], a
-	ld a, $07
+	ld a, %0111
 	ldh [rIE], a
 	ld a, %10000111
 	ldh [rLCDC], a
@@ -124,7 +123,7 @@ jr_000_01f5:
 	and a
 	jr z, .asm_0231
 
-	ld a, $07
+	ld a, %0111
 	ldh [rIE], a
 	ei
 	xor a
@@ -154,7 +153,7 @@ Jump_000_0261:
 
 	xor a
 	ld [wca18], a
-	ld a, %00000111
+	ld a, %0111
 	ldh [rIE], a
 
 	ei
@@ -191,7 +190,7 @@ Jump_000_02a2:
 	or a
 	jr z, .asm_02a2
 
-	ld a, $07
+	ld a, %0111
 	ldh [rIE], a
 	ei
 	call UpdateJoypad
@@ -234,7 +233,7 @@ VBlank:
 	push de
 	push hl
 	di
-	ld a, 3
+	ld a, %0011
 	ldh [rIE], a
 	ld a, [wca18]
 	and a
@@ -263,11 +262,11 @@ LCD:
 Timer:
 	push af
 	di
-	ld a, $03
+	ld a, %0011
 	ldh [rIE], a
 	ei
 	call unk_001_4c97
-	ld a, $07
+	ld a, %0111
 	ldh [rIE], a
 	pop af
 	reti
@@ -473,12 +472,12 @@ Call_000_048d:
 ; Copy player's score, and lives into BGMap
 	ld c, 13
 	ld hl, vBGMap1 + 6 ; Display after "SCORE"
-	ld de, wcf88
+	ld de, wScore
 
 PrintNum:
 .copy_digit
 	ld a, [de]
-	or $f0 ; Convert digit into tile
+	or "０" ; Convert digit into tile
 	ld [hli], a
 	inc de
 	dec c
@@ -611,10 +610,10 @@ Jump_000_0525:
 Jump_000_054a:
 	call DisableLCD
 	di
-	call ClearBGMap1
+	call ClearBGMap0
 
 	ld bc, $20
-	ld hl, $9c00
+	ld hl, vBGMap1
 	call ZeroFill
 
 	ld de, unkData_000_0e81
@@ -679,7 +678,7 @@ Jump_000_054a:
 
 	ld a, %11100111
 	ldh [rLCDC], a
-	ld a, 7
+	ld a, TACF_START + TACF_16KHZ
 	ldh [rTAC], a
 	ld a, 2
 	ld [wLives], a
@@ -708,14 +707,14 @@ Jump_000_05d8:
 	call CopyBytes
 
 .not_final_cutscene:
-	call ClearBGMap1
+	call ClearBGMap0
 	ld de, unkData_000_0e81
 	call Call_000_0dfb
 
 	ld de, unkData_000_0e5d
 	call Call_000_0e16
 
-	call ClearBGMap1
+	call ClearBGMap0
 	ld hl, wca88
 	ld de, $9b82
 	ld a, e
@@ -727,9 +726,11 @@ Jump_000_05d8:
 	xor a
 	ld [hli], a
 	ld [hl], a
+
 	ld hl, wca28
 	ld [hli], a
 	ld [hl], a
+
 	ld [wcf9c], a
 	ld [wPlayerHP], a
 	ld [wca81], a
@@ -744,7 +745,7 @@ Jump_000_05d8:
 
 	ld a, [wCurrentStage]
 	cp 7
-	jr nc, jr_000_067b
+	jr nc, .asm_067b
 
 	ld a, $30
 	ldh [rSCX], a
@@ -755,17 +756,19 @@ Jump_000_05d8:
 	ld a, d
 	ld [hli], a
 	ld [hl], e
-	ld a, $e4
+	ld a, %11100100
 	ldh [rBGP], a
+
 	ld de, unk_000_0d1c
 	call Func_000_0a3e
-	ld a, $07
+
+	ld a, TACF_START + TACF_16KHZ
 	ldh [rTAC], a
 	ld a, %11100111
 	ldh [rLCDC], a
-	jr jr_000_06cd
+	jr Jump_000_06cd
 
-jr_000_067b:
+.asm_067b:
 	ld a, $50
 	ldh [rSCX], a
 	ld a, $60
@@ -776,7 +779,7 @@ jr_000_067b:
 	cp 7
 	jr z, .cutscene_1
 
-	call ClearBGMap2
+	call ClearBGMap1
 	ld d, $68
 
 .cutscene_1:
@@ -785,7 +788,7 @@ jr_000_067b:
 	ld [hli], a
 	ld a, $07
 	ld [hl], a
-	ld a, $e4
+	ld a, %11100100
 	ldh [rBGP], a
 	ld de, unk_000_0d1c
 	call Func_000_0a3e
@@ -796,12 +799,12 @@ jr_000_067b:
 
 	ld de, $2d09
 	call Func_000_0a3e
-	jr jr_000_06c2
+	jr .asm_06c2
 
 .final_cutscene:
 	xor a
-	ld hl, $9c00
-	ld b, $1f
+	ld hl, vBGMap1
+	ld b, BG_MAP_WIDTH - 1
 .loop
 	ld [hli], a
 	dec b
@@ -810,16 +813,14 @@ jr_000_067b:
 	ld de, $2ec9
 	call Func_000_0a3e
 
-jr_000_06c2:
-	ld a, 7
+.asm_06c2:
+	ld a, TACF_START + TACF_16KHZ
 	ldh [rTAC], a
 	ld [wca81], a
-
 	ld a, %11100111
 	ldh [rLCDC], a
 
 Jump_000_06cd:
-jr_000_06cd:
 	ei
 	ld b, 0
 
@@ -860,7 +861,7 @@ unk_000_06f1:
 .asm_0705:
 	cp $30
 	jr nc, .asm_0714
-	ld a, $40
+	ld a, %01000000
 	ldh [rBGP], a
 	ldh [rOBP0], a
 	ldh [rOBP1], a
@@ -876,7 +877,7 @@ unk_000_06f1:
 	jp Jump_000_047e
 
 .asm_0722:
-	ld a, $e4
+	ld a, %11100100
 	ldh [rOBP0], a
 	ldh [rOBP1], a
 	ld a, $01
@@ -900,7 +901,7 @@ Jump_000_0730:
 	ld bc, $360
 	call CopyBytes
 
-	bankswitch $03
+	bankswitch BANK(unkData_003_59c0)
 	ld hl, unkData_003_59c0
 	ld de, wd000
 	ld bc, $200
@@ -912,7 +913,7 @@ Jump_000_0730:
 	call CopyBytes
 
 	bankswitch $01
-	call ClearBGMap1
+	call ClearBGMap0
 
 	ld hl, wc000
 	ld bc, $c00
@@ -933,17 +934,18 @@ Jump_000_0730:
 	call Call_000_08a1
 	call Call_000_2c79
 
+; Copy TopScore and Score into 
 	ld c, 7
-	ld hl, $9a30
-	ld de, wcff1
+	ld hl, $9a30 ; 16, 17
+	ld de, wTopScore
+	call PrintNum
+	ld c, 7
+	ld hl, $9a90 ; 16, 20
+	ld de, wScore
 	call PrintNum
 
-	ld c, 7
-	ld hl, $9a90
-	ld de, wcf88
-	call PrintNum
-
-	ld hl, $9c00
+; Clear first 20 tiles in BGMap1
+	ld hl, vBGMap1
 	xor a
 	ld c, 20
 .loop
@@ -955,7 +957,7 @@ Jump_000_0730:
 	ldh [rSCY], a
 	ld a, $50
 	ldh [rSCX], a
-	ld a, $e4
+	ld a, %11100100
 	ldh [rBGP], a
 	ldh [rOBP0], a
 	ldh [rOBP1], a
@@ -968,11 +970,11 @@ Jump_000_0730:
 	ld [wcf86], a
 	ld hl, unkData_001_5541
 	call Call_001_49aa
-
 	ld [wcf9a], a
-	ld a, $07
+
+	ld a, TACF_START + TACF_16KHZ
 	ldh [rTAC], a
-	ld a, $05
+	ld a, %0101
 	ldh [rIE], a
 	ld a, %11000111
 	ldh [rLCDC], a
@@ -1011,13 +1013,13 @@ DisableLCD:
 	jr nc, .wait
 
 	ldh a, [rLCDC]
-	and %01111111 ; LCD Off
+	and LOW(~LCDCF_ON) ; could use "res 7, a" or "xor a"
 	ldh [rLCDC], a
 	ret
 
-ClearBGMap1:
-	ld hl, $9bff
-	ld bc, $0400
+ClearBGMap0:
+	ld hl, vBGMap0 + $3ff
+	ld bc, $400
 .zerofill
 	ld a, 0
 	ld [hld], a
@@ -1027,10 +1029,10 @@ ClearBGMap1:
 	jr nz, .zerofill
 	ret
 
-ClearBGMap2:
-	ld hl, $9fff
-	ld bc, $0400
-	jr ClearBGMap1.zerofill
+ClearBGMap1:
+	ld hl, vBGMap1 + $3ff
+	ld bc, $400
+	jr ClearBGMap0.zerofill
 
 CopyBytes:
 ; copy bc bytes from hl to de
@@ -1044,7 +1046,7 @@ CopyBytes:
 	jr nz, .loop
 	ret
 
-jr_000_0897:
+Func_0897:
 	inc de
 	ld h, a
 	ld a, [de]
@@ -1057,7 +1059,7 @@ jr_000_0897:
 Call_000_08a1:
 	ld a, [de]
 	cp 0
-	jr nz, jr_000_0897
+	jr nz, Func_0897
 	ret
 
 Call_000_08a7:
@@ -1067,53 +1069,52 @@ Call_000_08a7:
 	pop af
 	rlca
 	rlca
-	and $03
-	jr z, jr_000_08ba
+	and 3
+	jr z, .asm_08ba
 	dec a
-	jr z, jr_000_08c1
+	jr z, .asm_08c1
 	dec a
-	jr z, jr_000_08c8
-	jr jr_000_08d5
+	jr z, .asm_08c8
+	jr .asm_08d5
 
-jr_000_08ba:
+.asm_08ba:
 	ld a, [de]
 	ld [hli], a
 	inc de
 	dec b
-	jr nz, jr_000_08ba
+	jr nz, .asm_08ba
 	ret
 
-jr_000_08c1:
+.asm_08c1:
 	ld a, [de]
 	inc de
-
-jr_000_08c3:
+.asm_08c3
 	ld [hli], a
 	dec b
-	jr nz, jr_000_08c3
+	jr nz, .asm_08c3
 	ret
 
-jr_000_08c8:
+.asm_08c8:
 	ld a, [de]
 	ld [hl], a
 	inc de
 	ld a, b
-	ld bc, $0020
+	ld bc, $20
 	add hl, bc
 	ld b, a
 	dec b
-	jr nz, jr_000_08c8
+	jr nz, .asm_08c8
 	ret
 
-jr_000_08d5:
+.asm_08d5:
 	ld a, [de]
 	ld [hl], a
 	ld a, b
-	ld bc, $0020
+	ld bc, $20
 	add hl, bc
 	ld b, a
 	dec b
-	jr nz, jr_000_08d5
+	jr nz, .asm_08d5
 	inc de
 	ret
 
@@ -1130,67 +1131,66 @@ Call_000_08e2:
 	ld e, a
 	add $18
 	sub c
-	jr c, jr_000_0902
+	jr c, .asm_0902
 	ld a, e
 	sub $18
 	sub c
-	jr nc, jr_000_0917
+	jr nc, .asm_0917
 	ld a, d
 	sub b
-	jr c, jr_000_08ff
+	jr c, .asm_08ff
 	xor a
 	ret
 
-jr_000_08ff:
+.asm_08ff
 	ld a, $04
 	ret
 
-jr_000_0902:
+.asm_0902:
 	ld a, d
 	add $18
 	sub b
-	jr c, jr_000_0911
+	jr c, .asm_0911
 
 	ld a, d
 	sub $18
 	sub b
-	jr nc, jr_000_0914
-
+	jr nc, .asm_0914
 	ld a, $02
 	ret
 
-jr_000_0911:
+.asm_0911
 	ld a, $03
 	ret
 
-jr_000_0914:
+.asm_0914
 	ld a, $01
 	ret
 
-jr_000_0917:
+.asm_0917:
 	ld a, d
 	add $18
 	sub b
-	jr c, jr_000_0926
+	jr c, .asm_0926
 
 	ld a, d
 	sub $18
 	sub b
-	jr nc, jr_000_0929
+	jr nc, .asm_0929
 
 	ld a, $06
 	ret
 
-jr_000_0926:
+.asm_0926
 	ld a, $05
 	ret
 
-jr_000_0929:
+.asm_0929
 	ld a, $07
 	ret
 
 Call_000_092c:
-	ld hl, $0011
+	ld hl, $11
 	add hl, bc
 	ld a, [hl]
 	add a
@@ -1269,7 +1269,7 @@ Call_000_097d:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $000c
+	ld de, $0c
 	add hl, de
 	ld a, [hli]
 	ret
@@ -1364,7 +1364,7 @@ Call_000_09ec::
 Call_000_0a0c::
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000d
+	ld de, $0d
 	add hl, de
 	ld d, [hl]
 	ld hl, $0016
@@ -1499,7 +1499,7 @@ Call_000_0aa7:
 	or [hl]
 	jr z, jr_000_0ad9
 
-	ld de, $000f
+	ld de, $0f
 	add hl, de
 	inc c
 	ld a, $10
@@ -1520,7 +1520,7 @@ Call_000_0ac0:
 	ld a, [hli]
 	or [hl]
 	jr z, jr_000_0ad9
-	ld de, $000f
+	ld de, $0f
 	add hl, de
 	inc c
 	ld a, $26
@@ -1742,7 +1742,7 @@ Jump_000_0bbb::
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $0005
+	ld de, $05
 	add hl, de
 	inc [hl]
 	ld a, [wcfa0]
@@ -1753,7 +1753,7 @@ Jump_000_0bbb::
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $0012
+	ld de, $12
 	add hl, de
 	ld a, [hl]
 	and $03
@@ -2042,7 +2042,6 @@ unk_000_0d2a:
 	ld a, [bc]
 	or a
 	jp z, Jump_000_0a67
-	; debug feature?
 	dec a
 	jp z, NextStage
 
@@ -2057,12 +2056,12 @@ unk_000_0d2a:
 	ld d, [hl]
 	ld e, a
 	call Func_000_0a3e
+
 	pop bc
 	ld hl, wcab5
 	inc bc
 	ld e, $02
-
-jr_000_0d60:
+.asm_0d60:
 	ld a, [bc]
 	ld d, a
 	swap a
@@ -2073,7 +2072,7 @@ jr_000_0d60:
 	ld [hli], a
 	inc bc
 	dec e
-	jr nz, jr_000_0d60
+	jr nz, .asm_0d60
 
 	ld hl, wcab2
 	ld a, c
@@ -2174,7 +2173,7 @@ Call_000_0dfb:
 	jp CopyBytes
 
 Call_000_0e16:
-	bankswitch $03
+	bankswitch BANK("bank3")
 	ld a, [wCurrentStage]
 	add a
 	add a
@@ -2275,19 +2274,40 @@ unkData_000_0e81:
 	dw unkImage_002_6590
 
 unkData_000_0ea5:
-	dw $6000
-	dw $6020
-	dw $6420
-	dw $6820
-	dw $6c20
-	dw $7020
-	dw $7420
-	dw $7820
-	dw $7840
+; Stage 0
+	dw unkData_003_6000
+; Stage 1
+	dw unkData_003_6020
+; Stage 2
+	dw unkData_003_6420
+; Stage 3
+	dw unkData_003_6820
+; Stage 4
+	dw unkData_003_6c20
+; Stage 5
+	dw unkData_003_7020
+; Stage 6
+	dw unkData_003_7420
+; Stage 7
+	dw unkData_003_7820
+; Stage 8
+	dw unkData_003_7840
 
 unkData_000_0eb7:
-	db $67, $0a, $e6, $0d, $8f, $0d, $9e, $0d, $f2, $29, $db, $19, $47, $1a
-	db $77, $1a, $48, $1b, $1e, $1c, $34, $1d, $1a, $1e, $00, $40, $c7, $20, $e0, $41
+	dw Jump_000_0a67
+	dw NextStage
+	dw unk_000_0d8f
+	dw unk_000_0d9e
+	dw unk_000_29f2
+	dw $19db
+	dw $1a47
+	dw $1a77
+	dw $1b48
+	dw $1c1e
+	dw $1d34
+	dw $1e1a
+	dw $4000
+	db $c7, $20, $e0, $41
 	db $b5, $42, $cf, $43, $e6, $44, $a6, $0d, $ae, $0d, $2e, $20, $97, $0d, $f7, $20
 	db $22, $23, $57, $24, $ff, $24, $09, $2d, $67, $0a, $cb, $0d, $dd, $0d, $ba, $0d
 	db $c9, $2e, $18, $1b, $78, $1b, $a8, $1b, $a9, $1c, $a6, $1f, $81, $0d, $23, $21
@@ -2328,7 +2348,7 @@ unkData_000_0f3c:
 	db $2c, $68, $34, $78, $18, $50, $38, $2c, $38, $7c, $88, $1c, $88, $8c
 
 Call_000_0faa:
-	ld de, $0008
+	ld de, $08
 	add hl, de
 	push hl
 	ld a, [wcab6]
@@ -2634,7 +2654,7 @@ Jump_000_1138:
 	ld a, [wca65]
 	ld e, a
 	ld d, 0
-	ld hl, $126e
+	ld hl, unkData_000_126e
 	add hl, de
 	ld b, [hl]
 	ld hl, wca6b
@@ -2692,16 +2712,16 @@ Jump_000_1138:
 	inc a
 	and $0f
 	ld [bc], a
-	ld de, $1217
+	ld de, unk_000_1217
 	jp Jump_000_0a53
 
-
+unk_000_1217:
 	ld a, [bc]
 	call Call_000_0b4a
 	ld a, [wca2c]
 	ld l, a
 	ld h, 0
-	ld de, $1256
+	ld de, unkData_000_1256
 	add hl, de
 	ld a, [hl]
 	add a
@@ -2725,28 +2745,30 @@ Jump_000_1138:
 
 unkData_000_1244:
 	db $11, $08, $04, $06, $02, $0a, $06, $0a, $00, $11, $08, $04, $00, $00, $10, $08
-	db $10, $00, $00, $01, $01, $02, $02, $03
-	db $03, $03
+	db $10, $00
+
+unkData_000_1256:
+	db $00, $01, $01, $02, $02, $03, $03, $03
 
 unkData_000_125e:
-	db $de, $12
-	db $ee, $12
-	db $fe, $12
-	db $0e, $13
-
-	db $1e, $13
-	db $1e, $13
-	db $1e, $13
-	db $1e, $13
+	dw $12de
+	dw $12ee
+	dw $12fe
+	dw $130e
+	dw $131e
+	dw $131e
+	dw $131e
+	dw $131e
 
 unkData_000_126e:
 	dr $126e, $137a
 
 Call_000_137a:
+; Map scroll?
 	ld hl, wca80
 	inc [hl]
 	ld a, [hl]
-	cp $06
+	cp 6
 	ret nz
 
 	xor a
@@ -2755,11 +2777,10 @@ Call_000_137a:
 	inc [hl]
 	ld a, [hli]
 	or a
-	jr nz, jr_000_138d
-
+	jr nz, .asm_138d
 	inc [hl]
 
-jr_000_138d:
+.asm_138d:
 	ld a, $01
 	ld [wca87], a
 	ld a, [wca81]
@@ -2777,7 +2798,7 @@ jr_000_138d:
 	inc de
 	ld a, [hl]
 	and $0f
-	jr nz, jr_000_13ba
+	jr nz, .asm_13ba
 
 	ld [de], a
 	ld hl, wca8a
@@ -2791,7 +2812,7 @@ jr_000_138d:
 	ld [bc], a
 	ret
 
-jr_000_13ba:
+.asm_13ba:
 	ld a, [de]
 	or a
 	ret nz
@@ -2946,10 +2967,10 @@ Jump_000_1472:
 	ld [de], a
 	ld a, h
 	cp $97
-	jr nz, jr_000_1488
+	jr nz, .asm_1488
 	ld a, $9b
 
-jr_000_1488:
+.asm_1488:
 	ld hl, wca8b
 	inc de
 	ld [de], a
@@ -2974,7 +2995,7 @@ Jump_000_1490:
 	ld a, [hl]
 	add c
 	ld [hli], a
-	ld de, $0004
+	ld de, $04
 	add hl, de
 	ld a, [hl]
 	add c
@@ -2990,11 +3011,11 @@ Jump_000_1490:
 	jr .asm_14b8
 
 .asm_14b4:
-	ld de, $000b
+	ld de, $0b
 	add hl, de
 
 .asm_14b8:
-	ld de, $0004
+	ld de, $04
 	add hl, de
 	dec b
 	jr nz, .asm_149b
@@ -3034,7 +3055,7 @@ Jump_000_14dc:
 
 	ld de, wca77
 	ld hl, wca73
-	ld bc, $0004
+	ld bc, 4
 	call CopyBytes
 	ld a, [wca72]
 	ld c, a
@@ -3102,7 +3123,7 @@ Jump_000_154c:
 	jr z, jr_000_1567
 
 	pop hl
-	ld de, $0010
+	ld de, $10
 	add hl, de
 	ld a, h
 	cp $ca
@@ -3797,7 +3818,6 @@ unk_000_1930:
 	ld de, $198a
 	jp Jump_000_0a53
 
-
 jr_000_1984:
 	ld de, $19c1
 	jp Jump_000_0a53
@@ -4108,7 +4128,7 @@ jr_000_1bdb:
 	cp $90
 	jp nc, Jump_000_0a64
 
-	ld de, $000a
+	ld de, $0a
 	add hl, de
 	ld d, $53
 	ld a, [hli]
@@ -4196,7 +4216,7 @@ jr_000_1c67:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $000c
+	ld de, $0c
 	add hl, de
 	ld d, $22
 	ld a, [hli]
@@ -4333,7 +4353,7 @@ jr_000_1d5b:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000c
+	ld de, $0c
 	add hl, de
 	ld d, $32
 	ld a, [hli]
@@ -4380,7 +4400,7 @@ jr_000_1d9f:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000c
+	ld de, $0c
 	add hl, de
 	ld d, $22
 	ld a, [hli]
@@ -4431,7 +4451,7 @@ jr_000_1dc0:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $000f
+	ld de, $0f
 	add hl, de
 	ld a, [hl]
 	or a
@@ -4481,7 +4501,7 @@ jr_000_1e08:
 	cp $a0
 	jp nc, Jump_000_0a64
 
-	ld de, $000b
+	ld de, $0b
 	add hl, de
 	ld a, [hl]
 	or a
@@ -4509,7 +4529,7 @@ jr_000_1e64:
 	inc de
 	ld a, [hl]
 	ld [de], a
-	ld de, $0003
+	ld de, $03
 	add hl, de
 	inc [hl]
 	ld de, unk_000_0ff5
@@ -4832,7 +4852,7 @@ jr_000_2099:
 	cp $90
 	jp nc, Jump_000_0a64
 
-	ld de, $000a
+	ld de, $0a
 	add hl, de
 	ld d, $13
 	ld a, [hli]
@@ -5143,7 +5163,7 @@ jr_000_22d2:
 	ld e, 0
 	call Call_000_0b1e
 	pop hl
-	ld de, $000c
+	ld de, $0c
 	add hl, de
 	ld d, $52
 	ld a, [hli]
@@ -5275,7 +5295,7 @@ jr_000_239e:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000d
+	ld de, $0d
 	add hl, de
 	xor a
 	ld [hl], a
@@ -5295,7 +5315,7 @@ jr_000_23c6:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000c
+	ld de, $0c
 	add hl, de
 	ld a, [hli]
 	cp [hl]
@@ -5429,7 +5449,7 @@ jr_000_245d:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000d
+	ld de, $0d
 	add hl, de
 	xor a
 	ld [hl], a
@@ -5439,7 +5459,7 @@ jr_000_245d:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000c
+	ld de, $0c
 	add hl, de
 	ld a, [hli]
 	cp [hl]
@@ -5529,7 +5549,7 @@ unk_000_252e:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000d
+	ld de, $0d
 	add hl, de
 	xor a
 	ld [hl], a
@@ -5539,7 +5559,7 @@ unk_000_252e:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000c
+	ld de, $0c
 	add hl, de
 	ld a, [hli]
 	cp [hl]
@@ -5743,7 +5763,7 @@ jr_000_262a:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $000d
+	ld de, $0d
 	add hl, de
 	xor a
 	ld [hl], a
@@ -5771,7 +5791,7 @@ jr_000_262a:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $000c
+	ld de, $0c
 	add hl, de
 	ld d, $12
 	ld a, [hli]
@@ -6074,7 +6094,7 @@ jr_000_285f:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $000e
+	ld de, $0e
 	add hl, de
 	inc [hl]
 	ld a, [hl]
@@ -6095,7 +6115,7 @@ jr_000_285f:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld de, $000e
+	ld de, $0e
 	add hl, de
 	inc [hl]
 	ld a, [hli]
@@ -6167,7 +6187,7 @@ unk_000_293a:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000f
+	ld de, $0f
 	add hl, de
 	xor a
 	ld [hl], a
@@ -6207,7 +6227,7 @@ unk_000_293a:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $000f
+	ld de, $0f
 	add hl, de
 	xor a
 	ld [hl], a
@@ -6258,7 +6278,7 @@ unk_000_293a:
 	call Func_000_0a3e
 	jp Jump_000_0a64
 
-
+unk_000_29f2:
 	ld bc, unkData_000_2a34
 	call Call_000_0947
 	or a
@@ -6278,16 +6298,16 @@ unk_000_293a:
 	add a
 	ld l, a
 	ld h, 0
-	ld de, $2a3c
+	ld de, unkData_000_2a3c
 	add hl, de
 	ld a, [hli]
 	ld d, [hl]
 	ld e, a
 	call Call_000_0b03
-	ld de, $2a27
+	ld de, unk_000_2a27
 	jp Jump_000_0a53
 
-
+unk_000_2a27:
 	ld a, [wcac9]
 	or a
 	jp z, Jump_000_047e
@@ -6296,23 +6316,45 @@ unk_000_293a:
 	jp Jump_000_0a64
 
 unkData_000_2a34:
-	db $27, $08, $08, $00, $00, $10, $10, $01, $48, $2a, $64, $2a, $80, $2a, $9c, $2a
+	db $27, $08, $08, $00, $00, $10, $10, $01
 
-	cp b
-	ld a, [hli]
-	db $d4
-	ld a, [hli]
+unkData_000_2a3c:
+	dw unkData_000_2a48
+	dw unkData_000_2a64
+	dw unkData_000_2a80
+	dw unkData_000_2a9c
+	dw unkData_000_2ab8
+	dw unkData_000_2ad4
 
-	db $d8, $00, $da, $00, $b4, $00, $c0, $00, $bc, $00, $00, $00, $a2, $00, $00, $00
-	db $d6, $00, $bc, $00, $b4, $00, $ba, $00, $e4, $00, $00, $00, $d8, $00, $da, $00
-	db $b4, $00, $c0, $00, $bc, $00, $00, $00, $a4, $00, $00, $00, $d6, $00, $bc, $00
-	db $b4, $00, $ba, $00, $e4, $00, $00, $00, $d8, $00, $da, $00, $b4, $00, $c0, $00
-	db $bc, $00, $00, $00, $a6, $00, $00, $00, $d6, $00, $bc, $00, $b4, $00, $ba, $00
-	db $e4, $00, $00, $00, $d8, $00, $da, $00, $b4, $00, $c0, $00, $bc, $00, $00, $00
-	db $a8, $00, $00, $00, $d6, $00, $bc, $00, $b4, $00, $ba, $00, $e4, $00, $00, $00
+unkData_000_2a48:
+	db $d8, $00, $da, $00, $b4, $00, $c0, $00
+	db $bc, $00, $00, $00, $a2, $00, $00, $00
+	db $d6, $00, $bc, $00, $b4, $00, $ba, $00
+	db $e4, $00, $00, $00
+
+unkData_000_2a64:
+	db $d8, $00, $da, $00, $b4, $00, $c0, $00
+	db $bc, $00, $00, $00, $a4, $00, $00, $00
+	db $d6, $00, $bc, $00, $b4, $00, $ba, $00
+	db $e4, $00, $00, $00
+
+unkData_000_2a80:
+	db $d8, $00, $da, $00, $b4, $00, $c0, $00
+	db $bc, $00, $00, $00, $a6, $00, $00, $00
+	db $d6, $00, $bc, $00, $b4, $00, $ba, $00
+	db $e4, $00, $00, $00
+
+unkData_000_2a9c:
+	db $d8, $00, $da, $00, $b4, $00, $c0, $00
+	db $bc, $00, $00, $00, $a8, $00, $00, $00
+	db $d6, $00, $bc, $00, $b4, $00, $ba, $00
+	db $e4, $00, $00, $00
 
 unkData_000_2ab8:
-	dr $2ab8, $2af4
+	dr $2ab8, $2ad4
+
+unkData_000_2ad4:
+	dr $2ad4, $2af4
 
 unk_000_2af4::
 	ld hl, wca12
@@ -6414,8 +6456,8 @@ unk_000_2c63:
 
 Call_000_2c79:
 	ld c, 8
-	ld de, wcf88
-	ld hl, wcff1
+	ld de, wScore
+	ld hl, wTopScore
 jr_000_2c81:
 	ld a, [de]
 	cp [hl]
@@ -6430,8 +6472,8 @@ jr_000_2c81:
 
 jr_000_2c8c:
 	ld c, 8
-	ld hl, wcf88
-	ld de, wcff1
+	ld hl, wScore
+	ld de, wTopScore
 .loop
 	ld a, [hli]
 	ld [de], a
@@ -6822,15 +6864,15 @@ unk_000_2f3d:
 	jr nz, .asm_2f45
 
 	ld hl, wcaf6
-	ld de, wcf88
+	ld de, wScore
 	ld b, 7
-.asm_2f53
+.copy_digit
 	ld a, [de]
 	or $f0
 	ld [hli], a
 	inc de
 	dec b
-	jr nz, .asm_2f53
+	jr nz, .copy_digit
 
 	ld a, $0e
 	ld [wcad6], a
@@ -6936,7 +6978,7 @@ unk_000_3082:
 
 	ld a, [bc]
 	call Call_000_0b4a
-	ld de, $0001
+	ld de, $01
 	call Call_000_0b1e
 	jp Jump_000_047e
 
@@ -7145,17 +7187,13 @@ unkData_000_31e7:
 	db $ff, $31, $03
 	db $32, $00, $00, $26, $00, $00, $00, $28, $00, $00, $00, $2a, $00, $00, $00, $2c
 	db $00, $2e, $00, $30, $00
+	db $32, $00
+	db $34, $00
+	db $36, $00
+	db $38, $00
 
-jr_000_31ff:
-	ld [hld], a
-	nop
-	inc [hl]
-	nop
-	ld [hl], 0
-	jr c, jr_000_3207
-
-jr_000_3207:
-	ld hl, $0004
+unk_000_3207:
+	ld hl, 4
 	add hl, bc
 	inc [hl]
 	ld a, [hl]
@@ -7181,27 +7219,27 @@ unk_000_3228:
 
 	call Call_000_32ab
 	ld a, [wcad8]
-	cp 2 ; 2
+	cp 2 ; +2
 	jr z, .asm_3264
-	cp 5 ; 3
+	cp 5 ; +3
 	jr z, .asm_3264
-	cp 8 ; 3
+	cp 8 ; +3
 	jr z, .asm_3264
-	cp 10 ; 2
+	cp 10 ; +2
 	jr z, .asm_3264
-	cp 13 ; 3
+	cp 13 ; +3
 	jr z, .asm_3264
-	cp 15 ; 2
+	cp 15 ; +2
 	jr z, .asm_3264
-	cp 18 ; 3
+	cp 18 ; +3
 	jr z, .asm_3264
-	cp 20 ; 2
+	cp 20 ; +2
 	jr z, .asm_3264
-	cp 22 ; 2
+	cp 22 ; +2
 	jr z, .asm_3264
-	cp 24 ; 2
+	cp 24 ; +2
 	jr z, .asm_3264
-	cp 28 ; 4
+	cp 28 ; +4
 	jr z, .asm_3264
 
 	jp Jump_000_047e
