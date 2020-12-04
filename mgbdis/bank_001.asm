@@ -604,7 +604,7 @@ jr_001_43d7:
 
 jr_001_4438:
 	call Call_000_0b38
-	ld de, $44de
+	ld de, unkData_001_44de
 
 jr_001_443e:
 	call Call_000_0b03
@@ -621,9 +621,9 @@ jr_001_443e:
 
 
 jr_001_4453:
-	ld de, $44de
+	ld de, unkData_001_44de
 	call Call_000_0b03
-	ld de, $44ac
+	ld de, unk_001_44ac
 	jp Jump_000_0a53
 
 
@@ -653,12 +653,12 @@ jr_001_4453:
 	call Func_000_0a3e
 
 jr_001_4489:
-	ld de, $44de
+	ld de, unkData_001_44de
 	call Call_000_0b03
-	ld de, $4495
+	ld de, unk_001_4495
 	jp Jump_000_0a53
 
-
+unk_001_4495:
 	push bc
 	call Call_000_09cd
 	pop bc
@@ -673,7 +673,7 @@ jr_001_44a6:
 	ld de, $4447
 	jp Jump_000_0a53
 
-
+unk_001_44ac:
 	ld a, [bc]
 	call Call_000_0b4a
 	inc hl
@@ -693,50 +693,30 @@ jr_001_44a6:
 	jp Jump_000_0bbb
 
 unkData_001_44ce:
-	rra
-	dec sp
-	ld h, a
-	dec sp
-	or l
-	dec sp
-	ld bc, $213c
-	db $10
-	inc b
-	nop
-	nop
-	jr nz, jr_001_44e5
+	dr $44ce, $44de
 
-	jr nz, @+$7a
+unkData_001_44de:
+	dr $44de, $44e6
 
-	nop
-	ld a, b
-	ld b, b
-	ld a, b
-	db $10
-	ld a, b
-
-jr_001_44e5:
-	ld d, b
+unk_001_44e6:
 	xor a
 	ld hl, wcac0
 	ld [hli], a
 	ld [hl], a
-	ld b, $02
-
-jr_001_44ee:
+	ld b, 2
+.asm_44ee
 	push bc
-	ld de, $44fc
+	ld de, unk_001_44fc
 	call Func_000_0a3e
 	pop bc
 	dec b
-	jr nz, jr_001_44ee
-
+	jr nz, .asm_44ee
 	jp Jump_000_0a67
 
-
+unk_001_44fc:
 	ld de, wcac0
 	ld a, [de]
-	xor $07
+	xor 7
 	ld [wcab6], a
 	ld bc, unkData_001_45ff
 	call Call_000_0947
@@ -790,19 +770,18 @@ jr_001_4539:
 
 jr_001_4559:
 	call Call_000_0b03
-	ld de, $4562
+	ld de, unk_001_4562
 	jp Jump_000_0a53
 
-
+unk_001_4562:
 	call Call_001_4627
 	cp [hl]
-	jr c, jr_001_456e
+	jr c, .asm_456e
 
 	ld de, $4590
 	jp Jump_000_0a53
 
-
-jr_001_456e:
+.asm_456e:
 	ld hl, wca12
 	ld a, [hli]
 	ld h, [hl]
@@ -812,11 +791,10 @@ jr_001_456e:
 	ld de, $460f
 	ld a, [hl]
 	or a
-	jr nz, jr_001_4582
+	jr nz, .asm_4582
 
 	ld de, $4607
-
-jr_001_4582:
+.asm_4582:
 	call Call_000_0b03
 	ld a, $14
 	call Call_000_0c57
@@ -893,7 +871,7 @@ jr_001_45f6:
 	call Call_000_0b03
 
 jr_001_45f9:
-	ld de, $4562
+	ld de, unk_001_4562
 	jp Jump_000_0a53
 
 unkData_001_45ff:

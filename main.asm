@@ -7,7 +7,7 @@ INCLUDE "mgbdis/bank_001.asm"
 
 SECTION "bank2", ROMX
 
-INCLUDE "gfx/bank_02.asm"
+INCLUDE "gfx/gfx.asm"
 
 
 SECTION "bank3", ROMX

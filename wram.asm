@@ -127,10 +127,11 @@ wca4d:: ds 1 ; ca4d
 wca4e:: ds 1 ; ca4e
 wca4f:: ds 1 ; ca4f
 wca50:: ds 1 ; ca50
-wca51:: ds 1 ; ca51
-wca52:: ds 1 ; ca52
-wca53:: ds 1 ; ca53
+
+wca51:: ds 3 ; ca51
+
 wca54:: ds 1 ; ca54
+
 wca55:: ds 1 ; ca55
 wca56:: ds 1 ; ca56
 wca57:: ds 1 ; ca57

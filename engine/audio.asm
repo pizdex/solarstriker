@@ -264,7 +264,7 @@ Call_001_4aa6:
 
 	ld hl, wcc47
 	ld de, wcc48
-	ld bc, $002a
+	ld bc, 42
 	ld [hl], 0
 	call CopyBytesAF
 

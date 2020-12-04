@@ -180,7 +180,7 @@ Jump_000_0261:
 
 	ld a, [wShakeCounter]
 	or a
-	call nz, ShakeWindow
+	call nz, ShakeScreen
 	xor a
 	ld [wcf86], a
 	jr .loop
@@ -523,7 +523,7 @@ jr_000_04b3:
 	ld [wcad0], a
 	ret
 
-ShakeWindow:
+ShakeScreen:
 	ld hl, rSCY
 	ld de, wShakeAmount
 	ld a, [de]
@@ -563,8 +563,8 @@ ShakeWindow:
 	ld [de], a
 	ret
 
-; Load first stage
 unk_000_04f5:
+; Load first stage
 	ld a, [wJoypadDown]
 	ld b, a
 	and $08
@@ -666,7 +666,7 @@ Jump_000_054a:
 	ld b, 3
 .asm_05b2
 	push bc
-	ld de, $1801
+	ld de, unk_000_1801
 	call Func_000_0a3e
 	pop bc
 	dec b
@@ -698,10 +698,10 @@ Jump_000_05d8:
 	call DisableLCD
 
 	ld a, [wCurrentStage]
-	cp 8 ; final cutscene stage
+	cp 8
 	jr nz, .not_final_cutscene
 
-	bankswitch $02
+	bankswitch BANK(unkImage_002_7950)
 	ld hl, unkImage_002_7950
 	ld de, vTiles0
 	ld bc, $800
@@ -1317,6 +1317,7 @@ Call_000_09b8::
 
 Call_000_09cd::
 ; Regular enemy collision
+; Called every frame an enemy is on-screen
 	ld a, [bc]
 	call Call_000_0b4a
 	ld de, 6
@@ -2155,7 +2156,7 @@ NextStage:
 	jp Jump_000_0a67
 
 Call_000_0dfb:
-	bankswitch $02
+	bankswitch BANK("bank2")
 	ld a, [wCurrentStage]
 	add a
 	add a
@@ -2236,7 +2237,6 @@ unkData_000_0e5d:
 ; Stage 6
 	dw unkData_003_4b70
 	dw unkData_003_52a0
-
 ; Stage 7
 	dw $5ad0
 	dw $5b50
@@ -2245,24 +2245,34 @@ unkData_000_0e5d:
 	dw $5820
 
 unkData_000_0e81:
-	dw $0350
-	dw $5000
-	dw $0350
-	dw $5000
-	dw $0350
-	dw $5000
-	dw $0640
-	dw $5400
-	dw $0640
-	dw $5400
-	dw $06b0
-	dw $5a40
-	dw $06b0
-	dw $5a40
-	dw $0510
-	dw $6d70
-	dw $01a0
-	dw $6590
+; Length, Address
+; Stage 0
+	dw $350
+	dw unkImage_002_5000
+; Stage 1
+	dw $350
+	dw unkImage_002_5000
+; Stage 2
+	dw $350
+	dw unkImage_002_5000
+; Stage 3
+	dw $640
+	dw unkImage_002_5400
+; Stage 4
+	dw $640
+	dw unkImage_002_5400
+; Stage 5
+	dw $6b0
+	dw unkImage_002_5a40
+; Stage 6
+	dw $6b0
+	dw unkImage_002_5a40
+; Stage 7
+	dw $510
+	dw unkImage_002_6d70
+; Stage 8
+	dw $1a0
+	dw unkImage_002_6590
 
 unkData_000_0ea5:
 	dw $6000
@@ -2548,7 +2558,6 @@ jr_000_1102:
 	call Call_000_09cd
 	ld de, $1108
 	jp Jump_000_0a53
-
 
 Jump_000_1138:
 	ld hl, wca63
@@ -3536,7 +3545,7 @@ jr_000_17f6:
 	ld de, unk_000_18f9
 	jp Jump_000_0a53
 
-
+unk_000_1801:
 	ld bc, unkData_000_18cb
 	ld de, $0000
 	ld a, [wca54]
@@ -3557,27 +3566,26 @@ jr_000_17f6:
 Call_000_1824:
 	ld a, [wPowerLevel]
 	or a
-	jr z, jr_000_1835
+	jr z, .asm_1835
 
 	ld a, [hli]
 	ld d, a
 	ld e, [hl]
-	ld a, $12
+	ld a, 18
 	ld [bc], a
 	ld bc, unkData_000_18d2
-	jr jr_000_183e
+	jr .asm_183e
 
-jr_000_1835:
+.asm_1835:
 	ld a, [hli]
 	ld d, a
 	ld a, [hl]
-	add $06
+	add 6
 	ld e, a
 	ld bc, unkData_000_18cb
 
-jr_000_183e:
+.asm_183e:
 	jp Call_000_0b38
-
 
 Call_000_1841:
 	ld a, [bc]
@@ -3585,28 +3593,26 @@ Call_000_1841:
 	inc hl
 	ld a, [hli]
 	cp $90
-	jr nc, jr_000_1854
+	jr nc, .asm_1854
 
 	ld a, [hl]
 	add $20
 	cp $d0
-	jr nc, jr_000_1854
+	jr nc, .asm_1854
 
 	xor a
 	ret
 
-
-jr_000_1854:
+.asm_1854:
 	ld a, $ff
 	ret
-
 
 Call_000_1857:
 	ld hl, wca14
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld bc, $0006
+	ld bc, 6
 	add hl, bc
 	ld bc, wca30
 	ld a, [hli]
@@ -3621,14 +3627,14 @@ Call_000_186b:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld bc, $0006
+	ld bc, 6
 	add hl, bc
 	ld bc, wca30
 	ld a, [hli]
 	ld [bc], a
 	inc bc
 	ld a, [hl]
-	sub $04
+	sub 4
 	ld [bc], a
 	jr jr_000_1895
 
@@ -3637,31 +3643,31 @@ Call_000_1881:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld bc, $0006
+	ld bc, 6
 	add hl, bc
 	ld bc, wca30
 	ld a, [hli]
 	ld [bc], a
 	inc bc
 	ld a, [hl]
-	add $04
+	add 4
 	ld [bc], a
 
 jr_000_1895:
 	ld hl, wc7c0
-	ld b, $0c
+	ld b, 12
 
 Jump_000_189a:
 	push hl
 	ld a, [hl]
 	or a
-	jp z, Jump_000_18c0
+	jp z, .asm_18c0
 
-	ld de, $0005
+	ld de, $05
 	add hl, de
 	ld a, [hli]
 	or a
-	jr nz, Jump_000_18c0
+	jr nz, .asm_18c0
 
 	inc hl
 	inc hl
@@ -3670,20 +3676,20 @@ Jump_000_189a:
 	pop hl
 	ld a, c
 	or a
-	jr z, Jump_000_18c0
+	jr z, .asm_18c0
 
-	ld de, $0005
+	ld de, $05
 	add hl, de
 	ld a, [wca33]
 	add [hl]
 	ld [hl], a
 	pop hl
-	ld a, $01
+	ld a, 1
 	ret
 
-Jump_000_18c0:
+.asm_18c0:
 	pop hl
-	ld de, $0010
+	ld de, $10
 	add hl, de
 	dec b
 	jp nz, Jump_000_189a
@@ -3980,11 +3986,11 @@ jr_000_1aa4:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld bc, $0014
+	ld bc, 20
 	add hl, bc
 	inc [hl]
 	ld a, [hl]
-	and $03
+	and 3
 	add a
 	ld e, a
 	ld d, 0
